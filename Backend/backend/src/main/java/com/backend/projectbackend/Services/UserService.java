@@ -31,7 +31,7 @@ public class UserService {
     public String addUser(Credentials cred) {
         User u= new User();
         u.setStatus(Status.ONLINE);
-        u.setAcStatus(AccountStatus.PRIVATE);
+        u.setAccountStatus(AccountStatus.PRIVATE);
         u.setFirstName(cred.getFirstName());
         u.setLastName(cred.getLastName());
         u.setPassword(passwordEncoder.encode(cred.getPassword()));
