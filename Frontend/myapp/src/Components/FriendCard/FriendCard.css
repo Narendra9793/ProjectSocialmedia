@@ -1,0 +1,361 @@
+.glass{
+    position: fixed;
+    display: none;
+    height: 88.75vh;
+    width: 217vh;
+    border: 1px rgb(255, 0, 0) solid;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50.25%, -44.5%);
+    background-color: rgba(69, 68, 68, 0.126); /* Adjust opacity as needed */
+    backdrop-filter: blur(10px); /* Adjust blur strength as needed */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 10px; /* Optional: rounded corners for better aesthetics */
+    /* padding: 20px; */
+    z-index:1000;
+    transition: opacity 0s ease-in-out, visibility 0s ease-in-out;
+
+}
+
+
+#close{
+    border-radius: 100%;
+    position: relative;
+    display: inline;
+    justify-content: end;
+    width: 40px;
+    height: 40px;
+    right:0%;
+}
+.V-call{
+    display: none;
+
+}
+.V-call > .video-window{
+    position: relative;
+    display: block;
+    height: 60vh;
+    width: 100vh;
+    border: 1px rgb(255, 0, 0) solid;
+    left: 26%;
+    background-color: rgba(16, 16, 16, 0.126); /* Adjust opacity as needed */
+    backdrop-filter: blur(10px); /* Adjust blur strength as needed */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 10px; /* Optional: rounded corners for better aesthetics */
+    padding: 10px;
+
+}
+.callButton{
+    position: relative;
+    display: block;
+    height: 5vh;
+    width: 100vh;
+    border: 1px rgb(255, 0, 0) solid;
+    left: 26.65%;
+    top: 2%;
+    border-radius: 10px;
+
+}
+
+#Chat{
+    display: none;
+}
+#Friend-Profile{
+    display: none;
+
+}
+div.frndImg {
+    cursor: pointer;
+    transition: 0.8s;
+    &:hover{
+        transform: translateX(2vh) translateY(-2vh) ;
+    }
+}
+#bttn{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover{
+        transform: translateX(0.5vh) translateY(-2vh) ;
+    }
+}
+.friendCard{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    left : 5%;
+    width: 50vh;
+    height: 15vh;
+    background-color: rgba(13, 13, 13, 0);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    transform: skew(-20deg);
+    border : 1px solid rgb(255, 0, 0);
+    cursor: pointer;
+    z-index: 1;
+    margin-top: 15px;
+
+}
+.frndImg{
+    position: relative;
+    left: 37%;
+    right : 0%;
+    width: 12vh;
+    height: 15vh;
+    background-color: rgba(13, 13, 13, 0.259);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    transform: skew(-1deg);
+
+}
+.frndImage{
+    position: relative;
+    width: 12vh;
+    height: 15vh;
+    object-fit: cover;
+}
+
+.hidden {
+    display: none;
+}
+
+
+div.profilePicture, div.events, div.contentArea, div.friendList  {
+    background-color: rgba(81, 174, 232, 0.375);
+    border-radius: 10px;
+    opacity: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    /* cursor: pointer; 
+    transition: transform 0.5s;
+    &:hover{
+        transform: translateX(-8px);
+    }  */
+
+}
+
+.friendProfile{
+    position: relative;
+    display: flex;
+    height: 17vh;
+    width: 50vh;
+    left:1%;
+    top:1%;
+    border: 1px solid rgb(255, 111, 0);
+    
+}
+#fullName{
+    position: relative;
+    left:10%
+}
+#nickName{
+    position: relative;
+    right: 16%;
+    top :30%
+}
+
+.friendContentArea{
+    position: relative;
+    display: block;
+    height: 80vh;
+    width: 120vh;
+    border: 1px solid blue;
+    margin: 0px;
+    transform: translate(80%, -25%);
+    background-color: rgba(100, 148, 237, 0.29);
+    border-radius: 2%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.friendContentBar{
+    display: block;
+    position: relative;
+    left :1.7%;
+    height: 8vh;
+    width: 113vh;
+    border: 1px solid rgb(255, 136, 0);
+    margin: 8px;
+    background-color: rgba(255, 0, 102, 0.466);
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+}
+.contentType{
+    display: inline-table;
+    position: relative;
+    left :1.7%;
+    height: 70vh;
+    width: 113vh;
+    border: 1px solid rgb(255, 136, 0);
+    margin: 8px;
+    background-color: rgba(255, 157, 0, 0.467);
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+}
+.posts{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(2vh, 1fr));
+    grid-gap: 10px;
+
+    justify-content: space-between;
+    /* position: relative; */
+
+    height: 68vh;
+    width: 110vh;
+    /* border: 1px solid rgb(0, 255, 38); */
+    margin: 8px;
+    border-radius: 10px;
+    overflow-y: scroll;  
+}
+
+.post-wrapper {
+    display: flexbox;
+    width: 25vh;
+    height: auto;
+    /* Ensure each post takes the full width of its container */
+  }
+  .posts::-webkit-scrollbar {
+    width: 0; 
+}
+
+/* .create-post{
+    position: relative;
+    left :1.7%;
+    height: 68vh;
+    width: 107vh;
+    border: 1px solid rgb(0, 255, 38);
+    margin: 8px;
+    background-color: rgb(255, 255, 0);
+    border-radius: 10px;
+
+} */
+.hidden{
+    display: none;
+}
+.show{
+    display: grid;
+}
+
+.bio{
+    position: relative;
+    left :1.7%;
+    height: 68vh;
+    width: 107vh;
+    border: 1px solid rgb(0, 255, 38);
+    margin: 8px;
+    background-color: rgba(0, 255, 13, 0.467);
+    border-radius: 10px;
+}
+.friendList{
+    display: inline-table;
+    width: 56vh;
+    height: 88vh;
+    border: 1px solid green;
+    margin: 10px;
+}
+
+
+.friendProfileImage{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    top:4%;
+    left:2%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    object-fit: cover;
+}
+.postPrev{
+    position: absolute;
+    width: calc();
+    height: calc();
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    background-size: contain;
+}
+.preDiv{
+    position: absolute;
+    top: 4vh;
+    left : 3.5vh;
+    width: 100vh;
+    height:60vh;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    background-color: rgba(165, 42, 42, 0.24);
+    background-size: cover;
+    border : 1px solid black;
+    overflow: scroll;
+}
+
+.preDiv::-webkit-scrollbar {
+    width: 0; 
+    height: 0;
+  }
+#uploadPost, #postSubmit{
+    position: relative;
+    top: 50vh;
+    left : 10vh;
+   
+}
+
+
+
+
+
+
+/* .overlay{
+    width: 56vh;
+    height:88vh;
+    background-color: rgba(229, 5, 5, 0.989);
+    border-radius: 0%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border : 1px solid rgb(81, 255, 0);
+}  */
+
+/* .friendCard:hover .overlay{
+    opacity: 1;
+}  */
+
+.animate{
+    cursor: pointer;
+    transition: transform 0.5s;
+    &:hover{
+        /* transform:translateX(2vh) translateY(-2vh) ; */
+        /* Keyword values */
+        /* transform: none;
+
+        /* Function values */
+        /* transform: matrix(1, 2, 3, 4, 5, 6); */
+        /* transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); */
+        /* transform: perspective(17px); */
+        /* transform: rotate(0.5turn); */
+        /* transform: rotate3d(1, 2, 3, 10deg); */
+        /* transform: rotateX(30deg); */
+        /* transform: rotateY(10deg); */
+        /* transform: rotateZ(10deg); */
+        /* transform: translate(12px, 50%); */
+        /* transform: translate3d(12px, 50%, 3em); */
+        /* transform: translateX(2em); */
+        /* transform: translateY(3in); */
+        /* transform: translateZ(2px); */
+        /* transform: scale(2, 0.5); */
+        /* transform: scale3d(2.5, 1.2, 0.3); */
+        /* transform: scaleX(2); */
+        /* transform: scaleY(0.5); */
+        /* transform: scaleZ(0.3); */
+        /* transform: skew(30deg, 20deg); */
+        /* transform: skewX(30deg); */
+        /* transform: skewY(1.07rad); */
+
+        /* Multiple function values */
+        /* transform: translateX(10px) rotate(10deg) translateY(5px); */
+        /* transform: perspective(500px) translate(10px, 0, 20px) rotateY(3deg); */
+
+        /* Global values */
+
+        /* transform: inherit; */
+        /* transform: initial; */
+        /* transform: revert; */
+        /* transform: revert-layer; */
+        /* transform: unset; */
+
+    }
+}
+

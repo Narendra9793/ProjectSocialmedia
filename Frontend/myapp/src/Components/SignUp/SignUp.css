@@ -1,0 +1,108 @@
+.blurr{
+    filter: blur(8px); 
+}
+
+.container {
+    position: relative;
+  }
+.background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url('./img/2793623.jpg'); 
+    background-size: cover;
+    
+}
+
+.background .signUp-card{
+    position: relative;
+    width: 400px;
+    height: 400px;
+    top:18%;
+    left:38%;
+    border-radius: 10px;
+    background-color: rgba(84, 79, 72, 0.297);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+
+}
+
+
+.background .signUp-details{
+    position:relative;
+    top: 12%;
+    left:12%;
+    height:300px;
+    width: 310px;
+    border-radius: 10px;
+    background-color: rgba(3, 244, 224, 0.404);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+    
+}
+.background .signUp-details .firstName{
+    display: inline-block;
+    position:relative;
+    color:black;
+    top: 14%;
+    left: 10%;
+    width: 120px;
+    height: 30px;
+    background-color: rgba(68, 139, 239, 0.441);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+}
+.background .signUp-details .lastName{
+    position:relative;
+    top: 14%;
+    left: 10%;
+    width: 110px;
+    height: 30px;
+    margin-left: 11px;
+    background-color: rgba(68, 139, 239, 0.441);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.background .signUp-details .email{
+    position:relative;
+    top: 18%;
+    left:10%;
+    width: 250px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: rgba(68, 139, 239, 0.441);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+
+.background .signUp-details .password{
+    position:relative;
+    top: 20%;
+    left:10%;
+    width: 250px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: rgba(68, 139, 239, 0.441);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    
+}
+.background .signUp-details .btn{
+    position: relative;
+    top:28%;
+    left: 10%;
+    width: 253px;
+    height: 45px;
+    
+    background-color: rgba(240, 156, 30, 0.527);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+input::placeholder {
+    color:black;
+}
+

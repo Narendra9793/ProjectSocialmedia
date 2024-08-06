@@ -1,0 +1,343 @@
+
+div.profilePicture, div.events, div.contentArea, div.friendList  {
+    background-color: rgba(81, 174, 232, 0.375);
+    border-radius: 10px;
+    opacity: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    cursor: pointer; 
+    /* transition: transform 0.5s;
+    &:hover{
+        transform: translateX(-8px);
+    }  */
+
+}
+
+.parent{
+    display: inline-flex;
+    margin-top: 65px;
+    background-image: url(img/bg4.jpg);
+    background-size: 225vh 110vh;
+    background-repeat: no-repeat;
+    
+}
+.left{
+    display: inline-table;
+    height: 88vh;
+    width: 35vh;
+    margin: 10px;
+}
+.profilePicture{
+    position: relative;
+    width: 35vh;
+    height:45vh;
+    border: 1px solid rgb(255, 111, 0);
+    
+}
+.events{
+    position: relative;
+    margin-top: 17px;
+    width: 35vh;
+    height:40vh;
+    border: 1px solid rgb(235, 192, 255);
+ 
+}
+.contentArea{
+    display: inline-table;
+    height: 88vh;
+    width: 120vh;
+    border: 1px solid blue;
+    margin: 10px;
+}
+
+.contentBar{
+    display: block;
+    position: relative;
+    left :1.7%;
+    height: 8vh;
+    width: 113vh;
+    border: 1px solid rgb(255, 136, 0);
+    margin: 8px;
+    background-color: rgba(255, 0, 102, 0.466);
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+    
+}
+.contentType{
+    display: inline-table;
+    position: relative;
+    left :1.7%;
+    height: 70vh;
+    width: 113vh;
+    border: 1px solid rgb(255, 136, 0);
+    margin: 8px;
+    background-color: rgba(255, 157, 0, 0.467);
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+}
+.posts{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(2vh, 1fr));
+    grid-gap: 10px;
+
+    justify-content: space-between;
+    /* position: relative; */
+
+    height: 68vh;
+    width: 110vh;
+    /* border: 1px solid rgb(0, 255, 38); */
+    margin: 8px;
+    border-radius: 10px;
+    overflow-y: scroll;  
+}
+
+.post-wrapper {
+    display: flexbox;
+    width: 25vh;
+    height: auto;
+    /* Ensure each post takes the full width of its container */
+}
+.posts::-webkit-scrollbar {
+    width: 0; 
+}
+
+.create-post{
+    position: relative;
+    left :1.7%;
+    height: 68vh;
+    width: 107vh;
+    border: 1px solid rgb(0, 255, 38);
+    margin: 8px;
+    background-color: rgb(255, 255, 0);
+    border-radius: 10px;
+
+}
+.hidden{
+    display: none;
+}
+.show{
+    display: grid;
+}
+
+.bio{
+    position: relative;
+    left :1.7%;
+    height: 68vh;
+    width: 107vh;
+    border: 1px solid rgb(0, 255, 38);
+    margin: 8px;
+    background-color: rgba(0, 255, 13, 0.467);
+    border-radius: 10px;
+}
+.friendList{
+    display: inline-table;
+    justify-content: baseline;
+    align-self: auto;
+    width: 56vh;
+    height: 88vh;
+    border: 1px solid green;
+    margin: 10px;
+}
+
+/* .frndCard{
+    margin-top: 10px;
+    margin-bottom: 150px;
+    cursor: pointer;
+    transition: transform 0.5s;
+    &:hover{
+        transform: translateX(-20px);
+    }
+} */
+
+
+.image{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    top:10%;
+    left:12%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+}
+.postPrev{
+    position: absolute;
+    width: calc();
+    height: calc();
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    background-size: contain;
+}
+.preDiv{
+    position: absolute;
+    top: 4vh;
+    left : 3.5vh;
+    width: 100vh;
+    height:60vh;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    background-color: rgba(165, 42, 42, 0.24);
+    background-size: cover;
+    border : 1px solid black;
+    overflow: scroll;
+}
+
+.preDiv::-webkit-scrollbar {
+    width: 0; 
+    height: 0;
+  }
+#uploadPost, #postSubmit{
+    position: relative;
+    top: 50vh;
+    left : 10vh;
+   
+}
+
+.field-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .profile-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .user-profile-image {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0; /* Light gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+
+   
+  .profile-pict input.hidden {
+    display: none;
+  }
+  
+  
+  .profile-image {
+    position: relative;
+    width: 125px;
+    height: 130px;
+
+    border-radius: 100%;
+    object-fit: cover; /* Ensure the image covers the area */
+
+  }
+
+  .uplader-icon{
+    position: absolute;
+    height: 50px;
+    width: 25px;
+    z-index: 900;
+    top: 95px;
+    left: 148px;
+    color: #666; 
+    cursor: pointer;
+  }
+
+.post_veiwer{
+    position: fixed;
+    display: none;
+    height: 110vh;
+    width: 224vh;
+    top: 50%; /* Center vertically */
+    left: 50.5%; /* Center horizontally */
+    transform: translate(-50.25%, -44.5%);
+    background-color: rgba(7, 7, 7, 0.3); /* Adjust opacity as needed */
+    backdrop-filter: blur(10px); /* Adjust blur strength as needed */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 10px; /* Optional: rounded corners for better aesthetics */
+    /* padding: 20px; */
+    z-index:1000;
+    transition: opacity 0s ease-in-out, visibility 0s ease-in-out;
+}
+.closebutton{
+    z-index: 2000;
+    background-color: blue;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-auto-rows: masonry;
+    gap: 10px; /* Adjust the gap between items as needed */
+  }
+  
+  .masonry-item {
+    background: #eee;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    /* Adjust item content styling as needed */
+  }
+  

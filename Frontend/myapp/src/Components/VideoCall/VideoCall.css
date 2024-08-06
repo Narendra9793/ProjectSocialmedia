@@ -1,0 +1,19 @@
+.pickCall{
+    position: absolute;
+    display: none;
+    height: 48.5vh;
+    width: 70vh;
+    border: 1px rgb(255, 0, 0) solid;
+   transform: translate(-73.5%, -24%);
+    background-color: rgba(69, 68, 68, 0.126); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+    /* padding: 20px; */
+    justify-content: center;
+    align-items: center;
+    z-index:1000;
+}
+#pickUp{
+    height: 40px;
+}

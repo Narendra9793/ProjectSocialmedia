@@ -1,0 +1,57 @@
+
+div.frndImg {
+    cursor: pointer;
+    transition: 0.8s;
+    &:hover{
+        transform: translateX(2vh) translateY(-2vh) ;
+    }
+}
+#btn1{
+    position: absolute;
+    right:0%;
+    background-color: rgba(12, 115, 232, 0.832);
+    height: 15vh;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover{
+        transform: translateX(0.5vh) translateY(-2vh) ;
+    }
+
+}
+#btn2{
+    position: absolute;
+    right:14%;
+    background-color: rgba(255, 0, 0, 0.832);
+    height: 15vh;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover{
+        transform: translateX(0.5vh) translateY(-2vh) ;
+    }
+
+}
+.addfriendCard{
+    position: relative;
+    display: flex;
+    left : 5%;
+    width: 60vh;
+    height: 15vh;
+    background-color: rgba(13, 13, 13, 0);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    transform: skew(-20deg);
+    border : 1px solid rgb(255, 0, 0);
+    cursor: pointer;
+
+}
+.frndImg{
+    position: relative;
+    left: 0%;
+    width: 12vh;
+    height: 15vh;
+    background-color: rgba(13, 13, 13, 0.259);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    transform: skew(-1deg);
+    border : 1px solid rgb(255, 0, 0);
+}

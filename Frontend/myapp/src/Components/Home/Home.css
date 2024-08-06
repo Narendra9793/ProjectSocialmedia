@@ -1,0 +1,71 @@
+
+body::-webkit-scrollbar {
+    width: 0em;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+}
+
+.background {
+    position: absolute;
+    top:9%;
+    height: 100%;
+    width: 100%;
+    background-image: url('./img/crew.jpg'); 
+    background-size: cover; 
+}
+.allUsers{
+    position: absolute;
+    display: inline-grid;
+    justify-content: center;
+    top:4%;
+    left:8%;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+.allUsers::-webkit-scrollbar {
+    width: 0; 
+  }
+  
+
+  .allUsers::-webkit-scrollbar-track {
+    background-color: transparent; 
+  }
+  
+  .allUsers::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+  }
+.card{
+    margin-top: 10px;
+    margin-bottom: 150px;
+    cursor: pointer;
+    transition: transform 0.5s;
+    &:hover{
+        transform: translateX(-20px);
+    }
+}
+
+
+/* .fade-content {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .hidden {
+    opacity: 0;
+  } */
+
+.homeContent{
+  position: absolute;
+  margin-left: auto;
+  top: 2%;
+  left: 1%;
+  height: 85vh;
+  width: 125vh;
+  background-color: rgba(13, 177, 218, 0.536);
+  border-bottom-right-radius: 40px;
+  border-top-left-radius: 40px;
+  box-shadow: 20px;
+}
