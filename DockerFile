@@ -1,8 +1,17 @@
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
+FROM maven:3.2.0-eclipse-temurin-21 AS build
 
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/projectsocialmedia-0.0.1-SNAPSHOT.jar projectsocialmedia.jar
+COPY src /backend/src
+
+COPY pom.xml /backend
+
+WORKDIR /
+RUN mvn clean install -U
+
+FROM openjdk:21
+COPY --from=build /backend/target/backend-0.0.1-SNAPSHOT.jar /backend/backend.jar
+
+WORKDIR /backend
+
 EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "projectsocialmedia.jar" ]
+
+CMD ["java", "-jar", "backend.jar"]
