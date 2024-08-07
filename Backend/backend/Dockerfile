@@ -6,5 +6,5 @@
 
 FROM eclipse-temurin:21
 RUN mkdir /opt/app
-COPY ProjectSocialmedia.jar /opt/app
+COPY /target/ProjectSocialmedia.jar /opt/app
 CMD ["java", "-jar", "/opt/app/ProjectSocialmedia.jar"]
