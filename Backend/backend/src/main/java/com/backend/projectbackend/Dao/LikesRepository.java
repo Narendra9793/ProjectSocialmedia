@@ -4,9 +4,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Repository;
 
 import com.backend.projectbackend.Models.Likes;
-
+@Repository
 public interface LikesRepository extends CrudRepository <Likes, Integer>{
 
 
