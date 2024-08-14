@@ -39,6 +39,7 @@
 
 }
 .Postcard-background {
+    border-color: 1px  solid red;
     display: inline-table;
     width: 26vh;
     position: relative;

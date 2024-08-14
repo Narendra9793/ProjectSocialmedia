@@ -81,10 +81,10 @@ const FriendCard = ({loggedUser, friend}) => {
                 <button type="button"   onClick={() => showDiv("posts")}>Posts</button>
                 <button type="button"  onClick={() => showDiv("bio")}>Biodata</button>
               </div>
-                <div className="contentType">
-                  <div className="posts show" id="posts"> 
+                <div className="Friend_contentType">
+                  <div className="Friend_posts show" id="posts"> 
                     {friendData.posts.map((post) => (          
-                                  <div key={post.postId} className="post-wrapper">
+                                  <div key={post.postId} className="Friend_post-wrapper">
                                     {(post.postImageUrl.endsWith(".mp4") )
                                     ? 
                                     (<Post_video url={post.postImageUrl} description={post.postDescription} id={post.postId} Token={localStorage.getItem('token')} />)
