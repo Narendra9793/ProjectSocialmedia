@@ -40,6 +40,7 @@ const Home = () => {
       });
       
       setPublicPosts(response.data);
+
       console.log(response.data.length + "are post Public");
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -57,7 +58,7 @@ const Home = () => {
         <div className="allUsers fade-content" >
           {users.map((user) => (          
             <div className="card" key={user.userId}>
-              <UserCard  firstName={user.firstName} lastName={user.lastName} nickName={user.nickName} id={user.userId}  />
+              <UserCard  firstName={user.firstName} lastName={user.lastName} nickName={user.nickName} id={user.userId} imgurl={user.imageUrl}  />
             </div>                             
           ))}
         </div>

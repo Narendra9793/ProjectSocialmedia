@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 
-const UserCard = ({firstName, lastName, nickName, id}) => {
+const UserCard = ({firstName, lastName, nickName, id, imgurl}) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   useEffect(()=>{
     setToken(localStorage.getItem('token'));
@@ -28,7 +28,7 @@ const UserCard = ({firstName, lastName, nickName, id}) => {
   return (
     <>
         <div className="card-background">
-            <img className="image" src='http://usa-24.ru/usa/san-francisco.jpg'></img>
+            <img className="image" src={imgurl}></img>
             <div className="description">
               <p className='text-class'>Hi! There, I am {`${firstName}`} {`${lastName}`}, friends call me {`${nickName}`} too. Its been 25 years, living on this earth.</p>
             </div>

@@ -8,22 +8,28 @@ body::-webkit-scrollbar-thumb {
 }
 
 .background {
-    position: absolute;
+    position: relative;
+    display: flex;
     top:9%;
     height: 100%;
     width: 100%;
     background-image: url('./img/crew.jpg'); 
     background-size: cover; 
+    flex-wrap: wrap;
 }
 .allUsers{
-    position: absolute;
-    display: inline-grid;
+    position: relative;
+    display: inline-table;
     justify-content: center;
-    top:4%;
-    left:8%;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+    align-content:space-between;
+    top:2%;
+    margin-left: 0.5%;
+    height: 88vmin;
+    width: 42vmax;
+    overflow-y: scroll;
+    border: 1px solid red;
+    background-color: rgba(0, 0, 255, 0.4);
+    flex-wrap: wrap;
 }
 .allUsers::-webkit-scrollbar {
     width: 0; 
@@ -38,8 +44,6 @@ body::-webkit-scrollbar-thumb {
     background-color: transparent; 
   }
 .card{
-    margin-top: 10px;
-    margin-bottom: 150px;
     cursor: pointer;
     transition: transform 0.5s;
     &:hover{
@@ -58,11 +62,11 @@ body::-webkit-scrollbar-thumb {
   } */
 
 .homeContent{
-  position: absolute;
-  margin-left: auto;
+  position: relative;
+  margin-left: 0.5%;
   top: 2%;
-  left: 1%;
-  height: 85vh;
+  left: 0%;
+  height: 88vh;
   width: 125vh;
   background-color: rgba(13, 177, 218, 0.536);
   border-bottom-right-radius: 40px;
