@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.backend.projectbackend")
-@EnableJpaRepositories(basePackages = "com.backend.projectbackend.Dao")
+// @EnableJpaRepositories(basePackages = "com.backend.projectbackend.Dao")
 public class BackendApplication {
 
 	public static void main(String[] args) {

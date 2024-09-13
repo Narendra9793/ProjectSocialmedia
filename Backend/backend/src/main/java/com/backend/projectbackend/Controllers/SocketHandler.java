@@ -1,5 +1,6 @@
 package com.backend.projectbackend.Controllers;
 
+
 import com.backend.projectbackend.Dao.MessageRepository;
 import com.backend.projectbackend.Dao.RoomRepository;
 import com.backend.projectbackend.Models.JoinRoomData;
@@ -12,34 +13,72 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 @Slf4j
 public class SocketHandler {
 
   @Autowired
+  private  SocketIOServer server;
+
+  @Autowired
   private RoomRepository roomRepository;
   @Autowired
   private MessageRepository messageRepository;
-  private final SocketIOServer server;
+
   private static final Map<String, String> users = new HashMap<>();
   private static final Map<String, String> rooms = new HashMap<>();
 
+
+  // public SocketHandler( SocketIOServer server) {
+  //   this.server = server;
+  //   server.addListeners(this);
+  //   server.start();
+  // }
+
+  // @PreDestroy
+  // public void stopSocketIOServer() {
+  //     if (server != null) {
+  //          server.stop();
+  //     }
+  // }
+
+   // Constructor without starting the server
   public SocketHandler(SocketIOServer server) {
     this.server = server;
-    server.addListeners(this);
-    server.start();
+    server.addListeners(this); // Attaching listeners
+  }
+
+  // Starting the server after bean initialization
+  @PostConstruct
+  public void startSocketIOServer() {
+    try {
+      server.start();
+      log.info("Socket.IO server started successfully.");
+    } catch (Exception e) {
+      log.error("Failed to start Socket.IO server", e);
+    }
+  }
+
+  @PreDestroy
+  public void stopSocketIOServer() {
+    if (server != null) {
+      server.stop();
+      log.info("Socket.IO server stopped.");
+    }
   }
   
 
