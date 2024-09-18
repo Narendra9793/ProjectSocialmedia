@@ -82,8 +82,11 @@ public class AuthController {
         this.userRepository.save(loggedUser);
         //////////////////////////
         JwtResponse response = JwtResponse.builder()
-                .jwtToken(token)
-                .username(userDetails.getUsername()).build();
+        .jwtToken(token)
+        .username(userDetails.getUsername())
+        .userId(loggedUser.getUserId())
+        .build();
+    
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

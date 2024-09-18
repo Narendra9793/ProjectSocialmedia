@@ -1,15 +1,11 @@
 package com.backend.projectbackend.Models;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-@ToString
-
 public class JwtResponse {
     private String jwtToken;
     private String username;
-
+    private Integer userId;
 }

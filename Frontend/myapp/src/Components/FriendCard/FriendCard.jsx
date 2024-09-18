@@ -12,11 +12,6 @@ const FriendCard = ({loggedUser, friend}) => {
   const [friendData, setFriendData]=useState(friend);
   const socket=useSocket();
 
-  // useEffect(()=>{
-  //   console.log("from Friend Card", friendData.firstName)
-  // }, [friendData]);
-
-  // console.log(friendData)
   const handleClosebutton= (id)=>{
     const div=document.getElementById(id);
     if(div.style.display === "block"  )
@@ -87,9 +82,13 @@ const FriendCard = ({loggedUser, friend}) => {
                                   <div key={post.postId} className="Friend_post-wrapper">
                                     {(post.postImageUrl.endsWith(".mp4") )
                                     ? 
-                                    (<Post_video url={post.postImageUrl} description={post.postDescription} id={post.postId} Token={localStorage.getItem('token')} />)
+                                    (
+                                     <Post_video url={post.postImageUrl} description={post.postDescription} id={post.postId} Token={localStorage.getItem('token')} />
+                                    )
                                     :
-                                    (<Post url={post.postImageUrl} description={post.postDescription} id={post.postId} Token={localStorage.getItem('token')} />)
+                                    (
+                                     <Post url={post.postImageUrl} description={post.postDescription} id={post.postId} Token={localStorage.getItem('token')} />
+                                    )
                                     }
 
                                   </div>                            

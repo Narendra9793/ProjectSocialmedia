@@ -6,7 +6,6 @@ import Post from "../Post/Post";
 import Post_video from "../Post/Post_videos";
 import FriendCard from "../FriendCard/FriendCard";
 import Login from "../Login/Login";
-import { useSocket } from "../../context/SocketProvider";
 import { FaCamera } from "react-icons/fa";
 import Carausel from "../Carausel/Carausel";
 
@@ -17,7 +16,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [friends, setFriends] = useState([]);
-  const socket = useSocket();
   const [profileImage, setProfileImage] = useState(null);
   const [accStatus, setAccStatus] = useState(null);
 
@@ -52,25 +50,19 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    socket.on("goodbye", (data) => {
-      alert(data);
-      handleLogout();
-    });
+    // socket.on("goodbye", (data) => {
+    //   alert(data);
+    //   handleLogout();
+    // });
     const fetchData = async () => {
       if (!token) return;
-      await fetchUserProfile().then(() => connectEver());
+      await fetchUserProfile();
       await Promise.all([fetchPosts(), fetchFriends()]);
     };
     fetchData();
   }, [token, accStatus, profileImage]);
 
-  const connectEver = useCallback(() => {
-    if (!userProfile || userProfile.userId === null) {
-      console.log("connectEveryone aborted: userProfile or userId is null");
-      return;
-    }
-    socket.emit("ConnectEveryone", `${userProfile.userId}`);
-  }, [userProfile]);
+
 
   const fetchUserProfile = async () => {
     try {
@@ -161,7 +153,6 @@ const Profile = () => {
 
       // Assuming the API returns user profile data in the response.data
       setFriends(response.data);
-      console.log("Friends", friends);
     } catch (error) {
       console.error("Error fetching user profile:", error);
       // Handle error fetching user profile
@@ -284,9 +275,6 @@ const Profile = () => {
     return <Login />;
   }
   if (userProfile === null) return <h1>Loading.....</h1>;
-  else {
-    connectEver();
-  }
   return (
     <>
       <div className="parent">
