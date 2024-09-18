@@ -11,9 +11,22 @@ export const useSocket = () => {
 
 export const SocketProvider = (props) => {
 
-  const socket = io(SOCKET_BASE_URL, {
-    reconnection: false,
-  });
+  const socket = useMemo(() => {
+    const newSocket = io(SOCKET_BASE_URL, {
+      reconnection: false,
+    });
+    return newSocket;
+  }, []); 
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to the Socket server');
+    });
+    return () => {
+      socket.disconnect();
+      console.log('Socket disconnected');
+    };
+  }, [socket]);
   return (
     <SocketContext.Provider value={socket}>
       {props.children}

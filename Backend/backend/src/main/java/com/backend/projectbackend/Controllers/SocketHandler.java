@@ -43,26 +43,11 @@ public class SocketHandler {
   private static final Map<String, String> rooms = new HashMap<>();
 
 
-  // public SocketHandler( SocketIOServer server) {
-  //   this.server = server;
-  //   server.addListeners(this);
-  //   server.start();
-  // }
-
-  // @PreDestroy
-  // public void stopSocketIOServer() {
-  //     if (server != null) {
-  //          server.stop();
-  //     }
-  // }
-
-   // Constructor without starting the server
   public SocketHandler(SocketIOServer server) {
     this.server = server;
     server.addListeners(this); // Attaching listeners
   }
 
-  // Starting the server after bean initialization
   @PostConstruct
   public void startSocketIOServer() {
     try {
@@ -85,21 +70,23 @@ public class SocketHandler {
   @OnConnect
   public void onConnect(SocketIOClient client) {
     String clientId = client.getSessionId().toString();
+    System.out.println("You are connected " + clientId);
     users.put(clientId, null);
   }
 
   @OnEvent("ConnectEveryone")
   public void ConnectToEveryone(SocketIOClient client, String user) {
     List<Room> rooms = roomRepository.findRoomsByLoggedUserId(Integer. parseInt(user));
-    System.out.println("Related Users"+ rooms.size());
     System.out.println("ConnectEveryone event started");
     for (Room room : rooms) {
-      System.out.println("Room joined" + room.getRoomKey());
+      System.out.println(user +" joined room " + room.getRoomKey());
       client.joinRoom(room.getRoomKey());
       System.out.println("Connecting");
     }
     System.out.println("ConnectEveryone event ended");
   }
+
+
 
   @OnDisconnect
   public void onDisconnect(SocketIOClient client) {
@@ -124,12 +111,14 @@ public class SocketHandler {
 
 
     System.out.println("This is the first room "+ room.getRoomKey());
-
+    client.joinRoom(room.getRoomKey());
     Set<SocketIOClient> clients = (Set<SocketIOClient>) server.getRoomOperations(room.getRoomKey()).getClients();
 
     for (SocketIOClient c : clients) {
+      System.out.println("this is client "+ c.getSessionId().toString());
         if (c != client) {
             c.sendEvent("incomingCall", room.getRoomKey());
+            System.out.println("This is the room where other client is present" + room.getRoomKey());
             System.out.println("This is the client other then me" + c);
         }
     }
@@ -140,32 +129,37 @@ public class SocketHandler {
     rooms.put(room.getRoomKey(), client.getSessionId().toString());
     System.out.println("This is the room's user :" + users.get(client.getSessionId().toString()));
     System.out.println("This is the users's room :" + rooms.get(room.getRoomKey()));
-  
-
-    // else {
-    //   client.sendEvent("full", room.getRoomKey());
-    // }
     printLog("onReady", client, room.getRoomKey());
   }
 
 
   @OnEvent("AnswerCall")
-  public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
+public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
+    String sender = jrd.getSender();
+    String receiver = jrd.getReceiver();
+    System.out.println("JoinRoom got fired! " + sender + " " + receiver);
+    
+    // Retrieve the list of rooms
+    List<Room> rooms = this.roomRepository.getRoomsBySenderReceiver(Integer.parseInt(sender), Integer.parseInt(receiver));
 
-    String sender=jrd.getSender();
-    String reciever=jrd.getReceiver();
-    System.out.println("JoinRoom got fired!" + sender + reciever);
-    Room room= (Room) this.roomRepository.getRoomsBySenderReceiver(Integer. parseInt(sender), Integer. parseInt(reciever));
-    System.out.println("This is the room "+ room.getRoomKey());
+    // Assuming you want the first room in the list
+    if (rooms != null && !rooms.isEmpty()) {
+        Room room = rooms.get(0); // Get the first room
+        System.out.println("This is the room " + room.getRoomKey());
 
-    client.joinRoom(room.getRoomKey());
-    client.sendEvent("joined", room.getRoomKey());
-    users.put(client.getSessionId().toString(), room.getRoomKey());
-    client.sendEvent("setCaller", rooms.get(room.getRoomKey()));
+        client.joinRoom(room.getRoomKey());
+        client.sendEvent("joined", room.getRoomKey());
+        users.put(client.getSessionId().toString(), room.getRoomKey());
+        client.sendEvent("setCaller", room); // Send the Room object or its details
 
-    System.out.println("We are in Answer Call event!");
-    printLog("onReady", client, room.getRoomKey());
-  }
+        System.out.println("We are in Answer Call event!");
+        printLog("onReady", client, room.getRoomKey());
+    } else {
+        System.out.println("No rooms found for the given sender and receiver.");
+        client.sendEvent("error", "Room not found");
+    }
+}
+
 
   @OnEvent("ready")
   public void onReady(SocketIOClient client, String room, AckRequest ackRequest) {
@@ -255,3 +249,6 @@ public class SocketHandler {
     log.info("#ConncetedClients - {} => room: {}, count: {}", header, room, size);
   }
 }
+
+
+

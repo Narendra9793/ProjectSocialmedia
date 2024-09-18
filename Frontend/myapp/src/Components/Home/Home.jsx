@@ -11,26 +11,25 @@ const Home = () => {
   const [publicPosts, setPublicPosts] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const storedToken = localStorage.getItem('token');
-        setToken(storedToken);
-        
-        const url = storedToken ? "http://localhost:7070/user/allusers" : "http://localhost:7070/api/auth/allusers";
-        const response = await axios.get(url, {
-          headers: storedToken ? { Authorization: 'Bearer ' + storedToken } : undefined,
-        });
-        
-        setUsers(response.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
 
     fetchData()
     fetchPosts()
-  }, [token, users]); // Added token to the dependency array
-
+  }, [ ]); // Added token to the dependency array
+  const fetchData = async () => {
+    try {
+      const storedToken = localStorage.getItem('token');
+      setToken(storedToken);
+      
+      const url = storedToken ? "http://localhost:7070/user/allusers" : "http://localhost:7070/api/auth/allusers";
+      const response = await axios.get(url, {
+        headers: storedToken ? { Authorization: 'Bearer ' + storedToken } : undefined,
+      });
+      
+      setUsers(response.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:7070/api/auth/allpublicpost', {
