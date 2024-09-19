@@ -55,11 +55,6 @@ const Login = () => {
   return (
     <div className="background" id="background">
       <div className="login-card" id="login-card">
-        <img
-          className="image"
-          src="https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg"
-          alt="User"
-        />
         <form className="login-details" onSubmit={(e) => e.preventDefault()}>
           <input
             type="email"
