@@ -119,7 +119,7 @@ public class SocketHandler {
         if (c != client) {
             c.sendEvent("incomingCall", room.getRoomKey());
             System.out.println("This is the room where other client is present" + room.getRoomKey());
-            System.out.println("This is the client other then me" + c);
+            System.out.println("This is the client other then me" + c.getSessionId().toString());
         }
     }
 
