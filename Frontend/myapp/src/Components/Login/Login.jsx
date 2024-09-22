@@ -12,21 +12,45 @@ const Login = () => {
   const [userId, setUserId] = useState(null);
   const socket = useSocket();
 
-  const connectEver = useCallback(() => {
-    console.log("Entered in connect", userId);
-    if (!userId) {
-      console.log("connectEver aborted: userId is null");
-      return;
-    }
-    socket.emit("ConnectEveryone", `${userId}`);
-    console.log("Ending in connect");
-  }, [userId, socket]);
+  // const connectEver = useCallback(() => {
+  //   console.log("Entered in connect", userId);
+  //   if (!userId) {
+  //     console.log("connectEver aborted: userId is null");
+  //     return;
+  //   }
+  //   socket.emit("ConnectEveryone", `${userId}`);
+  //   console.log("Ending in connect");
+  // }, [userId, socket]);
 
-  useEffect(() => {
-    if (userId) {
-      connectEver();
-    }
-  }, [userId, connectEver]);
+  // useEffect(() => {
+  //   if (userId) {
+  //     connectEver();
+  //   }
+  // }, [userId, connectEver]);
+
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await axios.post('http://localhost:7070/api/auth/login', {
+  //       email: username,
+  //       password: password,
+  //     });
+
+  //     if (response.data.jwtToken) {
+  //       localStorage.setItem('token', response.data.jwtToken); // Store token
+  //       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`; // Set default header
+  //       setUserId(response.data.userId);
+  //       setToken(response.data.jwtToken);
+  //       console.log("Response", response);
+  //       alert('You are logged in!');
+  //       navigate('/home'); // Navigate to home
+  //     } else {
+  //       alert('Invalid credentials, please try again.');
+  //     }
+  //   } catch (error) {
+  //     alert('Login failed! Please check your credentials and try again.');
+  //     console.error('Error during login:', error);
+  //   }
+  // };
 
   const handleLogin = async () => {
     try {
@@ -34,13 +58,17 @@ const Login = () => {
         email: username,
         password: password,
       });
-
+  
       if (response.data.jwtToken) {
         localStorage.setItem('token', response.data.jwtToken); // Store token
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`; // Set default header
         setUserId(response.data.userId);
         setToken(response.data.jwtToken);
         console.log("Response", response);
+  
+        // Emit ConnectEveryone event after setting userId
+        socket.emit("ConnectEveryone", `${response.data.userId}`);
+  
         alert('You are logged in!');
         navigate('/home'); // Navigate to home
       } else {
@@ -51,6 +79,7 @@ const Login = () => {
       console.error('Error during login:', error);
     }
   };
+  
 
   return (
     <div className="background" id="background">

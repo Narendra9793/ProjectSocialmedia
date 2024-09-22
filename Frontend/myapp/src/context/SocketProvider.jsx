@@ -14,6 +14,10 @@ export const SocketProvider = (props) => {
   const socket = useMemo(() => {
     const newSocket = io(SOCKET_BASE_URL, {
       reconnection: false,
+      reconnectionAttempts: 3,  // Reduces retries
+      reconnectionDelay: 1000,  // Adjust retry delay
+      timeout: 20000,           // Time after which connection attempt fails
+      transports: ['websocket'] // Prefer websocket over polling
     });
     return newSocket;
   }, []); 
