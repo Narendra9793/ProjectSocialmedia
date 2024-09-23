@@ -1,36 +1,70 @@
-import React, { createContext, useMemo, useContext, useEffect } from "react";
-import * as io from "socket.io-client";
+// import React, { createContext, useMemo, useContext, useEffect } from "react";
+// import * as io from "socket.io-client";
+// import { SOCKET_BASE_URL } from "../constants/apiConstants";
+
+// const SocketContext = createContext(null); //this is to create an Empty context or container
+
+// // this will help us to use Socket Context
+// export const useSocket = () => {
+//   const socket = useContext(SocketContext);
+//   return socket;
+// };
+
+// export const SocketProvider = (props) => {
+
+//   const socket = io(SOCKET_BASE_URL, {
+//     // reconnection : false
+//   });
+
+//   return (
+//     <SocketContext.Provider value={socket}>
+//       {props.children}
+//     </SocketContext.Provider>
+//   );
+// };
+
+
+import React, { createContext, useMemo, useContext, useEffect, useState } from "react";
+import io from "socket.io-client"; // Ensure correct import for Socket.IO
 import { SOCKET_BASE_URL } from "../constants/apiConstants";
 
 const SocketContext = createContext(null);
 
+// Custom hook to use Socket context
 export const useSocket = () => {
-  const socket = useContext(SocketContext);
-  return socket;
+  return useContext(SocketContext);
 };
 
+// Socket Provider component
 export const SocketProvider = (props) => {
-
-  const socket = useMemo(() => {
-    const newSocket = io(SOCKET_BASE_URL, {
-      reconnection: false,
-      reconnectionAttempts: 3,  // Reduces retries
-      reconnectionDelay: 1000,  // Adjust retry delay
-      timeout: 20000,           // Time after which connection attempt fails
-      transports: ['websocket'] // Prefer websocket over polling
-    });
-    return newSocket;
-  }, []); 
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to the Socket server');
+    const socketInstance = io(SOCKET_BASE_URL, {
+      reconnection: true, // Enable reconnection if needed
+      reconnectionAttempts: 5, // Optional: number of reconnection attempts
+      transports: ['websocket'], // Ensure websocket transport is used
     });
+
+    // Log connection and disconnection events
+    socketInstance.on('connect', () => {
+      console.log("Connected to Socket.IO server");
+    });
+
+    socketInstance.on('disconnect', (reason) => {
+      console.log(`Disconnected: ${reason}`);
+    });
+
+    setSocket(socketInstance); // Store the socket instance in state
+
+    // Cleanup function to disconnect socket on unmount
     return () => {
-      socket.disconnect();
-      console.log('Socket disconnected');
+      if (socketInstance) {
+        socketInstance.disconnect();
+      }
     };
-  }, [socket]);
+  }, []);
+
   return (
     <SocketContext.Provider value={socket}>
       {props.children}

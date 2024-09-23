@@ -6,15 +6,16 @@ import Home from'./Components/Home/Home';
 import Profile from './Components/Profile/Profile';
 import SignUp from'./Components/SignUp/SignUp';
 import Feeds from './Components/Feeds/Feeds';
+import { SocketProvider } from './context/SocketProvider';
 
 
 function App() {
 
 
   return (
-    <>
+    <SocketProvider>
       <BrowserRouter>
-      <Navbar/>
+        <Navbar/>
         <Routes>
         <Route path="/" element={<Home/>}/>
           <Route path="/home" element={<Home/>}/>
@@ -24,7 +25,7 @@ function App() {
           <Route path="/signUp" element={<SignUp/>}/> 
         </Routes>
       </BrowserRouter>
-    </>
+    </SocketProvider>
   );
 }
 

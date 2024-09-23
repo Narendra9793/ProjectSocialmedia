@@ -60,8 +60,8 @@ const VideoCall = ({loggedUser, friend}) => {
   }, [isCaller, isRoomJoined]);
   const handleIncommingCall= (data) => {
     console.log("U got a call!", data)
-    setRoom(data)
-    var ele=document.getElementById("picker");
+    setRoom(data.roomKey)
+    var ele=document.getElementById(`picker${data.callerId}`);
     ele.style.display = 'flex';
   };
 
@@ -83,7 +83,7 @@ const VideoCall = ({loggedUser, friend}) => {
       sender : `${loggedUser.userId}`,
       receiver : `${friend.userId}`
     });
-    var ele=document.getElementById("picker");
+    var ele=document.getElementById(`picker${friend.userId}`)
     ele.style.display ="none"
   };
 
@@ -235,7 +235,7 @@ const VideoCall = ({loggedUser, friend}) => {
 
   return (
     <div>
-      <div className="pickCall" id ="picker">
+      <div className="pickCall" id ={`picker${friend.userId}`}>
         <button id="pickUp" onClick={connectToRoom}>Answer</button>
       </div>    
       <div id="roomDiv" className="d-flex flex-column align-items-center mt-3">
