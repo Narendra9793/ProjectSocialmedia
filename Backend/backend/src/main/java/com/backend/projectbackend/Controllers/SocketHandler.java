@@ -3,6 +3,7 @@ package com.backend.projectbackend.Controllers;
 
 import com.backend.projectbackend.Dao.MessageRepository;
 import com.backend.projectbackend.Dao.RoomRepository;
+import com.backend.projectbackend.Models.IncommingCallData;
 import com.backend.projectbackend.Models.JoinRoomData;
 import com.backend.projectbackend.Models.Message;
 import com.backend.projectbackend.Models.MessageType;
@@ -106,6 +107,8 @@ public class SocketHandler {
   public void onJoinRoom(SocketIOClient client, JoinRoomData jrd) {
     String sender=jrd.getSender();
     String reciever=jrd.getReceiver();
+    IncommingCallData icd=new IncommingCallData();
+
     System.out.println("JoinRoom got fired!" + sender + reciever);
     Room room= this.roomRepository.getRoomsBySenderReceiver(Integer. parseInt(sender), Integer. parseInt(reciever)).get(0);
 
@@ -113,11 +116,12 @@ public class SocketHandler {
     System.out.println("This is the first room "+ room.getRoomKey());
     client.joinRoom(room.getRoomKey());
     Set<SocketIOClient> clients = (Set<SocketIOClient>) server.getRoomOperations(room.getRoomKey()).getClients();
-
+    icd.setCallerId(sender);
+    icd.setRoomKey(room.getRoomKey());
     for (SocketIOClient c : clients) {
       System.out.println("this is client "+ c.getSessionId().toString());
         if (c != client) {
-            c.sendEvent("incomingCall", room.getRoomKey());
+            c.sendEvent("incomingCall", icd);
             System.out.println("This is the room where other client is present" + room.getRoomKey());
             System.out.println("This is the client other then me" + c.getSessionId().toString());
         }
@@ -181,6 +185,7 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
     String room = (String) payload.get("room");
     Object sdp = payload.get("sdp");
     client.getNamespace().getRoomOperations(room).sendEvent("offer", sdp);
+    System.out.println("Offerr Event Ended");
     printLog("onOffer", client, room);
   }
 
