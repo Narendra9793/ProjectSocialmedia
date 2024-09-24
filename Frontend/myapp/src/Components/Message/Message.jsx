@@ -20,7 +20,8 @@ const Message = ({ loggedUser, receiverId }) => {
   });
   // const [isConnected, setConnected] = useState(false);
 
-  const { responseData, error, loading } = useFetch("/message/" + `thisistheroomkeyforusers${loggedUser.userId}and${receiverId}`);
+  // const { responseData, error, loading } = useFetch("/message/" + `thisistheroomkeyforusers${loggedUser.userId}and${receiverId}`);
+  const { responseData, error, loading } = useFetch("/message/" + `${loggedUser.userId}_${receiverId}`);
 
   const addMessageToList = (val) => {
     if (val.room == "") return;

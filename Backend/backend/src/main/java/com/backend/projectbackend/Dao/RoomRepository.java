@@ -17,4 +17,5 @@ List<Room> findRoomsByLoggedUserId(@Param("loggedUserId") int loggedUserId);
 
 @Query("SELECT u FROM Room u WHERE (u.ParticepentA = :sender AND u.ParticepentB = :receiver) OR (u.ParticepentA = :receiver AND u.ParticepentB = :sender)")
 List<Room> getRoomsBySenderReceiver(@Param("sender") int sender, @Param("receiver") int receiver);
+
 }
