@@ -1,27 +1,3 @@
-// import React, { createContext, useMemo, useContext, useEffect } from "react";
-// import * as io from "socket.io-client";
-// import { SOCKET_BASE_URL } from "../constants/apiConstants";
-
-// const SocketContext = createContext(null); //this is to create an Empty context or container
-
-// // this will help us to use Socket Context
-// export const useSocket = () => {
-//   const socket = useContext(SocketContext);
-//   return socket;
-// };
-
-// export const SocketProvider = (props) => {
-
-//   const socket = io(SOCKET_BASE_URL, {
-//     // reconnection : false
-//   });
-
-//   return (
-//     <SocketContext.Provider value={socket}>
-//       {props.children}
-//     </SocketContext.Provider>
-//   );
-// };
 
 
 import React, { createContext, useMemo, useContext, useEffect, useState } from "react";

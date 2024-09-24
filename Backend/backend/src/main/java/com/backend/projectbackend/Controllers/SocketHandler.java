@@ -67,14 +67,14 @@ public class SocketHandler {
     }
   }
   
-
+  //This event will be fired automatically when user will connect to socket
   @OnConnect
   public void onConnect(SocketIOClient client) {
     String clientId = client.getSessionId().toString();
     System.out.println("You are connected " + clientId);
     users.put(clientId, null);
   }
-
+  //This event will be fired automatically when user will be logged in
   @OnEvent("ConnectEveryone")
   public void ConnectToEveryone(SocketIOClient client, String user) {
     List<Room> rooms = roomRepository.findRoomsByLoggedUserId(Integer. parseInt(user));
@@ -87,22 +87,7 @@ public class SocketHandler {
     System.out.println("ConnectEveryone event ended");
   }
 
-
-
-  @OnDisconnect
-  public void onDisconnect(SocketIOClient client) {
-    System.out.println("Client ///////////" + client.getSessionId() + "is Disconnected !");
-    client.sendEvent("goodbye", "Client Disconnected!" );
-    String clientId = client.getSessionId().toString();
-    String room = users.get(clientId);
-    if (!Objects.isNull(room)) {
-      System.out.println(String.format("Client disconnected: %s from : %s", clientId, room));
-      users.remove(clientId);
-      client.getNamespace().getRoomOperations(room).sendEvent("userDisconnected", clientId);
-    }
-    printLog("onDisconnect", client, room);
-  }
-
+  //This event will be fired  when user will press on makeCall button
   @OnEvent("joinRoom")
   public void onJoinRoom(SocketIOClient client, JoinRoomData jrd) {
     String sender=jrd.getSender();
@@ -136,9 +121,10 @@ public class SocketHandler {
     printLog("onReady", client, room.getRoomKey());
   }
 
-
+ //This event will be fired  when friend will press on Answer button
+ // Also fires an event called setCaller
   @OnEvent("AnswerCall")
-public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
+   public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
     String sender = jrd.getSender();
     String receiver = jrd.getReceiver();
     System.out.println("JoinRoom got fired! " + sender + " " + receiver);
@@ -151,10 +137,11 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
         Room room = rooms.get(0); // Get the first room
         System.out.println("This is the room " + room.getRoomKey());
 
+        client.sendEvent("setCaller", receiver); // Send the Room object or its details
         client.joinRoom(room.getRoomKey());
         client.sendEvent("joined", room.getRoomKey());
         users.put(client.getSessionId().toString(), room.getRoomKey());
-        client.sendEvent("setCaller", room); // Send the Room object or its details
+        
 
         System.out.println("We are in Answer Call event!");
         printLog("onReady", client, room.getRoomKey());
@@ -164,7 +151,8 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
     }
 }
 
-
+// This event is fired when ur friend's stream are set in his localStream and ready
+// This event takes a room key to select that room and broadcast an "ready" event to all joined users
   @OnEvent("ready")
   public void onReady(SocketIOClient client, String room, AckRequest ackRequest) {
     client.getNamespace().getBroadcastOperations().sendEvent("ready", room);
@@ -179,6 +167,7 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
     printLog("onCandidate", client, room);
   }
 
+  //This will send the offer from caller to picker
   @OnEvent("offer")
   public void onOffer(SocketIOClient client, Map<String, Object> payload) {
     System.out.println("Offerr");
@@ -188,7 +177,7 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
     System.out.println("Offerr Event Ended");
     printLog("onOffer", client, room);
   }
-
+// This will fired when picker will sends its offer to caller
   @OnEvent("answer")
   public void onAnswer(SocketIOClient client, Map<String, Object> payload) {
     String room = (String) payload.get("room");
@@ -241,6 +230,21 @@ public void onAnswerCall(SocketIOClient client, JoinRoomData jrd) {
       
       printLog("SendMessage", client, room.getRoomKey());
   }
+
+    //This event will be fired automatically when user will disconnect to socket
+    @OnDisconnect
+    public void onDisconnect(SocketIOClient client) {
+      System.out.println("Client ///////////" + client.getSessionId() + "is Disconnected !");
+      client.sendEvent("goodbye", "Client Disconnected!" );
+      String clientId = client.getSessionId().toString();
+      String room = users.get(clientId);
+      if (!Objects.isNull(room)) {
+        System.out.println(String.format("Client disconnected: %s from : %s", clientId, room));
+        users.remove(clientId);
+        client.getNamespace().getRoomOperations(room).sendEvent("userDisconnected", clientId);
+      }
+      printLog("onDisconnect", client, room);
+    }
   
 
   private static void printLog(String header, SocketIOClient client, String room) {

@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const VideoCall = ({loggedUser, friend}) => {
   const [room, setRoom] = useState("");
   const [isRoomJoined, setIsRoomJoined] = useState(false);
-  const [isCaller, setIsCaller] = useState(true);
+  const [isCaller, setIsCaller] = useState(null);
   const [localStream, setLocalStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
   const localVideoRef = useRef(null);
@@ -36,33 +36,85 @@ const VideoCall = ({loggedUser, friend}) => {
   useEffect(() => {
     socket.on('incomingCall', handleIncommingCall);   
     socket.on('joined', handleJoined);
-    socket.on('candidate', handleCandidate);
+    socket.on('setCaller', handleSetCaller);
     socket.on('ready', handleReady);
+    socket.on('candidate', handleCandidate);
     socket.on('offer', handleOffer);
     socket.on('answer', handleAnswer);
     socket.on('userDisconnected', handleUserDisconnected);
-    socket.on('setCaller', handleSetCaller);
+
     socket.on('full', handleFull);
 
     return () => {
       socket.off('incomingCall', handleIncommingCall);  
       socket.off('joined', handleJoined);
+      socket.off('setCaller', handleSetCaller);
       socket.off('candidate', handleCandidate);
       socket.off('ready', handleReady);
       socket.off('offer', handleOffer);
       socket.off('answer', handleAnswer);
       socket.off('userDisconnected', handleUserDisconnected);
-      socket.off('setCaller', handleSetCaller);
+
       socket.off('full', handleFull);
       cleanupConnections();
     };
 
   }, [isCaller, isRoomJoined]);
+
+  //When you will receive a video call server will let u know
   const handleIncommingCall= (data) => {
     console.log("U got a call!", data)
     setRoom(data.roomKey)
     var ele=document.getElementById(`picker${data.callerId}`);
     ele.style.display = 'flex';
+  };
+
+  // This event will be fired when friend will join the room and it sets the value of IsCaller
+  const handleSetCaller = callerId => {
+    console.log("Caller Id", callerId);
+    console.log("loggedUser Id", loggedUser.userId);
+    setIsCaller(loggedUser.userId === callerId);
+    console.log("IsCaller ? ", isCaller);
+  };
+
+  //This event will get your streams and set it in your localStream variable and emit a ready event for seocket server
+  const handleJoined = useCallback(async (room) => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia(streamConstraints);
+      setLocalStream(stream);
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = stream;
+      }
+      socket.emit('ready', room);
+      setIsRoomJoined(true);
+    } catch (error) {
+      console.error("Error accessing media devices.", error);
+    }
+  }, []);
+
+
+
+
+// This event is sended by the socket server to all users who have joined a particular room but executes only for user who decided to call to his friend
+//Caller user will make a peerConnection and fire offer event
+  const handleReady = () => {
+    console.log("Ready handler started with is caller value= ", isCaller);
+    console.log("Ready handler started with localStream value= ", localStream);
+    if (isCaller && localStream) {
+      console.log("Inside if condition of handleReady");
+      initializePeerConnection();
+      rtcPeerConnectionRef.current.createOffer().then(sessionDescription => {
+        rtcPeerConnectionRef.current.setLocalDescription(sessionDescription);
+        socket.emit('offer', {
+          type: 'offer',
+          sdp: sessionDescription,
+          room: room,
+        });
+        console.log("Ready handler Ended");
+      }).catch(console.error);
+    } else if (!localStream) {
+      console.error('Local stream not initialized');
+    }
   };
 
   const handleCreated = useCallback(async () => {
@@ -87,19 +139,7 @@ const VideoCall = ({loggedUser, friend}) => {
     ele.style.display ="none"
   };
 
-  const handleJoined = useCallback(async (room) => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia(streamConstraints);
-      setLocalStream(stream);
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = stream;
-      }
-      socket.emit('ready', room);
-      setIsRoomJoined(true);
-    } catch (error) {
-      console.error("Error accessing media devices.", error);
-    }
-  }, []);
+
 
   const handleCandidate = event => {
     const candidate = new RTCIceCandidate({
@@ -113,45 +153,48 @@ const VideoCall = ({loggedUser, friend}) => {
     }
   };
 
-  const handleReady = () => {
-    if (isCaller && localStream) {
-      initializePeerConnection();
-      rtcPeerConnectionRef.current.createOffer().then(sessionDescription => {
-        rtcPeerConnectionRef.current.setLocalDescription(sessionDescription);
-        socket.emit('offer', {
-          type: 'offer',
-          sdp: sessionDescription,
-          room: room,
-        });
-      }).catch(console.error);
-    } else if (!localStream) {
-      console.error('Local stream not initialized');
-    }
-  };
+
+// This will fired when caller will send its offer to picker
 
   const handleOffer = event => {
     if (!isCaller && localStream) {
+      console.log("This is handleOffer from picker side");
+      
       initializePeerConnection();
-      remoteDescriptionPromiseRef.current = rtcPeerConnectionRef.current.setRemoteDescription(
-        new RTCSessionDescription(event)
-      );
-      remoteDescriptionPromiseRef.current.then(() => {
-        return rtcPeerConnectionRef.current.createAnswer();
-      }).then(sessionDescription => {
-        rtcPeerConnectionRef.current.setLocalDescription(sessionDescription);
-        socket.emit('answer', {
-          type: 'answer',
-          sdp: sessionDescription,
-          room: room,
-        });
-      }).catch(console.error);
+  
+      if (event && event.sdp && event.type) {
+        remoteDescriptionPromiseRef.current = rtcPeerConnectionRef.current.setRemoteDescription(
+          new RTCSessionDescription(event)
+        );
+  
+        remoteDescriptionPromiseRef.current
+          .then(() => rtcPeerConnectionRef.current.createAnswer())
+          .then(sessionDescription => {
+            return rtcPeerConnectionRef.current.setLocalDescription(sessionDescription);
+          })
+          .then(() => {
+            socket.emit('answer', {
+              type: 'answer',
+              sdp: rtcPeerConnectionRef.current.localDescription,
+              room: room,
+            });
+          })
+          .catch(error => {
+            console.error('Error handling offer or setting up peer connection:', error);
+          });
+      } else {
+        console.error('Invalid offer event', event);
+      }
     } else if (!localStream) {
       console.error('Local stream not initialized');
     }
   };
-
+  
+// This will be fired when picker will send its answer to caller
   const handleAnswer = event => {
+    console.log("this is from handleAnswer")
     if (isCaller && rtcPeerConnectionRef.current && rtcPeerConnectionRef.current.signalingState === 'have-local-offer') {
+      console.log("this is from handleAnswer; from if cond")
       remoteDescriptionPromiseRef.current = rtcPeerConnectionRef.current.setRemoteDescription(
         new RTCSessionDescription(event)
       );
@@ -168,9 +211,7 @@ const VideoCall = ({loggedUser, friend}) => {
     }
   };
 
-  const handleSetCaller = callerId => {
-    setIsCaller(socket.id === callerId);
-  };
+
 
   const handleFull = () => {
     alert('Room is full!');
@@ -206,6 +247,7 @@ const VideoCall = ({loggedUser, friend}) => {
   };
 
   const initializePeerConnection = () => {
+    console.log("initializePeerConnection func call started")
     rtcPeerConnectionRef.current = new RTCPeerConnection(iceServers);
     rtcPeerConnectionRef.current.onicecandidate = handleIceCandidate;
     rtcPeerConnectionRef.current.ontrack = handleAddStream;
@@ -232,6 +274,7 @@ const VideoCall = ({loggedUser, friend}) => {
     setLocalStream(null);
     setRemoteStream(null);
   };
+
 
   return (
     <div>
