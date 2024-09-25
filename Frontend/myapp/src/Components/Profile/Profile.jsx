@@ -311,17 +311,20 @@ const Profile = () => {
                   </label>
                 </div>
                 <div className="uploader">
-                  <span>
-                    <input
-                      accept="image/png,image/jpeg, gif"
-                      className="hidden"
-                      id="profile_image_5585964168781"
-                      name="profile[image]"
-                      type="file"
-                      onChange={handleImageChange}
-                    />
+                <span>
+                  <label htmlFor="profile_image_5585964168781">
                     <FaCamera className="uploader-icon" />
-                  </span>
+                  </label>
+                  <input
+                    accept="image/png,image/jpeg,image/gif"
+                    className="hidden"
+                    id="profile_image_5585964168781"
+                    name="profile[image]"
+                    type="file"
+                    onChange={handleImageChange}
+                  />
+                </span>
+
                 </div>
               </section>
             </div>
