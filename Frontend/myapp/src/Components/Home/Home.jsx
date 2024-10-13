@@ -3,12 +3,16 @@ import './Home.css'
 import UserCard from '../UserCard/UserCard';
 import { useState , useEffect} from 'react'
 import axios from 'axios';
+import Post from '../Post/Post';
+import Post_video from '../Post/Post_videos';
+import { useUser } from '../../context/UserProvider';
 
 
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [publicPosts, setPublicPosts] = useState([]);
+  const [user]=useUser();
 
   useEffect(() => {
 
@@ -52,6 +56,31 @@ const Home = () => {
     <> 
       <div className="background ">
         <div className="homeContent">
+        <div className="publicPosts " id="posts">
+              {publicPosts.map((post) => (
+                <div key={post.postId} className="post-wrapper">
+                  {post.postImageUrl.endsWith(".mp4") ? (
+                    <Post_video
+                      url={post.postImageUrl}
+                      description={post.postDescription}
+                      id={post.postId}
+                      Token={localStorage.getItem("token")}
+                      ownerId={post.ownerId}
+                      loggedUserId={user}
+                    />
+                  ) : (
+                    <Post
+                      url={post.postImageUrl}
+                      description={post.postDescription}
+                      id={post.postId}
+                      Token={localStorage.getItem("token")}
+                      ownerId={post.ownerId}
+                      loggedUserId={user}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
 
         </div>
         <div className="allUsers fade-content" >

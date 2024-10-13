@@ -3,6 +3,7 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSocket } from "../../context/SocketProvider";
+import { useUser } from '../../context/UserProvider';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const Login = () => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const socket = useSocket();
+  const [user, setUser] = useUser();
+
 
   // const connectEver = useCallback(() => {
   //   console.log("Entered in connect", userId);
@@ -62,6 +65,7 @@ const Login = () => {
       if (response.data.jwtToken) {
         localStorage.setItem('token', response.data.jwtToken); // Store token
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`; // Set default header
+        setUser(response.data.userId);
         setUserId(response.data.userId);
         setToken(response.data.jwtToken);
         console.log("Response", response);
