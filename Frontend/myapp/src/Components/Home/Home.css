@@ -27,8 +27,8 @@ body::-webkit-scrollbar-thumb {
     height: 88vmin;
     width: 42vmax;
     overflow-y: scroll;
-    border: 1px solid red;
-    background-color: rgba(0, 0, 255, 0.4);
+    /* border: 1px solid red;
+    background-color: rgba(0, 0, 255, 0.4); */
     flex-wrap: wrap;
 }
 .allUsers::-webkit-scrollbar {
@@ -68,8 +68,29 @@ body::-webkit-scrollbar-thumb {
   left: 0%;
   height: 88vh;
   width: 125vh;
-  background-color: rgba(13, 177, 218, 0.536);
+  /* background-color: rgba(13, 177, 218, 0.536); */
   border-bottom-right-radius: 40px;
   border-top-left-radius: 40px;
   box-shadow: 20px;
+}
+
+.publicPosts{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(24%, 1fr));
+  grid-gap: 10px;
+  background-color: rgba(0, 98, 255, 0);
+  justify-content: space-between;
+  margin: 8px;
+  padding: 8px;
+  height: 88vh;
+  width: 125vh;
+  border-bottom-right-radius: 40px;
+  border-top-left-radius: 40px;
+  overflow-y: scroll; 
+  flex-wrap: wrap;
+}
+
+.publicPosts::-webkit-scrollbar {
+  width: 0em;
 }

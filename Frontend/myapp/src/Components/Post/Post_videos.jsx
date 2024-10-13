@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Post.css'
 
-const Post_video = ({url, description,  id,deleteItem, Token}) => {
+const Post_video = ({url, description,  id,deleteItem, Token, ownerId, loggedUserId}) => {
 
   useEffect(()=>{
     PostClick();
@@ -30,7 +30,7 @@ const Post_video = ({url, description,  id,deleteItem, Token}) => {
           </video>
 
           <div className="overlay">
-            <button type="button" onClick={()=>{deleteItem(id, Token)}} >Delete</button>
+           { loggedUserId === ownerId ?(<button type="button" onClick={()=>{deleteItem(id, Token)}} >Delete</button>) :<></>}
           </div>
         </div>
     </>

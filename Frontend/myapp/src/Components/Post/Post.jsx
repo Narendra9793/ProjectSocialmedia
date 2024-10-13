@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Post.css'
 import 'font-awesome/css/font-awesome.min.css';
 
-const Post = ({url, description,  id, deleteItem, Token}) => {
+const Post = ({url, description,  id, deleteItem, Token, ownerId, loggedUserId}) => {
 
   useEffect(()=>{
     PostClick();
+    console.log("ownerId", ownerId);
+    console.log("loggedUserId",loggedUserId );
   }, []);
     
   
@@ -27,7 +29,7 @@ const Post = ({url, description,  id, deleteItem, Token}) => {
         <div className="Postcard-background animate">
           <img className="PostImage" id="postImage" src={url} alt=""  ></img>
           <div className="overlay">
-            <button  type="button" onClick={()=>{deleteItem(id, Token)}} >Delete</button>
+          {  loggedUserId === ownerId ?(<button type="button" onClick={()=>{deleteItem(id, Token)}} >Delete</button>) :<></>}
           </div>
         </div>
     </>
