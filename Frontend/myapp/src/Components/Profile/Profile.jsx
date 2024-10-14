@@ -8,6 +8,7 @@ import FriendCard from "../FriendCard/FriendCard";
 import Login from "../Login/Login";
 import { FaCamera } from "react-icons/fa";
 import Carausel from "../Carausel/Carausel";
+import { useUser } from "../../context/UserProvider";
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -18,6 +19,7 @@ const Profile = () => {
   const [friends, setFriends] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
   const [accStatus, setAccStatus] = useState(null);
+  const [user]=useUser();
 
   const handleImageChange = async (e) => {
     try {
@@ -362,6 +364,8 @@ const Profile = () => {
                       id={post.postId}
                       Token={localStorage.getItem("token")}
                       deleteItem={DeleteItem}
+                      ownerId={post.ownerId}
+                      loggedUserId={user}
                     />
                   ) : (
                     <Post
@@ -370,6 +374,8 @@ const Profile = () => {
                       id={post.postId}
                       Token={localStorage.getItem("token")}
                       deleteItem={DeleteItem}
+                      ownerId={post.ownerId}
+                      loggedUserId={user}
                     />
                   )}
                 </div>
