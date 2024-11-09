@@ -1,64 +1,59 @@
 package com.backend.projectbackend.Models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
 @Entity
-@Table(name="VISITOR")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Visitors {
-    @Id
-    private int visitorId;
-    private Date visitedTime;
-
-    @JsonBackReference
-    @ManyToOne
-    private User user;
-
     public Visitors() {
-        // Default constructor body (if needed)
-    }
-    
-    public int getvisitorId() {
-        return visitorId;
-    }
-    public void setvisitorId(int visitorId) {
-        this.visitorId = visitorId;
-    }
-    public Date getVisitedTime() {
-        return visitedTime;
-    }
-    public void setVisitedTime(Date visitedTime) {
-        this.visitedTime = visitedTime;
-    }
-    public Visitors(int visitorId, Date visitedTime) {
-        this.visitorId = visitorId;
-        this.visitedTime = visitedTime;
-    }
-    @Override
-    public String toString() {
-        return "Visitors [visitorId=" + visitorId + ", visitedTime=" + visitedTime + ", user=" + user + "]";
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public Visitors(User user) {
-        this.user = user;
-    }
-    public Visitors(int visitorId, Date visitedTime, User user) {
-        this.visitorId = visitorId;
-        this.visitedTime = visitedTime;
-        this.user = user;
+        
     }
 
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "visited_user_id")
+    private User visitedUser;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "visitor_id")
+    private User visitor;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date visitDate;
+
+    public boolean isExpired() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, -1);
+        return visitDate.before(cal.getTime());
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.backend.projectbackend.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -108,7 +109,7 @@ public class User {
     List<Post> posts = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "visitedUser", orphanRemoval = true)
     List<Visitors> visitors = new ArrayList<>();
 
     @JsonManagedReference

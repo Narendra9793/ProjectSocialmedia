@@ -410,7 +410,7 @@ const Profile = () => {
           <div className="friends">
             {friends.map((friend) => (
               <div key={friend.userId}>
-                <FriendCard friend={friend} loggedUser={userProfile} />
+                <FriendCard friend={friend} loggedUser={userProfile} token={token} />
               </div>
             ))}
           </div>

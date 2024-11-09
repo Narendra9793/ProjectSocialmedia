@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -232,22 +233,50 @@ public class userController {
     }
 
     //http://localhost:7070/user/visit-profile/{userId}
-    @GetMapping("/visit-profile/{userId}")
-    public User ShowProfile(@PathVariable Integer userId,Principal principal){
+    // @GetMapping("/visit-profile/{userId}")
+    // public User ShowProfile(@PathVariable Integer userId,Principal principal){
         
-        User user=this.userRepository.getUserByUserName(principal.getName());
-        User userTovisit=this.userRepository.findById(userId).get();
-        Visitors visitor = new Visitors(user.getUserId(), new Date(), user);
+    //     User user=this.userRepository.getUserByUserName(principal.getName());
+    //     User userTovisit=this.userRepository.findById(userId).get();
+    //     Visitors visitor = new Visitors(user.getUserId(), new Date(), user);
 
-        System.out.println(visitor);
-        if(!userTovisit.getVisitors().contains(visitor)){
-            System.out.println("In array");
+    //     System.out.println(visitor);
+    //     System.out.println(userTovisit.getFirstName());
+    //     if(!userTovisit.getVisitors().contains(visitor)){
+    //         System.out.println("In array");
+    //         userTovisit.getVisitors().add(visitor);
+    //     }
+    //     this.userRepository.save(userTovisit);
+    //     System.out.println("this is visited user" + userTovisit.getVisitors());
+    //     return userTovisit;
+    //
+    @GetMapping("/visit-profile/{userId}")
+    public User showProfile(@PathVariable Integer userId, Principal principal) {
+        User visitorUser = this.userRepository.getUserByUserName(principal.getName());
+        User userTovisit = this.userRepository.findById(userId)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+    
+        System.out.println(userTovisit.getFirstName());
+    
+        // Create visitor instance with correct references
+        Visitors visitor = new Visitors();
+        visitor.setVisitedUser(userTovisit);
+        visitor.setVisitor(visitorUser);
+        visitor.setVisitDate(new Date());
+    
+        
+    
+        // Ensure the visitor is added to userTovisit's visitors list only if unique
+        if (!userTovisit.getVisitors().contains(visitor)) {
             userTovisit.getVisitors().add(visitor);
         }
+
+        System.out.println(userTovisit.getVisitors());
         this.userRepository.save(userTovisit);
-        System.out.println("this is visited user" + userTovisit);
         return userTovisit;
     }
+    
+    
 
     
     //http://localhost:7070/user/delete-post/{postId}
