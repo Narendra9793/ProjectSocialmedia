@@ -5,18 +5,31 @@ import Post from '../Post/Post';
 import Post_video from '../Post/Post_videos';
 import { useSocket } from '../../context/SocketProvider';
 import VideoCall from '../VideoCall/VideoCall';
+import axios from 'axios';
 
 
-const FriendCard = ({loggedUser, friend}) => {
+const FriendCard = ({loggedUser, friend, token}) => {
   const  [isConnected, setIsConnected]=useState(false);
   const [friendData, setFriendData]=useState(friend);
   const socket=useSocket();
+
+  const visitorhandler= async(id)=>{
+    const response = await axios.get(`http://localhost:7070/user/visit-profile/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
 
   const handleClosebutton= (id)=>{
     const div=document.getElementById(id);
     if(div.style.display === "block"  )
     div.style.display="none";
-    else div.style.display="block";
+    else {
+      div.style.display="block";
+      visitorhandler(friend.userId)
+    }
   }
 
   function showDiv(id) {
@@ -59,6 +72,7 @@ const FriendCard = ({loggedUser, friend}) => {
         </div>
         <button type="button" id='callButton'className='callButton' onClick={connectToRoom}>Make/End Call</button>
       </div>
+
       <div className="Friend-profile glass" id={`Friend-profile_${friendData.userId}`}>
         <button id="close" type="button" onClick={()=>handleClosebutton(`Friend-profile_${friendData.userId}`)}>X</button>
 
