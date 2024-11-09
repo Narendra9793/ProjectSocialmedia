@@ -20,7 +20,7 @@ public class VisitorCleanupService {
     private UserRepository userRepository;
 
     @Transactional  // Ensure this is a transactional method
-    @Scheduled(fixedRate = 120000)  // Runs every minute
+    @Scheduled(fixedRate = 600000)  // Runs every minute
     public void removeExpiredVisitors() {
         System.out.println("I am from visitorCleanUpservice");
         List<User> users = (List<User>) userRepository.findAll();  // Using List<User> for easier handling
