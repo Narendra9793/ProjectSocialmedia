@@ -233,23 +233,6 @@ public class userController {
     }
 
     //http://localhost:7070/user/visit-profile/{userId}
-    // @GetMapping("/visit-profile/{userId}")
-    // public User ShowProfile(@PathVariable Integer userId,Principal principal){
-        
-    //     User user=this.userRepository.getUserByUserName(principal.getName());
-    //     User userTovisit=this.userRepository.findById(userId).get();
-    //     Visitors visitor = new Visitors(user.getUserId(), new Date(), user);
-
-    //     System.out.println(visitor);
-    //     System.out.println(userTovisit.getFirstName());
-    //     if(!userTovisit.getVisitors().contains(visitor)){
-    //         System.out.println("In array");
-    //         userTovisit.getVisitors().add(visitor);
-    //     }
-    //     this.userRepository.save(userTovisit);
-    //     System.out.println("this is visited user" + userTovisit.getVisitors());
-    //     return userTovisit;
-    //
     @GetMapping("/visit-profile/{userId}")
     public User showProfile(@PathVariable Integer userId, Principal principal) {
         User visitorUser = this.userRepository.getUserByUserName(principal.getName());
@@ -264,20 +247,15 @@ public class userController {
         visitor.setVisitor(visitorUser);
         visitor.setVisitDate(new Date());
     
-        
-    
         // Ensure the visitor is added to userTovisit's visitors list only if unique
         if (!userTovisit.getVisitors().contains(visitor)) {
             userTovisit.getVisitors().add(visitor);
         }
-
         System.out.println(userTovisit.getVisitors());
         this.userRepository.save(userTovisit);
         return userTovisit;
     }
     
-    
-
     
     //http://localhost:7070/user/delete-post/{postId}
     @DeleteMapping("/delete-post/{postId}")
@@ -502,12 +480,12 @@ public class userController {
 
     //localhost:7070/user/logout
       @GetMapping("/logout")
-      public String loggout(Principal principal) {
+    public String loggout(Principal principal) {
          User loggedUser=this.userRepository.getUserByUserName(principal.getName());
          loggedUser.setStatus(Status.OFFLINE);
          this.userRepository.save(loggedUser);
         return loggedUser.getFirstName() + " logged out !";
-      }
+    }
       
     
 

@@ -38,12 +38,12 @@ public class Visitors {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "visited_user_id")
+    @JoinColumn(name = "visited_user")
     private User visitedUser;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "visitor_id")
+    @JoinColumn(name = "visitor")
     private User visitor;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,7 +51,7 @@ public class Visitors {
 
     public boolean isExpired() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, -1);
+        cal.add(Calendar.DAY_OF_YEAR, -3);
         return visitDate.before(cal.getTime());
     }
 
