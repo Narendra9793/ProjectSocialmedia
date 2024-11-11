@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSocket } from "../../context/SocketProvider";
 import { useUser } from '../../context/UserProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,46 +16,6 @@ const Login = () => {
   const socket = useSocket();
   const [user, setUser] = useUser();
 
-
-  // const connectEver = useCallback(() => {
-  //   console.log("Entered in connect", userId);
-  //   if (!userId) {
-  //     console.log("connectEver aborted: userId is null");
-  //     return;
-  //   }
-  //   socket.emit("ConnectEveryone", `${userId}`);
-  //   console.log("Ending in connect");
-  // }, [userId, socket]);
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     connectEver();
-  //   }
-  // }, [userId, connectEver]);
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('http://localhost:7070/api/auth/login', {
-  //       email: username,
-  //       password: password,
-  //     });
-
-  //     if (response.data.jwtToken) {
-  //       localStorage.setItem('token', response.data.jwtToken); // Store token
-  //       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`; // Set default header
-  //       setUserId(response.data.userId);
-  //       setToken(response.data.jwtToken);
-  //       console.log("Response", response);
-  //       alert('You are logged in!');
-  //       navigate('/home'); // Navigate to home
-  //     } else {
-  //       alert('Invalid credentials, please try again.');
-  //     }
-  //   } catch (error) {
-  //     alert('Login failed! Please check your credentials and try again.');
-  //     console.error('Error during login:', error);
-  //   }
-  // };
 
   const handleLogin = async () => {
     try {
@@ -73,8 +35,12 @@ const Login = () => {
         // Emit ConnectEveryone event after setting userId
         socket.emit("ConnectEveryone", `${response.data.userId}`);
   
-        alert('You are logged in!');
-        navigate('/home'); // Navigate to home
+        // navigate('/home'); // Navigate to home
+        toast.success("Login Successful!", {
+          icon: "✅"
+        })
+        setUsername("");
+        setPassword("")
       } else {
         alert('Invalid credentials, please try again.');
       }
@@ -115,6 +81,20 @@ const Login = () => {
             Login
           </button>
         </form>
+        <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        toastClassName={() =>
+          "relative flex p-4 mb-4 w-full max-w-xs text-white bg-green-500 rounded-lg shadow-lg ring-1 ring-green-700"
+        }
+        bodyClassName={() => "text-sm font-medium"}
+        progressClassName="bg-green-700 h-1 rounded"
+
+      />
       </div>
     </div>
   );

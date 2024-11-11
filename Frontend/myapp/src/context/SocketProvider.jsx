@@ -22,6 +22,7 @@ export const SocketProvider = (props) => {
       transports: ['websocket'], // Ensure websocket transport is used
     });
 
+
     // Log connection and disconnection events
     socketInstance.on('connect', () => {
       console.log("Connected to Socket.IO server");

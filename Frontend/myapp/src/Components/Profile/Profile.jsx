@@ -9,6 +9,9 @@ import Login from "../Login/Login";
 import { FaCamera } from "react-icons/fa";
 import Carausel from "../Carausel/Carausel";
 import { useUser } from "../../context/UserProvider";
+import { useSocket } from "../../context/SocketProvider";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -20,6 +23,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [accStatus, setAccStatus] = useState(null);
   const [user]=useUser();
+  const socket=useSocket();
 
   const handleImageChange = async (e) => {
     try {
@@ -52,10 +56,12 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    // socket.on("goodbye", (data) => {
-    //   alert(data);
-    //   handleLogout();
-    // });
+    if(socket !== null){
+      socket.on("goodbye", (data) => {
+        alert(data);
+        handleLogout();
+      });
+    }
     const fetchData = async () => {
       if (!token) return;
       await fetchUserProfile();
@@ -155,6 +161,7 @@ const Profile = () => {
 
       // Assuming the API returns user profile data in the response.data
       setFriends(response.data);
+      
     } catch (error) {
       console.error("Error fetching user profile:", error);
       // Handle error fetching user profile
