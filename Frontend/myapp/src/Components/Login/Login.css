@@ -5,13 +5,11 @@
     position: relative;
   }
 .background {
-    position: absolute;
+    position: relative;
     height: 100%;
     width: 100%;
     background-image: url('./img/Luffy.png'); 
     background-size: cover; 
-    
-    
 }
 
 .background .login-card{
