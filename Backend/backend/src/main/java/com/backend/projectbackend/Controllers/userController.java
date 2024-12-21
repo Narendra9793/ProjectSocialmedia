@@ -64,14 +64,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
 public class userController {
 
-    
     @Autowired
     private UserService userService;
 
@@ -108,30 +105,29 @@ public class userController {
     @Value("${project.media}")
     private String path;
 
-    //http://localhost:7070/user/profile
+    // http://localhost:7070/user/profile
     @GetMapping("/profile")
-    public User showUserProfile(Integer userId, Principal principal ) {
+    public User showUserProfile(Integer userId, Principal principal) {
         return this.userRepository.getUserByUserName(principal.getName());
     }
 
-    //http://localhost:7070/user/create-post
+    // http://localhost:7070/user/create-post
     @PostMapping("/create-post")
-    public String createPost(@RequestParam("file") MultipartFile file, Principal principal){
-        
+    public String createPost(@RequestParam("file") MultipartFile file, Principal principal) {
+
         try {
             Post post = new Post();
-            if(file.isEmpty()){
+            if (file.isEmpty()) {
                 System.out.println("Image file is empity!");
                 post.setPostImageUrl("default url");
-            }
-            else{
-                User user=this.userRepository.getUserByUserName(principal.getName());
-                
+            } else {
+                User user = this.userRepository.getUserByUserName(principal.getName());
+
                 // post.setPostDescription(postData.getPostDescription());
 
-                String fileName=this.fileService.uploadMedia(path, file, user.getUserId());
+                String fileName = this.fileService.uploadMedia(path, file, user.getUserId());
                 post.setPostImageUrl(fileName);
-        
+
                 post.setOwnerId(user.getUserId());
                 post.setUser(user);
                 System.out.println(post);
@@ -140,59 +136,57 @@ public class userController {
             }
 
             return "post added!";
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            return "post is not added!" ;
+            return "post is not added!";
         }
 
     }
 
+    // http://localhost:7070/user/change-dp
+    @PostMapping("/change-dp")
+    public String changeDPString(@RequestParam("file") MultipartFile file, Principal principal) {
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        try {
+            System.out.println("Try block of change dp");
 
-        //http://localhost:7070/user/change-dp
-        @PostMapping("/change-dp")
-        public String changeDPString(@RequestParam("file") MultipartFile file, Principal principal){
-            User user=this.userRepository.getUserByUserName(principal.getName());
-            try {
-                System.out.println("Try block of change dp");
+            // if(file.isEmpty()){
+            // System.out.println("Image file is empity!");
+            // user.setImageUrl("https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg");
+            // }
+            if (user.getImageUrl() != null && user.getImageUrl() != "" && user
+                    .getImageUrl() != "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg") {
+                System.out.println("Going to delete previous dp");
+                this.fileService.deleteFile(path, user.getImageUrl());
+                System.out.println("deleted previous dp");
+                String fileName = this.fileService.uploadMedia(path, file, user.getUserId());
+                user.setImageUrl(fileName);
+                this.userRepository.save(user);
+            } else {
 
-                // if(file.isEmpty()){
-                //     System.out.println("Image file is empity!");
-                //     user.setImageUrl("https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg");
-                // }
-                if(user.getImageUrl()!= null && user.getImageUrl()!= ""  && user.getImageUrl()!= "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg"){
-                    System.out.println("Going to delete previous dp");
-                    this.fileService.deleteFile(path, user.getImageUrl());
-                    System.out.println("deleted previous dp");
-                    String fileName=this.fileService.uploadMedia(path, file, user.getUserId());
-                    user.setImageUrl(fileName);
-                    this.userRepository.save(user);
-                }
-                else{
-                    
-                    String fileName=this.fileService.uploadMedia(path, file, user.getUserId());
-                    user.setImageUrl(fileName);
-                    this.userRepository.save(user);
-                }
-    
-                return "dp changed!";
-                
-            } catch (Exception e) {
-                System.out.println("catch block of change dp");
-                e.printStackTrace();
-                System.out.println(e);
-                return "dp is not changed!" ;
+                String fileName = this.fileService.uploadMedia(path, file, user.getUserId());
+                user.setImageUrl(fileName);
+                this.userRepository.save(user);
             }
-    
-        }
-    
 
-    //http://localhost:7070/user/comment/{postId}
+            return "dp changed!";
+
+        } catch (Exception e) {
+            System.out.println("catch block of change dp");
+            e.printStackTrace();
+            System.out.println(e);
+            return "dp is not changed!";
+        }
+
+    }
+
+    // http://localhost:7070/user/comment/{postId}
     @PostMapping("/comment/{postId}")
-    public Comment MakeComment(@PathVariable Integer postId, @RequestBody Comment comment, Principal principal){
+    public Comment MakeComment(@PathVariable Integer postId, @RequestBody Comment comment, Principal principal) {
         System.out.println("About to make Comment" + postId);
-        User user=this.userRepository.getUserByUserName(principal.getName());
-        Post post=this.postRepository.findPostBypostId(postId);
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        Post post = this.postRepository.findPostBypostId(postId);
         comment.setOwnerId(user.getUserId());
         comment.setPost_id(postId);
         this.commentRepository.save(comment);
@@ -201,13 +195,13 @@ public class userController {
         return comment;
     }
 
-    //http://localhost:7070/user/like/{postId}
+    // http://localhost:7070/user/like/{postId}
     @PostMapping("/like/{postId}")
-    public Post MakeLike(@PathVariable Integer postId,  Principal principal){
+    public Post MakeLike(@PathVariable Integer postId, Principal principal) {
         System.out.println("About to like post" + postId);
         Likes like = new Likes();
-        User user=this.userRepository.getUserByUserName(principal.getName());
-        Post post=this.postRepository.findPostBypostId(postId);
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        Post post = this.postRepository.findPostBypostId(postId);
         like.setUserId(user.getUserId());
         like.setPostId(postId);
         this.likesRepository.save(like);
@@ -217,42 +211,41 @@ public class userController {
         return post;
     }
 
-    //http://localhost:7070/user/dislike/{postId}
+    // http://localhost:7070/user/dislike/{postId}
     @PostMapping("/dislike/{postId}")
-    public Post MakeDislike(@PathVariable Integer postId,  Principal principal){
+    public Post MakeDislike(@PathVariable Integer postId, Principal principal) {
         System.out.println("About to dislike post" + postId);
-        User user=this.userRepository.getUserByUserName(principal.getName());
-        Post post=this.postRepository.findPostBypostId(postId);
-        Likes like=this.likesRepository.findLikeByuserIdAndpostId(user.getUserId(), post.getPostId());
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        Post post = this.postRepository.findPostBypostId(postId);
+        Likes like = this.likesRepository.findLikeByuserIdAndpostId(user.getUserId(), post.getPostId());
 
         post.getLikes().remove(like);
-            this.postRepository.save(post);
+        this.postRepository.save(post);
         return post;
     }
 
-
-    //http://localhost:7070/user/profile/allposts
+    // http://localhost:7070/user/profile/allposts
     @GetMapping("/profile/allposts")
-    public List<Post> ShowAllPosts(Principal principal){
-        User user=this.userRepository.getUserByUserName(principal.getName());
+    public List<Post> ShowAllPosts(Principal principal) {
+        User user = this.userRepository.getUserByUserName(principal.getName());
         return user.getPosts();
     }
 
-    //http://localhost:7070/user/visit-profile/{userId}
+    // http://localhost:7070/user/visit-profile/{userId}
     @GetMapping("/visit-profile/{userId}")
     public User showProfile(@PathVariable Integer userId, Principal principal) {
         User visitorUser = this.userRepository.getUserByUserName(principal.getName());
         User userTovisit = this.userRepository.findById(userId)
-            .orElseThrow(() -> new NoSuchElementException("User not found"));
-    
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
         System.out.println(userTovisit.getFirstName());
-    
+
         // Create visitor instance with correct references
         Visitors visitor = new Visitors();
         visitor.setVisitedUser(userTovisit);
         visitor.setVisitor(visitorUser);
         visitor.setVisitDate(new Date());
-    
+
         // Ensure the visitor is added to userTovisit's visitors list only if unique
         if (!userTovisit.getVisitors().contains(visitor)) {
             userTovisit.getVisitors().add(visitor);
@@ -261,30 +254,30 @@ public class userController {
         this.userRepository.save(userTovisit);
         return userTovisit;
     }
-    
-    
-    //http://localhost:7070/user/delete-post/{postId}
-    @DeleteMapping("/delete-post/{postId}")
-    public String deletePost(@PathVariable Integer postId, Principal principal){
-        User user=this.userRepository.getUserByUserName(principal.getName());
-        Post post=this.postRepository.findPostBypostId(postId);
 
-        if(post == null) return "Post doesn't exists!";
-        if(user.getUserId() == post.getOwnerId()){
+    // http://localhost:7070/user/delete-post/{postId}
+    @DeleteMapping("/delete-post/{postId}")
+    public String deletePost(@PathVariable Integer postId, Principal principal) {
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        Post post = this.postRepository.findPostBypostId(postId);
+
+        if (post == null)
+            return "Post doesn't exists!";
+        if (user.getUserId() == post.getOwnerId()) {
             this.fileService.deleteFile(path, post.getPostImageUrl());
             this.postRepository.delete(post);
             this.userRepository.save(user);
-        }
-        else return "You are not authorize to delete this post!";
+        } else
+            return "You are not authorize to delete this post!";
         return "Your post is deleted";
     }
-    
-    //http://localhost:7070/user/send-request/{receiverId}
+
+    // http://localhost:7070/user/send-request/{receiverId}
     @PostMapping("/send-request/{receiverId}")
     public ResponseEntity<?> sendRequest(@PathVariable Integer receiverId, Principal principal) {
         try {
             // Retrieve sender user
-            User senderUser = this.userRepository.getUserByUserName(principal.getName()); 
+            User senderUser = this.userRepository.getUserByUserName(principal.getName());
             // Retrieve receiver user
             User receiverUser = this.userRepository.findById(receiverId).orElse(null);
             if (receiverUser == null) {
@@ -292,24 +285,22 @@ public class userController {
             }
 
             for (Friend friend : senderUser.getFriends()) {
-                if(friend.getFriendId() == receiverId )
-                return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body("User is already your friend!");
+                if (friend.getFriendId() == receiverId)
+                    return ResponseEntity.status(HttpStatus.ACCEPTED)
+                            .body("User is already your friend!");
             }
             for (SendedRequest sreq : senderUser.getSentRequests()) {
-                if(sreq.getReceiverId() == receiverId )
-                return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body("You  have already sended the friend request to this user!");
+                if (sreq.getReceiverId() == receiverId)
+                    return ResponseEntity.status(HttpStatus.ACCEPTED)
+                            .body("You  have already sended the friend request to this user!");
             }
             for (ReceivedRequest Rreq : senderUser.getReceivedRequests()) {
-                if(Rreq.getSenderId() == receiverId )
-                return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body("You  have already received the friend request from this user!");
+                if (Rreq.getSenderId() == receiverId)
+                    return ResponseEntity.status(HttpStatus.ACCEPTED)
+                            .body("You  have already received the friend request from this user!");
             }
 
-            
-
-            //Sender Side
+            // Sender Side
             SendedRequest Sreq = new SendedRequest();
             Sreq.setReceiverId(receiverUser.getUserId());
             Sreq.setUser(senderUser);
@@ -317,7 +308,7 @@ public class userController {
             senderUser.getSentRequests().add(Sreq);
             this.userRepository.save(senderUser);
 
-            //Receiver Side
+            // Receiver Side
             ReceivedRequest Rreq = new ReceivedRequest();
             Rreq.setSenderId(senderUser.getUserId());
             Rreq.setUser(receiverUser);
@@ -327,58 +318,54 @@ public class userController {
 
             return ResponseEntity.ok(Sreq); // Return the created friend request
 
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Server error
         }
     }
 
-
-
-    //http://localhost:7070/user/all-sended-requests
+    // http://localhost:7070/user/all-sended-requests
     @GetMapping("/all-sended-requests")
-    List<SendedRequest> allSendedRequests(Principal principal){
+    List<SendedRequest> allSendedRequests(Principal principal) {
         User currUser = this.userRepository.getUserByUserName(principal.getName());
         System.out.println(currUser.getSentRequests());
-        return currUser.getSentRequests(); 
+        return currUser.getSentRequests();
     }
 
-    //http://localhost:7070/user/all-received-requests
+    // http://localhost:7070/user/all-received-requests
     @GetMapping("/all-received-requests")
-    List<ReceivedRequest> allReceivedRequests(Principal principal){
+    List<ReceivedRequest> allReceivedRequests(Principal principal) {
         User currUser = this.userRepository.getUserByUserName(principal.getName());
         System.out.println(currUser.getReceivedRequests());
-        return currUser.getReceivedRequests(); 
+        return currUser.getReceivedRequests();
     }
 
-    //http://localhost:7070/user/add-friend/{requestId}
+    // http://localhost:7070/user/add-friend/{requestId}
     @PostMapping("/add-friend/{ReceiveRequestId}")
     public String AddFriend(@PathVariable Integer ReceiveRequestId) {
-        //senderId
-        ReceivedRequest Rrequest=this.receivedRequestRepository.findById(ReceiveRequestId).get();
-        //receierId
-        SendedRequest Srequest=this.sendedRequestRepository.findByReceiverId(Rrequest.getUser().getUserId()).get();
-        
+        // senderId
+        ReceivedRequest Rrequest = this.receivedRequestRepository.findById(ReceiveRequestId).get();
+        // receierId
+        SendedRequest Srequest = this.sendedRequestRepository.findByReceiverId(Rrequest.getUser().getUserId()).get();
+
         User receiverUser = Rrequest.getUser();
         User senderUser = Srequest.getUser();
 
         System.out.println("This is sender id " + senderUser.getUserId());
         System.out.println("This is receier id " + receiverUser.getUserId());
 
-        Friend f1=new Friend();
+        Friend f1 = new Friend();
         f1.setFriendId(senderUser.getUserId());
         f1.setUser(receiverUser);
 
-        Friend f2=new Friend(receiverUser.getUserId());
+        Friend f2 = new Friend(receiverUser.getUserId());
         f2.setFriendId(receiverUser.getUserId());
         f2.setUser(senderUser);
 
-
-        Room room= new Room();
+        Room room = new Room();
         room.setParticepentA(senderUser.getUserId());
         room.setParticepentB(receiverUser.getUserId());
-        room.setRoomKey("thisistheroomkeyforusers"+senderUser.getUserId()+"and"+receiverUser.getUserId());
+        room.setRoomKey("thisistheroomkeyforusers" + senderUser.getUserId() + "and" + receiverUser.getUserId());
 
         this.roomRepository.save(room);
         this.friendRepository.save(f1);
@@ -398,22 +385,19 @@ public class userController {
         return "Friend Added";
     }
 
-    //  //http://localhost:7070/user/reject/{ReceiveRequestId}
+    // //http://localhost:7070/user/reject/{ReceiveRequestId}
     @PostMapping("/reject/{ReceiveRequestId}")
     public String RejectRequest(@PathVariable Integer ReceiveRequestId) {
-        //senderId
-        ReceivedRequest Rrequest=this.receivedRequestRepository.findById(ReceiveRequestId).get();
-        //receierId
-        SendedRequest Srequest=this.sendedRequestRepository.findByReceiverId(Rrequest.getUser().getUserId()).get();
-        
+        // senderId
+        ReceivedRequest Rrequest = this.receivedRequestRepository.findById(ReceiveRequestId).get();
+        // receierId
+        SendedRequest Srequest = this.sendedRequestRepository.findByReceiverId(Rrequest.getUser().getUserId()).get();
+
         User receiverUser = Rrequest.getUser();
         User senderUser = Srequest.getUser();
 
-       
         senderUser.getSentRequests().remove(Srequest);
         receiverUser.getReceivedRequests().remove(Rrequest);
-
-
 
         this.userRepository.save(receiverUser);
         this.userRepository.save(senderUser);
@@ -421,125 +405,96 @@ public class userController {
         return "Requested Rejected!";
     }
 
-    //http://localhost:7070/user/AccountStatus/{acStatus}
+    // http://localhost:7070/user/AccountStatus/{acStatus}
     @PostMapping("/AccountStatus/{acStatus}")
-    public String changeACstatus(@PathVariable Boolean acStatus, Principal principal){
+    public String changeACstatus(@PathVariable Boolean acStatus, Principal principal) {
         System.out.println("This is ac method");
         User user = this.userRepository.getUserByUserName(principal.getName());
-        if(acStatus)
-        user.setAccountStatus(AccountStatus.PUBLIC);
-        else user.setAccountStatus(AccountStatus.PRIVATE);
+        if (acStatus)
+            user.setAccountStatus(AccountStatus.PUBLIC);
+        else
+            user.setAccountStatus(AccountStatus.PRIVATE);
         this.userRepository.save(user);
         return "Your ac Status is " + user.getAccountStatus();
     }
-    
-    //http://localhost:7070/user/allFriends
+
+    // http://localhost:7070/user/allFriends
     @GetMapping("/allFriends")
-    public List<User> getMethodName(Principal principal){
-        List<User> frindList= new ArrayList();
+    public List<User> getMethodName(Principal principal) {
+        List<User> frindList = new ArrayList();
         User user = this.userRepository.getUserByUserName(principal.getName());
-    
-            
-        for(Friend friend : user.getFriends()) {
-            User f= this.userRepository.findById(friend.getFriendId()).get();
+
+        for (Friend friend : user.getFriends()) {
+            User f = this.userRepository.findById(friend.getFriendId()).get();
             frindList.add(f);
         }
-        
+
         return frindList;
     }
-    
-//     //localhost:7070/user/allusers
+
+    // //localhost:7070/user/allusers
+
     @GetMapping("/allusers/{page}")
     public List<User> getUsers(@PathVariable Integer page, Principal principal) {
-        System.out.println("I am fro YR ");
-        User user = this.userRepository.getUserByUserName(principal.getName());
-        System.out.println("YR ");
-        List<User> userList = new ArrayList<>();
-           Pageable p= PageRequest.of(page, 5);
-           Page<User> allUsers = this.userRepository.findAll(p);
 
-            userList=(List<User>)allUsers.getContent();
-            
-            Iterator<User> iterator = userList.iterator();
-            while (iterator.hasNext()) {
-                User u = iterator.next();
-                if (u.getUserId() == user.getUserId()) {
-                    iterator.remove();
-                    continue;
-                }
-                for (Friend friend : user.getFriends()) {
-                    if (friend.getFriendId() == u.getUserId()) {
-                        iterator.remove();
-                        break;
-                    }
-                }
-                for (SendedRequest sreq : user.getSentRequests()) {
-                    if (sreq.getReceiverId() == u.getUserId()) {
-                        iterator.remove();
-                        break;
-                    }
-                }
-                for (ReceivedRequest Rreq : user.getReceivedRequests()) {
-                    if (Rreq.getSenderId() == u.getUserId()) {
-                        iterator.remove();
-                        break;
-                    }
-                }
+        User currentUser = this.userRepository.getUserByUserName(principal.getName());
+
+        // Step 1: Fetch all users (consider optimizing if the dataset is too large)
+        List<User> allUsers = (List<User>) this.userRepository.findAll();
+
+        // Step 2: Filter the users based on your conditions
+        List<User> filteredUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            // Skip the current user
+            if (user.getUserId() == currentUser.getUserId()) {
+                continue;
             }
-        return userList;
 
-}
-// @GetMapping("/allusers/{page}")
-// public List<User> getUsers(@PathVariable Integer page, Principal principal) {
-//     // Ensure Principal is authenticated
-//     if (principal == null || principal.getName() == null) {
-//         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
-//     }
+            // Skip users who are already friends
+            boolean isFriend = currentUser.getFriends().stream()
+                    .anyMatch(friend -> friend.getFriendId() == user.getUserId());
+            if (isFriend) {
+                continue;
+            }
 
-//     // Fetch logged-in user
-//     User user = this.userRepository.getUserByUserName(principal.getName());
-//     if (user == null) {
-//         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-//     }
+            // Skip users who have sent a request to the current user
+            boolean isSentRequest = currentUser.getSentRequests().stream()
+                    .anyMatch(request -> request.getReceiverId() == user.getUserId());
+            if (isSentRequest) {
+                continue;
+            }
 
-//     // Fetch all users with pagination
-//     Pageable pageable = PageRequest.of(page, 5);
-//     Page<User> allUsers = this.userRepository.findAll(pageable);
+            // Skip users who have received a request from the current user
+            boolean isReceivedRequest = currentUser.getReceivedRequests().stream()
+                    .anyMatch(request -> request.getSenderId() == user.getUserId());
+            if (isReceivedRequest) {
+                continue;
+            }
 
-//     // Get content from the page
-//     List<User> userList = new ArrayList<>(allUsers.getContent());
+            // Add the user to the filtered list if all conditions are met
+            filteredUsers.add(user);
+        }
 
-//     // Use a Set for efficient lookups of IDs to exclude
-//     Set<Integer> excludeIds = new HashSet<>();
-//     excludeIds.add(user.getUserId()); // Exclude the logged-in user
+        // Step 3: Apply pagination to the filtered list
+        int pageSize = 5; // Number of users per page
+        int start = page * pageSize;
+        int end = Math.min(start + pageSize, filteredUsers.size());
 
-//     // Add friend IDs, sent request IDs, and received request IDs to exclude
-//     if (user.getFriends() != null) {
-//         user.getFriends().forEach(friend -> excludeIds.add(friend.getFriendId()));
-//     }
-//     if (user.getSentRequests() != null) {
-//         user.getSentRequests().forEach(sreq -> excludeIds.add(sreq.getReceiverId()));
-//     }
-//     if (user.getReceivedRequests() != null) {
-//         user.getReceivedRequests().forEach(rreq -> excludeIds.add(rreq.getSenderId()));
-//     }
+        // Handle cases where the page number is out of range
+        if (start >= filteredUsers.size()) {
+            return new ArrayList<>();
+        }
 
-//     // Remove users based on the exclude IDs
-//     userList.removeIf(u -> excludeIds.contains(u.getUserId()));
+        return filteredUsers.subList(start, end);
+    }
 
-//     return userList;
-// }
-
-
-    //localhost:7070/user/logout
-      @GetMapping("/logout")
+    // localhost:7070/user/logout
+    @GetMapping("/logout")
     public String loggout(Principal principal) {
-         User loggedUser=this.userRepository.getUserByUserName(principal.getName());
-         loggedUser.setStatus(Status.OFFLINE);
-         this.userRepository.save(loggedUser);
+        User loggedUser = this.userRepository.getUserByUserName(principal.getName());
+        loggedUser.setStatus(Status.OFFLINE);
+        this.userRepository.save(loggedUser);
         return loggedUser.getFirstName() + " logged out !";
     }
-      
-    
 
 }
