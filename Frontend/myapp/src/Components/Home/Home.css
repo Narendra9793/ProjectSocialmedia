@@ -10,7 +10,8 @@ body::-webkit-scrollbar-thumb {
 .background {
     position: relative;
     display: flex;
-    top:9%;
+    top: 0%;
+    margin: 0%;
     height: 100%;
     width: 100%;
     background-image: url('./img/crew.jpg'); 
@@ -19,12 +20,11 @@ body::-webkit-scrollbar-thumb {
 }
 .allUsers{
     position: relative;
-    display: inline-table;
     justify-content: center;
     align-content:space-between;
-    top:2%;
+    top:11%;
     margin-left: 0.5%;
-    height: 88vmin;
+    height: 80vmin;
     width: 42vmax;
     overflow-y: scroll;
     /* border: 1px solid red;
@@ -47,7 +47,7 @@ body::-webkit-scrollbar-thumb {
     cursor: pointer;
     transition: transform 0.5s;
     &:hover{
-        transform: translateX(-20px);
+        /* transform: translateX(-20px); */
     }
 }
 
@@ -64,7 +64,7 @@ body::-webkit-scrollbar-thumb {
 .homeContent{
   position: relative;
   margin-left: 0.5%;
-  top: 2%;
+  top:11%;
   left: 0%;
   height: 88vh;
   width: 125vh;

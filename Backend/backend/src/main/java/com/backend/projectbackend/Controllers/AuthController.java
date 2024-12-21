@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,9 +95,12 @@ public class AuthController {
     }
 
     // http://localhost:7070/api/auth/allusers
-    @GetMapping("/allusers")
-    public List<User> getUsers() {
-        return (List<User>) this.userRepository.findAll();
+    @GetMapping("/allusers/{page}")
+    public List<User> getUsers(@PathVariable Integer page) {
+        Pageable p= PageRequest.of(page, 5);
+        Page<User> allUsers = this.userRepository.findAll(p);
+
+        return allUsers.getContent();
     }
 
     // http://localhost:7070/api/auth/allpublicpost
