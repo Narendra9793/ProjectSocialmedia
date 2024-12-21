@@ -7,10 +7,12 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -19,6 +21,9 @@ import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -30,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.backend.projectbackend.Dao.CommentRepository;
 import com.backend.projectbackend.Dao.FriendRepository;
@@ -442,12 +448,18 @@ public class userController {
         return frindList;
     }
     
-    //localhost:7070/user/allusers
-    @GetMapping("/allusers")
-    public List<User> getUsers(Principal principal) {
+//     //localhost:7070/user/allusers
+    @GetMapping("/allusers/{page}")
+    public List<User> getUsers(@PathVariable Integer page, Principal principal) {
+        System.out.println("I am fro YR ");
         User user = this.userRepository.getUserByUserName(principal.getName());
+        System.out.println("YR ");
         List<User> userList = new ArrayList<>();
-            userList=(List<User>) this.userRepository.findAll();
+           Pageable p= PageRequest.of(page, 5);
+           Page<User> allUsers = this.userRepository.findAll(p);
+
+            userList=(List<User>)allUsers.getContent();
+            
             Iterator<User> iterator = userList.iterator();
             while (iterator.hasNext()) {
                 User u = iterator.next();
@@ -477,6 +489,47 @@ public class userController {
         return userList;
 
 }
+// @GetMapping("/allusers/{page}")
+// public List<User> getUsers(@PathVariable Integer page, Principal principal) {
+//     // Ensure Principal is authenticated
+//     if (principal == null || principal.getName() == null) {
+//         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+//     }
+
+//     // Fetch logged-in user
+//     User user = this.userRepository.getUserByUserName(principal.getName());
+//     if (user == null) {
+//         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+//     }
+
+//     // Fetch all users with pagination
+//     Pageable pageable = PageRequest.of(page, 5);
+//     Page<User> allUsers = this.userRepository.findAll(pageable);
+
+//     // Get content from the page
+//     List<User> userList = new ArrayList<>(allUsers.getContent());
+
+//     // Use a Set for efficient lookups of IDs to exclude
+//     Set<Integer> excludeIds = new HashSet<>();
+//     excludeIds.add(user.getUserId()); // Exclude the logged-in user
+
+//     // Add friend IDs, sent request IDs, and received request IDs to exclude
+//     if (user.getFriends() != null) {
+//         user.getFriends().forEach(friend -> excludeIds.add(friend.getFriendId()));
+//     }
+//     if (user.getSentRequests() != null) {
+//         user.getSentRequests().forEach(sreq -> excludeIds.add(sreq.getReceiverId()));
+//     }
+//     if (user.getReceivedRequests() != null) {
+//         user.getReceivedRequests().forEach(rreq -> excludeIds.add(rreq.getSenderId()));
+//     }
+
+//     // Remove users based on the exclude IDs
+//     userList.removeIf(u -> excludeIds.contains(u.getUserId()));
+
+//     return userList;
+// }
+
 
     //localhost:7070/user/logout
       @GetMapping("/logout")
