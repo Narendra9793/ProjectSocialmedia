@@ -87,6 +87,9 @@ const Profile = () => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Unauthorized, handle accordingly (e.g., redirect to login)
+        // localStorage.removeItem('token');
+        handleLogout();
+        localStorage.clear()
         console.error("Unauthorized:", error);
       } else {
         // Other errors (network issues, server errors, etc.)

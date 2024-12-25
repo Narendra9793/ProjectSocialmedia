@@ -64,30 +64,37 @@ const Home = () => {
   };
 
   const fetchData = async () => {
-    if(isFetching)return ;
-    isFetching=true;
+    if (isFetching) return;
+    isFetching = true;
+    
     try {
-      console.log("I am from fetchData")
+      console.log("I am from fetchData");
       const storedToken = localStorage.getItem('token');
       setToken(storedToken);
-
+  
       const url = storedToken
         ? `http://localhost:7070/user/allusers/${page}`
         : `http://localhost:7070/api/auth/allusers/${page}`;
+      
       const response = await axios.get(url, {
         headers: storedToken ? { Authorization: `Bearer ${storedToken}` } : undefined,
       });
-      console.log("response no.=", response.data)
+      
+      console.log("response no.=", response.data);
       setUsers((prevUsers) => [...prevUsers, ...response.data]); // Append new users.
       setIsLoading(false);
     } catch (e) {
-      console.error('Error fetching users:', e);
-    }
-    finally{
-      isFetching=false
+      if (e.response && e.response.status === 401) {
+        // Unauthorize error, clear token
+        localStorage.clear()
+        console.warn('Unauthorized access, token removed');
+      }
+      console.error('Error fetching users:', e.message || e);
+    } finally {
+      isFetching = false;
     }
   };
-
+  
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:7070/api/auth/allpublicpost');

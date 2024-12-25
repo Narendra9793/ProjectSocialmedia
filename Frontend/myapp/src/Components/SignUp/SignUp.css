@@ -14,7 +14,7 @@
     
 }
 
-.background .signUp-card{
+ .signUp-card{
     position: relative;
     width: 400px;
     height: 400px;
@@ -27,8 +27,9 @@
 }
 
 
-.background .signUp-details{
+ .signUp-details{
     position:relative;
+    display: inline-table;
     top: 12%;
     left:12%;
     height:300px;
@@ -38,7 +39,13 @@
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
     
 }
-.background .signUp-details .firstName{
+.full-name{
+    position: relative;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+#firstName{
     display: inline-block;
     position:relative;
     color:black;
@@ -51,7 +58,7 @@
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
 
 }
-.background .signUp-details .lastName{
+#lastName{
     position:relative;
     top: 14%;
     left: 10%;
@@ -64,9 +71,8 @@
 
 }
 
-.background .signUp-details .email{
+#email{
     position:relative;
-    top: 18%;
     left:10%;
     width: 250px;
     height: 30px;
@@ -78,19 +84,8 @@
 }
 
 
-.background .signUp-details .password{
-    position:relative;
-    top: 20%;
-    left:10%;
-    width: 250px;
-    height: 30px;
-    margin-top: 10px;
-    background-color: rgba(68, 139, 239, 0.441);
-    border-radius: 5px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-    
-}
-.background .signUp-details .btn{
+
+ .signUp-details .btn{
     position: relative;
     top:28%;
     left: 10%;
@@ -106,3 +101,45 @@ input::placeholder {
     color:black;
 }
 
+
+
+.password-container {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  margin-left: 10px;
+  padding: 5px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: black;
+}
+
+.toggle-password:hover {
+  text-decoration: underline;
+}
+
+.password{
+    position: relative;
+    display: flex;
+    gap: 26px;
+
+}
+.password button{
+    margin-top: 10px;
+}
+
+#password{
+    position:relative;
+    top: 20%;
+    left:10%;
+    width: 200px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: rgba(68, 139, 239, 0.441);
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    
+}
