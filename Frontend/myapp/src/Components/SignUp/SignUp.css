@@ -7,22 +7,25 @@
   }
 .background {
     position: absolute;
+    display: flex;
     height: 100%;
     width: 100%;
     background-image: url('./img/2793623.jpg'); 
     background-size: cover;
-    
+    align-items: center;
+    justify-content: center;
 }
 
  .signUp-card{
     position: relative;
+    display: flex;
     width: 400px;
     height: 400px;
-    top:18%;
-    left:38%;
     border-radius: 10px;
     background-color: rgba(84, 79, 72, 0.297);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -30,13 +33,12 @@
  .signUp-details{
     position:relative;
     display: inline-table;
-    top: 12%;
-    left:12%;
     height:300px;
     width: 310px;
     border-radius: 10px;
     background-color: rgba(3, 244, 224, 0.404);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+    /* justify-content: center; */
     
 }
 .full-name{
@@ -91,7 +93,6 @@
     left: 10%;
     width: 253px;
     height: 45px;
-    
     background-color: rgba(240, 156, 30, 0.527);
     border-radius: 5px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
@@ -142,4 +143,105 @@ input::placeholder {
     border-radius: 5px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
     
+}
+
+@media (width <= 500px){
+    .signUp-card{
+        position: relative;
+        display: flex;
+        width: 80vw;
+        height: 60vh;
+        border-radius: 10px;
+        background-color: rgba(84, 79, 72, 0.297);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .signUp-details{
+        position:relative;
+        display: flex;
+        flex-direction: column;
+        height:55vh;
+        width: 70vw;
+        gap: 10px;
+        border-radius: 10px;
+        background-color: rgba(3, 244, 224, 0.404);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .full-name{
+        position: relative;
+        display: flex;
+        align-content: center;
+        margin-top: 30px;
+    }
+    #firstName{
+        position:relative;
+        color:black;
+        left: 10%;
+        width: 29vw;
+        height: 30px;
+        background-color: rgba(68, 139, 239, 0.441);
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    
+    }
+    #lastName{
+        position:relative;
+        left: 5%;
+        width: 25vw;
+        height: 30px;
+        margin-left: 10px;
+        background-color: rgba(68, 139, 239, 0.441);
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    
+    }
+
+    .signUp-details #email{
+        position:relative;
+        left:10%;
+        width: 57vw;
+        height: 30px;
+        background-color: rgba(68, 139, 239, 0.441);
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+    }
+    .password{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    
+
+
+    #password{
+        position:relative;
+        top: 0%;
+        width: 57vw;
+        height: 30px;
+        background-color: rgba(68, 139, 239, 0.441);
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+        left:10%;
+        
+    }
+    .password button{
+        margin-top: 0px;
+        
+    }
+
+    .signUp-details .btn{
+        position: relative;
+        width: 57vmin;
+        height: 45px;
+        margin-left: 3px;
+        top:5%;
+        background-color: rgba(240, 156, 30, 0.527);
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+    }
 }

@@ -48,14 +48,14 @@ const SignUp = () => {
 
 
       <div className="background" id="background">
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
         <div className="signUp-card" id="signUp-card">
           <form className="signUp-details" onSubmit={handleSubmit}>
             <div className="full-name">
