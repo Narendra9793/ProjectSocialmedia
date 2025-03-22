@@ -17,7 +17,7 @@ const Feeds = () => {
 
   const fetchAllReceivedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:7070/user/all-received-requests', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/all-received-requests`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -14,7 +14,7 @@ const FriendCard = ({loggedUser, friend, token}) => {
   const socket=useSocket();
 
   const visitorhandler= async(id)=>{
-    const response = await axios.get(`http://localhost:7070/user/visit-profile/${id}`, {
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/visit-profile/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

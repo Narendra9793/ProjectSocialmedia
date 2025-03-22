@@ -13,7 +13,7 @@ const UserCard = ({firstName, lastName, nickName, id, imgurl}) => {
   const SendRequest= async ()=>{
     
     try {
-      const response = await axios.post('http://localhost:7070/user/send-request/' + id, null, {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/send-request/` + id, null, {
         headers: {
           Authorization: "Bearer " + token
         }

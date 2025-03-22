@@ -69,13 +69,17 @@ const Home = () => {
     
     try {
       console.log("I am from fetchData");
+      console.log(`${process.env.REACT_APP_API_BASE_URL}/user/allusers/${page}`)
       const storedToken = localStorage.getItem('token');
       setToken(storedToken);
-  
-      const url = storedToken
-        ? `http://localhost:7070/user/allusers/${page}`
-        : `http://localhost:7070/api/auth/allusers/${page}`;
+
       
+      const url = storedToken
+        ? `${process.env.REACT_APP_API_BASE_URL}/user/allusers/${page}`
+        : `${process.env.REACT_APP_API_BASE_URL}/api/auth/allusers/${page}`;
+      
+
+      console.log("URL :", url)
       const response = await axios.get(url, {
         headers: storedToken ? { Authorization: `Bearer ${storedToken}` } : undefined,
       });
@@ -97,7 +101,8 @@ const Home = () => {
   
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:7070/api/auth/allpublicpost');
+      
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/auth/allpublicpost`);
       setPublicPosts(response.data);
       console.log(`${response.data.length} public posts fetched`);
     } catch (error) {

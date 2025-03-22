@@ -16,7 +16,7 @@ export const SocketProvider = (props) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io(SOCKET_BASE_URL, {
+    const socketInstance = io(`${process.env.SOCKET_BASE_URL}`, {
       reconnection: true, // Enable reconnection if needed
       reconnectionAttempts: 5, // Optional: number of reconnection attempts
       transports: ['websocket'], // Ensure websocket transport is used

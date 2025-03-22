@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../constants/apiConstants";
+
 
 export const useFetch = (url) => {
   const [responseData, setResponseData] = useState(null);
@@ -11,7 +11,7 @@ export const useFetch = (url) => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(API_BASE_URL + url);
+        const response = await axios.get(`${process.env.API_BASE_URL}` + url);
         setResponseData(response.data);
       } catch (err) {
         setError(err);

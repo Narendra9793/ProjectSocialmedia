@@ -7,7 +7,7 @@ const AddFrienCard = ({rId, token}) => {
   const acceptHandler = async () => {
     console.log(token);
     try {
-        const response = await axios.post(`http://localhost:7070/user/add-friend/${rId}`, null, {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/add-friend/${rId}`, null, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -25,7 +25,7 @@ const AddFrienCard = ({rId, token}) => {
 const rejectHandler = async () => {
   console.log(token);
   try {
-      const response = await axios.post(`http://localhost:7070/user/reject/${rId}`, null, {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/reject/${rId}`, null, {
           headers: {
               Authorization: `Bearer ${token}`,
           },

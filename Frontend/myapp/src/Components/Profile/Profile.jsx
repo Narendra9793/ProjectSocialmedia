@@ -31,7 +31,7 @@ const Profile = () => {
       formData.append("file", e.target.files[0]);
 
       const response = await axios.post(
-        "http://localhost:7070/user/change-dp",
+        `${process.env.REACT_APP_API_BASE_URL}/user/change-dp`,
         formData,
         {
           headers: {
@@ -74,7 +74,7 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:7070/user/profile", {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +102,7 @@ const Profile = () => {
     // console.log("this is posts")
     try {
       const response = await axios.get(
-        "http://localhost:7070/user/profile/allposts",
+        `${process.env.REACT_APP_API_BASE_URL}/user/profile/allposts`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -123,7 +123,7 @@ const Profile = () => {
     // console.log("this is friends")
     try {
       const response = await axios.get(
-        "http://localhost:7070/user/allFriends",
+        `${process.env.REACT_APP_API_BASE_URL}/user/allFriends`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -156,7 +156,7 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       localStorage.removeItem("token");
-      const response = await axios.get("http://localhost:7070/user/logout", {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/logout`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -177,7 +177,7 @@ const Profile = () => {
   const DeleteItem = async (postId, authToken) => {
     try {
       const response = await fetch(
-        `http://localhost:7070/user/delete-post/${postId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/delete-post/${postId}`,
         {
           method: "DELETE",
           headers: {
@@ -207,7 +207,7 @@ const Profile = () => {
       // Add additional form data as needed, e.g., formData.append('description', description);
 
       const response = await axios.post(
-        "http://localhost:7070/user/create-post",
+        `${process.env.REACT_APP_API_BASE_URL}/user/create-post`,
         formData,
         {
           headers: {
@@ -263,7 +263,7 @@ const Profile = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:7070/user/AccountStatus/${ele[0].checked}`,
+        `${process.env.REACT_APP_API_BASE_URL}/user/AccountStatus/${ele[0].checked}`,
         {},
         {
           headers: {
