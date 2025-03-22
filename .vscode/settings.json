@@ -1,5 +1,10 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.configuration.maven.userSettings": "C:\\Program Files\\Apache\\Maven\\bin",
+    "java.configuration.maven.globalSettings": "C:\\Program Files\\Apache\\Maven\\bin",
+    "java.maven.downloadSources": true,
+    "java.import.maven.disableTestClasspathFlag": true,
+    "java.configuration.maven.lifecycleMappings": "C:\\Program Files\\Apache\\Maven\\bin"
 }
