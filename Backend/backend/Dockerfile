@@ -19,7 +19,7 @@ WORKDIR /app
 # Copy the built JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-EXPOSE 7070
+EXPOSE 7070 7071
 
 # Start the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
