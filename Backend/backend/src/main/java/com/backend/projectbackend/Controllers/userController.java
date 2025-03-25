@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
+
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -58,6 +62,8 @@ import com.backend.projectbackend.Models.User;
 import com.backend.projectbackend.Models.Visitors;
 import com.backend.projectbackend.Services.FileService;
 import com.backend.projectbackend.Services.UserService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +74,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/user")
 public class userController {
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Autowired
     private UserService userService;
@@ -158,7 +166,14 @@ public class userController {
             if (user.getImageUrl() != null && user.getImageUrl() != "" && user
                     .getImageUrl() != "https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg") {
                 System.out.println("Going to delete previous dp");
-                this.fileService.deleteFile(path, user.getImageUrl());
+                if (user.getImageUrl() != null) {
+                    Pattern pattern = Pattern.compile(".*/([^/]+)\\.[a-z]+$"); // Matches last part before extension
+                    Matcher matcher = pattern.matcher(user.getImageUrl());
+                    String publicId = matcher.find() ? matcher.group(1) : null;
+                    if (publicId != null) {
+                        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+                    }
+                }
                 System.out.println("deleted previous dp");
                 String fileName = this.fileService.uploadMedia(path, file, user.getUserId());
                 user.setImageUrl(fileName);
@@ -264,7 +279,8 @@ public class userController {
         if (post == null)
             return "Post doesn't exists!";
         if (user.getUserId() == post.getOwnerId()) {
-            this.fileService.deleteFile(path, post.getPostImageUrl());
+            // this.fileService.deleteFile(path, post.getPostImageUrl());
+            this.fileService.deleteFile(String.valueOf(postId));
             this.postRepository.delete(post);
             this.userRepository.save(user);
         } else
@@ -496,5 +512,10 @@ public class userController {
         this.userRepository.save(loggedUser);
         return loggedUser.getFirstName() + " logged out !";
     }
+
+
+
+
+
 
 }

@@ -11,7 +11,7 @@ export const useFetch = (url) => {
     (async function () {
       try {
         setLoading(true);
-        const response = await axios.get(`${process.env.API_BASE_URL}` + url);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}` + url);
         setResponseData(response.data);
       } catch (err) {
         setError(err);

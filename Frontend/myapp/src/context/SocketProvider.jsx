@@ -2,7 +2,6 @@
 
 import React, { createContext, useMemo, useContext, useEffect, useState } from "react";
 import io from "socket.io-client"; // Ensure correct import for Socket.IO
-import { SOCKET_BASE_URL } from "../constants/apiConstants";
 
 const SocketContext = createContext(null);
 
@@ -16,7 +15,7 @@ export const SocketProvider = (props) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io(`${process.env.SOCKET_BASE_URL}`, {
+    const socketInstance = io(`${process.env.REACT_APP_SOCKET_BASE_URL}`, {
       reconnection: true, // Enable reconnection if needed
       reconnectionAttempts: 5, // Optional: number of reconnection attempts
       transports: ['websocket'], // Ensure websocket transport is used
