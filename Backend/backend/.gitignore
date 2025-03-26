@@ -28,3 +28,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Ignore compiled JAR files
+Backend/backend/target/
