@@ -32,3 +32,6 @@ build/
 
 # Ignore compiled JAR files
 Backend/backend/target/
+
+# Ignore all .jar files
+*.jar
