@@ -11,6 +11,7 @@ import com.backend.projectbackend.Dao.UserRepository;
 import com.backend.projectbackend.Models.AccountStatus;
 import com.backend.projectbackend.Models.Credentials;
 import com.backend.projectbackend.Models.Status;
+import com.backend.projectbackend.Models.UpdatedUserDetails;
 // import com.backend.projectbackend.Models.Status;
 import com.backend.projectbackend.Models.User;
 import java.util.ArrayList;
@@ -58,7 +59,23 @@ public class UserService {
     // }
 
 
-    
+    public String UpdateUserProfile(UpdatedUserDetails updatedDetails, User user){
+        user.setAboutMyself(updatedDetails.getAboutMyself());
+        user.setActivitiesTheyEnjoy(updatedDetails.getActivitiesTheyEnjoy());
+        user.setAddress(updatedDetails.getAddress());
+        user.setAnnualIncome(updatedDetails.getAnnualIncome());
+        user.setBodyType(updatedDetails.getBodyType());
+        user.setDob(updatedDetails.getDob());
+        user.setDrinkingHabit(updatedDetails.getDrinkingHabit());
+        user.setFatherName(updatedDetails.getFatherName());
+        user.setHobbiesAndInterests(updatedDetails.getHobbiesAndInterests());
+        user.setHeight(updatedDetails.getHeight());
+        user.setHighestEducation(updatedDetails.getHighestEducation());
+
+        this.userRepository.save(user);
+
+        return "User with name "+user.getFirstName()+ "has updated profile.";
+    }
 
     
 } 

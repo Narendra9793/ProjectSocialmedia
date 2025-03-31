@@ -54,6 +54,7 @@ import com.backend.projectbackend.Models.Comment;
 import com.backend.projectbackend.Models.Friend;
 import com.backend.projectbackend.Models.SendedRequest;
 import com.backend.projectbackend.Models.Status;
+import com.backend.projectbackend.Models.UpdatedUserDetails;
 import com.backend.projectbackend.Models.Likes;
 import com.backend.projectbackend.Models.Post;
 import com.backend.projectbackend.Models.ReceivedRequest;
@@ -66,6 +67,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -514,8 +516,22 @@ public class userController {
     }
 
 
-
-
+    //update APIs
+    // http://localhost:7070/user/update-profile/{userId}
+    @PostMapping("/update-profile/{userId}")
+    public String updateProfile(@RequestBody UpdatedUserDetails updatedDetails, Principal principal, @PathVariable Integer userId ){
+        try {
+            User loggedUser = this.userRepository.getUserByUserName(principal.getName());
+            if(loggedUser.getUserId() == userId){
+               return  this.userService.UpdateUserProfile(updatedDetails, loggedUser);
+            }
+            else throw new IllegalArgumentException("You can change the details of others");
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            return e.getMessage();
+        } 
+    }
 
 
 }
