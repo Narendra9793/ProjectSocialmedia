@@ -60,18 +60,47 @@ public class UserService {
 
 
     public String UpdateUserProfile(UpdatedUserDetails updatedDetails, User user){
-        user.setAboutMyself(updatedDetails.getAboutMyself());
-        user.setActivitiesTheyEnjoy(updatedDetails.getActivitiesTheyEnjoy());
-        user.setAddress(updatedDetails.getAddress());
-        user.setAnnualIncome(updatedDetails.getAnnualIncome());
-        user.setBodyType(updatedDetails.getBodyType());
+        user.setNickName(updatedDetails.getNickName());
         user.setDob(updatedDetails.getDob());
-        user.setDrinkingHabit(updatedDetails.getDrinkingHabit());
+        user.setMaritalStatus(updatedDetails.getMaritalStatus());
+        user.setPhoneNumber(updatedDetails.getPhoneNumber());
+        user.setAddress(updatedDetails.getAddress());
+
         user.setFatherName(updatedDetails.getFatherName());
-        user.setHobbiesAndInterests(updatedDetails.getHobbiesAndInterests());
-        user.setHeight(updatedDetails.getHeight());
+        user.setMotherName(updatedDetails.getMotherName());
+        user.setSiblings(updatedDetails.getSiblings());
+
         user.setHighestEducation(updatedDetails.getHighestEducation());
 
+        user.setEmployerName(updatedDetails.getEmployerName());
+        user.setAnnualIncome(updatedDetails.getAnnualIncome());
+
+        user.setHeight(updatedDetails.getHeight());
+        user.setComplexion(updatedDetails.getComplexion());
+        user.setBodyType(updatedDetails.getBodyType());
+
+        user.setReligion(updatedDetails.getReligion());
+
+        user.setDrinkingHabit(updatedDetails.getDrinkingHabit());
+        user.setLoveToEat(updatedDetails.getLoveToEat());
+        user.setSmokingHabit(updatedDetails.getSmokingHabit());
+
+        user.setActivitiesTheyEnjoy(updatedDetails.getActivitiesTheyEnjoy());
+        user.setHobbiesAndInterests(updatedDetails.getHobbiesAndInterests());
+
+        user.setLeastAge(updatedDetails.getLeastAge());
+        user.setMostAge(updatedDetails.getMostAge());
+        user.setPreferredQualification(updatedDetails.getPreferredQualification());
+        user.setPreferredOccupation(updatedDetails.getPreferredOccupation());
+        user.setPreferredPlace(updatedDetails.getPreferredPlace());
+        
+
+        user.setAboutMyself(updatedDetails.getAboutMyself());
+
+        user.setPreferredModeOfContact(updatedDetails.getPreferredModeOfContact());
+        user.setPreferredTimeForContact(updatedDetails.getPreferredTimeForContact());
+
+       
         this.userRepository.save(user);
 
         return "User with name "+user.getFirstName()+ "has updated profile.";

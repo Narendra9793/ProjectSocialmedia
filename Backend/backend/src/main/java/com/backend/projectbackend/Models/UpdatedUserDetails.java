@@ -6,11 +6,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class UpdatedUserDetails {
-
-
+    private String nickName;
+    private String Dob;
     private String maritalStatus;
-
-
     private Long phoneNumber;
     private String address;
 
@@ -50,8 +48,6 @@ public class UpdatedUserDetails {
     private String preferredOccupation;
     private String preferredPlace;
 
-    // Photographs
-    private String imageUrl;
 
     // About Me / Introduction
     private String aboutMyself;
@@ -59,6 +55,5 @@ public class UpdatedUserDetails {
     // Contact and Communication Preferences
     private String preferredModeOfContact;
     private String preferredTimeForContact;
-
-    private String Dob;
+    
 }
