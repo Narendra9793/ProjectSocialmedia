@@ -1,9 +1,7 @@
 package com.backend.projectbackend.Controllers;
 
 
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,8 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,12 +27,10 @@ import com.backend.projectbackend.Dao.PostRepository;
 import com.backend.projectbackend.Dao.UserRepository;
 import com.backend.projectbackend.Models.AccountStatus;
 import com.backend.projectbackend.Models.Credentials;
-import com.backend.projectbackend.Models.Friend;
 import com.backend.projectbackend.Models.JwtRequest;
 import com.backend.projectbackend.Models.JwtResponse;
 import com.backend.projectbackend.Models.Post;
-import com.backend.projectbackend.Models.ReceivedRequest;
-import com.backend.projectbackend.Models.SendedRequest;
+
 import com.backend.projectbackend.Models.Status;
 import com.backend.projectbackend.Models.User;
 import com.backend.projectbackend.Security.JwtHelper;
