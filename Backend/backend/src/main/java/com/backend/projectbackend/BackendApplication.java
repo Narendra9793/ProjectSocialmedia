@@ -17,7 +17,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 @ComponentScan(basePackages = "com.backend.projectbackend")
 @EnableJpaRepositories(basePackages = "com.backend.projectbackend.Dao")
 @EntityScan(basePackages = "com.backend.projectbackend.Models") // Add Entity Scanning
-public class BackendApplication {
+public class BackendApplication  {
 
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load(); // Ignore if .env is missing
