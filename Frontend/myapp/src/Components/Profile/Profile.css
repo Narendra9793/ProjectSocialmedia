@@ -3,8 +3,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     background-color: rgba(81, 174, 232, 0.375);
     border-radius: 10px;
     opacity: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
-    cursor: pointer; 
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 1); 
     /* transition: transform 0.5s;
     &:hover{
         transform: translateX(-8px);
@@ -22,15 +21,84 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     
 }
 .left{
-    display: inline-table;
+    display: flex-wrap;
     height: 88vh;
-    width: 35vh;
+    width: 35vmin;
     margin: 10px;
+    border: solid red 1px;
 }
 .profilePicture{
+   display: flex;
+   flex-wrap: wrap;
     position: relative;
-    width: 35vh;
-    height:45vh;
+    width: 100%;
+    height:51.5%;
+    align-items:stretch;
+    justify-content: center;
+
+}
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* or center if you want it centered */
+}
+
+.user-profile-image {
+  display: flex;
+  position: relative; /* Ensures child elements are positioned relative to this */
+  width: 100%;
+  height: 35%;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  border: solid rgb(0, 128, 13) 3px;
+  cursor: pointer;
+  overflow: hidden; /* Prevents unwanted overflow */
+}
+
+  
+.profile-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit:repeat;
+  overflow: hidden;
+}
+
+.uploader-icon{
+  position: relative;
+  height: 15px;
+  width: 15px;
+  z-index: 900;
+  color: #060606; 
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-right: 6px;
+  padding: 0px;
+}
+
+
+
+
+.profile-pic-overlay {
+  display: flex;
+  position: absolute; /* Ensures it overlays the parent */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: solid rgb(70, 70, 68) 1px;
+  background-color: rgba(52, 52, 51, 0.299); /* Slight transparency for visibility */
+  z-index: 10;
+  justify-content:space-between;
+  align-items: end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.user-profile-image:hover .profile-pic-overlay {
+
+  opacity: 1;
+  pointer-events: auto;
 }
 .events{
     position: relative;
@@ -191,31 +259,10 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
    
 }
 
-.field-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+
   
-  .profile-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
   
-  .user-profile-image {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #f0f0f0; /* Light gray background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-  }
+
   
 
    
@@ -223,25 +270,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     display: none;
   }
   
-  
-  .profile-image {
-    position: relative;
-    width: 125px;
-    height: 130px;
 
-    border-radius: 100%;
-    object-fit: cover; /* Ensure the image covers the area */
-
-  }
-
-  .uploader-icon{
-    position: relative;
-    height: 150%;
-    width: 150%;
-    z-index: 900;
-    color: #060606; 
-    cursor: pointer;
-  }
 
 .post_veiwer{
     position: fixed;
@@ -264,24 +293,40 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     background-color: rgb(123, 123, 197);
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    left: 0;
-  }
+
 #logout{
   position: relative;
   width: 94%;
   height: max-content;
   justify-content: center;
-  margin-bottom:10px;
-  margin-left: 2%;
+  margin-top:55px;
   background-color: #2195f3b5;
   padding: 4px;
   border-radius: 10px;
+  bottom: 0%;
 }  
+
+.Switcher{
+  position: relative;
+  display: flex;
+  width: 18%;
+  height: 15%;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px, 0px;
+  /* border: solid red 1px; */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0%;
+}
   .switch input { 
     opacity: 0;
     width: 0;
@@ -289,51 +334,57 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   }
   
   .slider {
+    display: flex;
     position: absolute;
     cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #060606;
     -webkit-transition: .4s;
     transition: .4s;
+    align-items: center;
+    box-shadow: 1px 1px  rgba(0, 0, 0, 1);
   }
   
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 80%;
+    width: 30%;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
+    box-shadow: 1px 1px  rgba(0, 0, 0, 1);
+    
   }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 36px;
+    }
+    
+    .slider.round:before {  
+      margin-left: 2px;
+      border-radius: 50px;
+    }
   
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #2195f3b5;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2195f3b5;
   }
   
   input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(25px);
+    -ms-transform: translateX(25px);
+    transform: translateX(25px);
   }
   
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+
 
   .masonry {
     display: grid;

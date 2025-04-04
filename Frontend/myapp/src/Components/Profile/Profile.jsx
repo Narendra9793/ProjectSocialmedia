@@ -10,8 +10,9 @@ import { FaCamera } from "react-icons/fa";
 import Carausel from "../Carausel/Carausel";
 import { useUser } from "../../context/UserProvider";
 import { useSocket } from "../../context/SocketProvider";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../../index.css";
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -22,8 +23,8 @@ const Profile = () => {
   const [friends, setFriends] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
   const [accStatus, setAccStatus] = useState(null);
-  const [user]=useUser();
-  const socket=useSocket();
+  const [user] = useUser();
+  const socket = useSocket();
 
   const handleImageChange = async (e) => {
     try {
@@ -56,7 +57,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if(socket !== null){
+    if (socket !== null) {
       socket.on("goodbye", (data) => {
         alert(data);
         handleLogout();
@@ -68,17 +69,22 @@ const Profile = () => {
       await Promise.all([fetchPosts(), fetchFriends()]);
     };
     fetchData();
-  }, [token, accStatus, profileImage]);
+  }, [token]);
 
-
+  useEffect(() => {
+    console.log("AccStatus", accStatus);
+  }, [accStatus, profileImage]);
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/user/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setUserProfile(response.data);
       setProfileImage(response.data.imageUrl);
@@ -89,7 +95,7 @@ const Profile = () => {
         // Unauthorized, handle accordingly (e.g., redirect to login)
         // localStorage.removeItem('token');
         handleLogout();
-        localStorage.clear()
+        localStorage.clear();
         console.error("Unauthorized:", error);
       } else {
         // Other errors (network issues, server errors, etc.)
@@ -156,15 +162,17 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       localStorage.removeItem("token");
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/logout`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/user/logout`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       // Assuming the API returns user profile data in the response.data
       setFriends(response.data);
-      
     } catch (error) {
       console.error("Error fetching user profile:", error);
       // Handle error fetching user profile
@@ -257,7 +265,7 @@ const Profile = () => {
     console.log("Toggler used!");
     ele[0].checked = !ele[0].checked;
     console.log("Toggler value", ele[0].checked);
-    console.log("AccStatus", accStatus);
+
     if (ele[0].checked) setAccStatus("PUBLIC");
     else setAccStatus("PRIVATE");
 
@@ -291,38 +299,35 @@ const Profile = () => {
     <>
       <div className="parent">
         <div className="left">
-          <div className="profilePicture">
-            <div className="Switcher">
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={accStatus === "PUBLIC"}
-                  onClick={handleACstatus}
-                />
-                <span className="slider round"></span>
+          <div className="profilePicture ">
+            <div className="user-profile-image ">
+              <label>
+                {profileImage !== null ? (
+                  <img
+                    src={userProfile.imageUrl}
+                    alt="Profile"
+                    className="profile-image"
+                  />
+                ) : (
+                  <img
+                    src="https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg"
+                    alt="Profile"
+                    className="profile-image"
+                  />
+                )}
               </label>
-            </div>
-            <div className="field-content">
-              <section className="profile-photo">
-                <div className="user-profile-image">
-                  <label>
-                    {/* <img src={userProfile.imageUrl} alt="Profile" className="profile-image" /> */}
-                    {profileImage !== null ? (
-                      <img
-                        src={userProfile.imageUrl}
-                        alt="Profile"
-                        className="profile-image"
-                      />
-                    ) : (
-                      <img
-                        src="https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg"
-                        alt="Profile"
-                        className="profile-image"
-                      />
-                    )}
+
+              <div className="profile-pic-overlay">
+                <div className="Switcher">
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={accStatus === "PUBLIC"}
+                      onClick={handleACstatus}
+                    />
+                    <span className="slider round"></span>
                   </label>
                 </div>
-                <div className="uploader">
                 <span>
                   <label htmlFor="profile_image_5585964168781">
                     <FaCamera className="uploader-icon" />
@@ -336,17 +341,17 @@ const Profile = () => {
                     onChange={handleImageChange}
                   />
                 </span>
-
-                </div>
-              </section>
+              </div>
             </div>
 
-            <h3>
-              {userProfile.firstName} {userProfile.lastName}
-            </h3>
-            <h3>{userProfile.nickName}nickName</h3>
-            {/* <button type="button">Edit Profile</button> */}
-            <button type="button" id ="logout" onClick={handleLogout}>Logout</button>
+            <div className="profile-text">
+              <h3>{userProfile.firstName} {userProfile.lastName}</h3>
+              <h4>@{userProfile.nickName}</h4>
+            </div>
+
+            <button type="button" id="logout" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
           <div className="events">events</div>
         </div>
@@ -420,7 +425,11 @@ const Profile = () => {
           <div className="friends">
             {friends.map((friend) => (
               <div key={friend.userId}>
-                <FriendCard friend={friend} loggedUser={userProfile} token={token} />
+                <FriendCard
+                  friend={friend}
+                  loggedUser={userProfile}
+                  token={token}
+                />
               </div>
             ))}
           </div>
