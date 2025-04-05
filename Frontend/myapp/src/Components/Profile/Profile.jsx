@@ -377,13 +377,13 @@ const Profile = () => {
 
         <div className="contentArea">
           <div className="contentBar">
-            <button type="button" onClick={() => showDiv("posts")}>
+            <button type="button" id='posts-button' className="animate" onClick={() => showDiv("posts")}>
               Posts
             </button>
-            <button type="button" onClick={() => showDiv("bio")}>
+            <button type="button"id='biodata-button' className="animate" onClick={() => showDiv("bio")}>
               Biodata
             </button>
-            <button type="button" onClick={() => showDiv("create-post")}>
+            <button type="button" id='create-post-button' className="animate" onClick={() => showDiv("create-post")}>
               Create Post
             </button>
           </div>

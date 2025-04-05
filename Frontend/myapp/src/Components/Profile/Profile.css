@@ -4,10 +4,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     border-radius: 10px;
     opacity: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 1); 
-    /* transition: transform 0.5s;
-    &:hover{
-        transform: translateX(-8px);
-    }  */
+
 
 }
 
@@ -129,10 +126,44 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     margin: 8px;
     background-color: rgba(255, 0, 102, 0.466);
     border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
-
-    
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8); 
+    justify-content: space-between;
+    align-items: center;
 }
+
+.contentBar button{
+  width: 100px;
+  height: 45px;
+  transform: skew(-20deg);
+  padding: 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.contentBar .animate {
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.contentBar .animate:hover {
+  /* Include skew in the hover transform */
+  transform: skew(-20deg) translateX(0.5vh) translateY(-2vh);
+}
+
+
+#posts-button{
+  margin-left: 40px;
+  background-color: rgba(0, 0, 255, 0.5);
+}
+#biodata-button{
+  background-color: rgba(255, 255, 0, 0.5)
+}
+#create-post-button{
+  margin-right: 40px;
+  background-color: rgba(0, 128, 0, 0.5)
+}
+
+
 .contentType{
     display: flex;
     position: relative; 
@@ -260,12 +291,6 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
 }
 
 
-  
-  
-
-  
-
-   
   .profile-pict input.hidden {
     display: none;
   }
@@ -400,4 +425,8 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     border-radius: 8px;
     /* Adjust item content styling as needed */
   }
+
+
+
+
   
