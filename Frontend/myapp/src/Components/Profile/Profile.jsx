@@ -25,6 +25,36 @@ const Profile = () => {
   const [accStatus, setAccStatus] = useState(null);
   const [user] = useUser();
   const socket = useSocket();
+  const [isUploading, setIsUploading] = useState(false);
+  
+
+
+
+  useEffect(() => {
+    if (socket !== null) {
+      socket.on("goodbye", (data) => {
+        alert(data);
+        handleLogout();
+      });
+    }
+
+    const fetchData = async () => {
+      if (!token) return;
+      await fetchUserProfile();
+      await Promise.all([fetchPosts(), fetchFriends()]);
+    };
+    fetchData();
+  }, [token, file, profileImage]);
+
+  useEffect(()=>{
+    console.log("profileImage:", profileImage)
+    
+  }, [ isUploading, profileImage])
+
+
+  useEffect(() => {
+    console.log("AccStatus", accStatus);
+  }, [accStatus, profileImage]);
 
   const handleImageChange = async (e) => {
     try {
@@ -56,24 +86,9 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    if (socket !== null) {
-      socket.on("goodbye", (data) => {
-        alert(data);
-        handleLogout();
-      });
-    }
-    const fetchData = async () => {
-      if (!token) return;
-      await fetchUserProfile();
-      await Promise.all([fetchPosts(), fetchFriends()]);
-    };
-    fetchData();
-  }, [token]);
 
-  useEffect(() => {
-    console.log("AccStatus", accStatus);
-  }, [accStatus, profileImage]);
+
+
 
   const fetchUserProfile = async () => {
     try {
@@ -210,6 +225,7 @@ const Profile = () => {
     e.preventDefault();
     console.log("in to handle submit");
     try {
+      setIsUploading(true);
       const formData = new FormData();
       formData.append("file", file);
       // Add additional form data as needed, e.g., formData.append('description', description);
@@ -224,30 +240,33 @@ const Profile = () => {
           },
         }
       );
-      console.log("submitted file");
 
+      
       setFile(null);
       if (response.status === 200) {
+
         alert("File uploaded successfully");
         // Handle success, e.g., show a success message
       } else {
         alert("Failed to upload file");
         // Handle failure, e.g., show an error message
       }
+
+      setIsUploading(false)
     } catch (error) {
       console.error("Error uploading file", error);
       // Handle error, e.g., show an error message
     }
   };
 
-  function PreviewImage() {
-    var oFReader = new FileReader();
-    oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+  // function PreviewImage() {
+  //   var oFReader = new FileReader();
+  //   oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
 
-    oFReader.onload = function (oFREvent) {
-      document.getElementById("upPrev").src = oFREvent.target.result;
-    };
-  }
+  //   oFReader.onload = function (oFREvent) {
+  //     document.getElementById("upPrev").src = oFREvent.target.result;
+  //   };
+  // }
 
   function postPreview(e) {
     e.preventDefault();
@@ -401,19 +420,23 @@ const Profile = () => {
             </div>
 
             <div className="create-post hidden" id="create-post">
-              <form className="preDiv" onSubmit={handleSubmit}>
-                <img className="postPrev" id="postPrev" src="" />
-                <input
-                  type="file"
-                  name="uploadPost"
-                  id="uploadPost"
-                  onChange={postPreview}
-                />
-                {/* <input type="text" name="PostDescription" id="PostDescription" onChange={(e)=>{setDescription(e.target.value)}}/>   */}
-                <button type="submit" id="postSubmit" name="postSubmit">
-                  Submit
-                </button>
-              </form>
+              {isUploading === true? (<h3>Uploading....</h3>):(
+                              <form className="preDiv" onSubmit={handleSubmit}>
+                              <img className="postPrev" id="postPrev" src="" />
+                              <input
+                                type="file"
+                                name="uploadPost"
+                                id="uploadPost"
+                                onChange={postPreview}
+                              />
+                              {/* <input type="text" name="PostDescription" id="PostDescription" onChange={(e)=>{setDescription(e.target.value)}}/>   */}
+                              <button type="submit" id="postSubmit" name="postSubmit">
+                                Submit
+                              </button>
+                            </form>
+
+              )}
+
             </div>
           </div>
         </div>

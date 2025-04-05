@@ -25,7 +25,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     height: 88vh;
     width: 35vmin;
     margin: 10px;
-    border: solid red 1px;
+    /* border: solid red 1px; */
 }
 .profilePicture{
    display: flex;
@@ -49,19 +49,19 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   width: 100%;
   height: 35%;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-  border: solid rgb(0, 128, 13) 3px;
+  /* border: solid rgb(0, 128, 13) 3px; */
   cursor: pointer;
   overflow: hidden; /* Prevents unwanted overflow */
 }
 
   
-.profile-image {
-  position: relative;
+/* .profile{
   width: 100%;
   height: 100%;
-  object-fit:repeat;
-  overflow: hidden;
-}
+  object-fit: cover;
+  display: block;
+} */
+
 
 .uploader-icon{
   position: relative;
