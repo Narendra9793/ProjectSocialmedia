@@ -3,7 +3,7 @@
     display: none;
     height: 88.75vh;
     width: 217vh;
-    border: 1px rgb(255, 0, 0) solid;
+    /* border: 1px rgb(255, 0, 0) solid; */
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
     transform: translate(-50.25%, -44.5%);
@@ -36,7 +36,7 @@
     display: block;
     height: 60vh;
     width: 100vh;
-    border: 1px rgb(255, 0, 0) solid;
+    /* border: 1px rgb(255, 0, 0) solid; */
     left: 26%;
     background-color: rgba(16, 16, 16, 0.126); /* Adjust opacity as needed */
     backdrop-filter: blur(10px); /* Adjust blur strength as needed */
@@ -50,7 +50,7 @@
     display: block;
     height: 5vh;
     width: 100vh;
-    border: 1px rgb(255, 0, 0) solid;
+    /* border: 1px rgb(255, 0, 0) solid; */
     left: 26.65%;
     top: 2%;
     border-radius: 10px;
@@ -71,7 +71,7 @@ div.frndImg {
         transform: translateX(2vh) translateY(-2vh) ;
     }
 }
-#bttn{
+.friendCard button{
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
     cursor: pointer;
     transition: 0.5s;
@@ -79,6 +79,19 @@ div.frndImg {
         transform: translateX(0.5vh) translateY(-2vh) ;
     }
 }
+
+#v-call-bttn{
+    background-color: rgba(0, 0, 255, 0.5);
+}
+#friend-profile-bttn{
+    background-color: rgba(252, 252, 253, 0.5);
+}
+#chat-bttn{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+
+
 .friendCard{
     position: relative;
     display: flex;
@@ -155,7 +168,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     display: block;
     height: 80vh;
     width: 120vh;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     margin: 0px;
     transform: translate(80%, -25%);
     background-color: rgba(100, 148, 237, 0.29);
@@ -169,7 +182,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     left :1.7%;
     height: 8vh;
     width: 113vh;
-    border: 1px solid rgb(255, 136, 0);
+    /* border: 1px solid rgb(255, 136, 0); */
     margin: 8px;
     background-color: rgba(255, 0, 102, 0.466);
     border-radius: 10px;
@@ -181,7 +194,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     left :1.7%;
     height: 70vh;
     width: 113vh;
-    border: 1px solid rgb(255, 136, 0);
+    /* border: 1px solid rgb(255, 136, 0); */
     margin: 8px;
     background-color: rgba(255, 157, 0, 0.467);
     border-radius: 10px;
@@ -236,7 +249,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     left :1.7%;
     height: 68vh;
     width: 107vh;
-    border: 1px solid rgb(0, 255, 38);
+    /* border: 1px solid rgb(0, 255, 38); */
     margin: 8px;
     background-color: rgba(0, 255, 13, 0.467);
     border-radius: 10px;

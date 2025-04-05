@@ -147,7 +147,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
 
 .contentBar .animate:hover {
   /* Include skew in the hover transform */
-  transform: skew(-20deg) translateX(0.5vh) translateY(-2vh);
+  transform: skew(-20deg) translateX(0.5vh) translateY(-1vh);
 }
 
 

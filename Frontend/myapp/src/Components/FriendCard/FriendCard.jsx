@@ -57,9 +57,9 @@ const FriendCard = ({loggedUser, friend, token}) => {
   return (
     <>
       <div className="friendCard">
-        <button id="bttn" type="button" onClick={()=>handleClosebutton(`V-call_${friendData.userId}`)}>Video Call</button>
-        <button id="bttn" type="button" onClick={()=>handleClosebutton(`Friend-profile_${friendData.userId}`)}>Profile</button>
-        <button id="bttn" type="button" onClick={()=>handleClosebutton(`Chat_${friendData.userId}`)}>Chat</button>
+        <button id="v-call-bttn" type="button" onClick={()=>handleClosebutton(`V-call_${friendData.userId}`)}>Video Call</button>
+        <button id="friend-profile-bttn" type="button" onClick={()=>handleClosebutton(`Friend-profile_${friendData.userId}`)}>Profile</button>
+        <button id="chat-bttn" type="button" onClick={()=>handleClosebutton(`Chat_${friendData.userId}`)}>Chat</button>
         <div className="frndImg">
           <img  className="frndImage" src={friend.imageUrl} alt="" srcSet="" />
         </div>
