@@ -15,13 +15,17 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     background-size: 225vh 110vh;
     background-repeat: no-repeat;
     flex-wrap: wrap;
+    border:1px solid red
     
 }
 .left{
+    position: relative;
     display: flex-wrap;
+    flex-wrap: nowrap;
     height: 88vh;
-    width: 35vmin;
+    width: 25vmin;
     margin: 10px;
+    left:2.5%;
     /* border: solid red 1px; */
 }
 .profilePicture{
@@ -44,7 +48,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   display: flex;
   position: relative; /* Ensures child elements are positioned relative to this */
   width: 100%;
-  height: 35%;
+  height: 13.4vmin;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
   /* border: solid rgb(0, 128, 13) 3px; */
   cursor: pointer;
@@ -100,12 +104,13 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
 .events{
     position: relative;
     margin-top: 17px;
-    width: 35vh;
+    width: 25vmin;
     height:40vh;
     border: 1px solid rgb(235, 192, 255);
  
 }
 .contentArea{
+  position: relative;
     display: flex;
     height: 88vmin;
     width: 54.5vmax;
@@ -114,6 +119,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    left:2.5%;
 }
 
 .contentBar{
@@ -235,9 +241,10 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   position: relative;
     display: flex;
     justify-content: center;
-    width: 25.5vmax;
-    height: 88vmin;
+    width: 48vmin;
+    height: 39.7vmax;
     margin: 10px;
+    left:2.5%;
 }
 .friends{
   position: relative;
@@ -429,4 +436,85 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
 
 
 
+  /* Default styles for mobile */
+  @media (max-width: 768px) {
+    .left{
+      display: flex;
+      /* border: 1px solid rgb(170, 7, 245); */
+      position: relative;
+      flex-wrap: nowrap;
+      height: 40vmax;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .profilePicture{
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      width:45%;
+      height:100%;
+      align-items:stretch;
+      justify-content: center;
+   
+    }
+
+    .user-profile-image {
+      height: 22vmin;
+    }
+
+   .events{
+    position: relative;
+    width: 45%;
+    height:100%;
+    margin-top: 0%;
+    margin-right: 10px;
+
+  }
+
+
+  .contentArea{
+    position: relative;
+      display: flex;
+      height: 88vmax;
+      width: 90%;
+      border: 1px solid blue;
+      margin: 10px;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+  }
   
+  .contentBar{
+      gap: 2px;
+  }
+  
+  .contentBar button{
+    width: 35%;
+    height: 10%;
+    transform: skew(-20deg);
+    padding: 8px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    font-size: 6px;
+  }
+
+  .friendList{
+    position: relative;
+      display: flex;
+      justify-content: center;
+      width: 90%;
+      height: 39.7vmax;
+      margin: 10px;
+      left:2.5%;
+  }
+  }
+/* Styles for tablets and up (min-width = 768px) */
+@media (max-width: 1024px) {
+}
+
+/* Styles for desktops and up (min-width = 1024px) */
+/* @media (min-width: 1024px) {
+  .element {
+    font-size: 18px;
+  }
+} */

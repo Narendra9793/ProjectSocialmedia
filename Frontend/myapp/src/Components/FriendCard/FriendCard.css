@@ -96,7 +96,7 @@ div.frndImg {
     position: relative;
     display: flex;
     justify-content: space-between;
-    width: 20vmax;
+    width: 17vmax;
     height: 10min;
     background-color: rgba(13, 13, 13, 0.232);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
@@ -371,3 +371,8 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     }
 }
 
+@media (max-width: 768px) {
+    .friendCard{
+        width: 34vmax;
+    }
+}
