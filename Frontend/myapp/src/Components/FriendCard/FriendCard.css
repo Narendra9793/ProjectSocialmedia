@@ -373,6 +373,18 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
 
 @media (max-width: 768px) {
     .friendCard{
-        width: 34vmax;
+        width: 65vmin;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 400px) {
+    .friendCard{
+        width: 70vmin;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 1024px) {
+    .friendCard{
+        width: 80vmin;
     }
 }
