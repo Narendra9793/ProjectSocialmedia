@@ -242,7 +242,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     display: flex;
     justify-content: center;
     width: 48vmin;
-    height: 39.7vmax;
+    height: 88vmin;
     margin: 10px;
     left:2.5%;
 }
@@ -490,12 +490,17 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   }
   
   .contentBar button{
-    width: 35%;
+    display: flex;
+    width: 38%;
     height: 10%;
     transform: skew(-20deg);
-    padding: 8px;
+    padding: 3.5vmin;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-    font-size: 6px;
+    font-size: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid red;
+
   }
 
   .friendList{
@@ -508,13 +513,68 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
       left:2.5%;
   }
   }
-/* Styles for tablets and up (min-width = 768px) */
+
 @media (max-width: 1024px) {
+  .left{
+    display: flex;
+    border: 1px solid rgb(170, 7, 245);
+    position: relative;
+    flex-wrap: nowrap;
+    height: 40vmax;
+    width: 91%;
+    justify-content: space-between;
+  }
+
+  .profilePicture{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    width:45%;
+    height:100%;
+    align-items:stretch;
+    justify-content: center;
+ 
+  }
+
+  .user-profile-image {
+    height: 22vmin;
+  }
+
+ .events{
+  position: relative;
+  width: 45%;
+  height:100%;
+  margin-top: 0%;
+  margin-right: 10px;
+
 }
 
-/* Styles for desktops and up (min-width = 1024px) */
-/* @media (min-width: 1024px) {
-  .element {
-    font-size: 18px;
-  }
-} */
+
+.contentArea{
+  position: relative;
+    display: flex;
+    height: 88vmax;
+    width: 90%;
+    border: 1px solid blue;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.contentBar{
+    gap: 4px;
+    width:95%
+}
+
+
+.friendList{
+  position: relative;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 39.7vmax;
+    margin: 10px;
+    left:2.5%;
+}
+}
