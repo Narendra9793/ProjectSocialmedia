@@ -13,6 +13,7 @@ import { useSocket } from "../../context/SocketProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
+import Masonry from "react-masonry-css";
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -26,9 +27,13 @@ const Profile = () => {
   const [user] = useUser();
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
-  
 
-
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
 
   useEffect(() => {
     if (socket !== null) {
@@ -46,11 +51,9 @@ const Profile = () => {
     fetchData();
   }, [token, file, profileImage]);
 
-  useEffect(()=>{
-    console.log("profileImage:", profileImage)
-    
-  }, [ isUploading, profileImage])
-
+  useEffect(() => {
+    console.log("profileImage:", profileImage);
+  }, [isUploading, profileImage]);
 
   useEffect(() => {
     console.log("AccStatus", accStatus);
@@ -85,10 +88,6 @@ const Profile = () => {
       // Handle error, e.g., show an error message
     }
   };
-
-
-
-
 
   const fetchUserProfile = async () => {
     try {
@@ -162,8 +161,8 @@ const Profile = () => {
 
   function showDiv(id) {
     // Hide all divs
-    document.getElementById("posts").classList.add("hidden");
-    document.getElementById("posts").classList.remove("show");
+    document.getElementById("my-masonry-grid").classList.add("hidden");
+    document.getElementById("my-masonry-grid").classList.remove("show");
     document.getElementById("bio").classList.add("hidden");
     document.getElementById("bio").classList.remove("show");
     document.getElementById("create-post").classList.add("hidden");
@@ -241,10 +240,8 @@ const Profile = () => {
         }
       );
 
-      
       setFile(null);
       if (response.status === 200) {
-
         alert("File uploaded successfully");
         // Handle success, e.g., show a success message
       } else {
@@ -252,7 +249,7 @@ const Profile = () => {
         // Handle failure, e.g., show an error message
       }
 
-      setIsUploading(false)
+      setIsUploading(false);
     } catch (error) {
       console.error("Error uploading file", error);
       // Handle error, e.g., show an error message
@@ -364,7 +361,9 @@ const Profile = () => {
             </div>
 
             <div className="profile-text">
-              <h3>{userProfile.firstName} {userProfile.lastName}</h3>
+              <h3>
+                {userProfile.firstName} {userProfile.lastName}
+              </h3>
               <h4>@{userProfile.nickName}</h4>
             </div>
 
@@ -377,21 +376,41 @@ const Profile = () => {
 
         <div className="contentArea">
           <div className="contentBar">
-            <button type="button" id='posts-button' className="animate" onClick={() => showDiv("posts")}>
+            <button
+              type="button"
+              id="posts-button"
+              className="animate"
+              onClick={() => showDiv("my-masonry-grid")}
+            >
               Posts
             </button>
-            <button type="button"id='biodata-button' className="animate" onClick={() => showDiv("bio")}>
+            <button
+              type="button"
+              id="biodata-button"
+              className="animate"
+              onClick={() => showDiv("bio")}
+            >
               Biodata
             </button>
-            <button type="button" id='create-post-button' className="animate" onClick={() => showDiv("create-post")}>
+            <button
+              type="button"
+              id="create-post-button"
+              className="animate"
+              onClick={() => showDiv("create-post")}
+            >
               Create Post
             </button>
           </div>
           <div className="contentType">
-            <div className="posts show " id="posts">
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+              id="my-masonry-grid"
+            >
               {Posts.map((post) => (
                 <div key={post.postId} className="post-wrapper">
-                  {post.postImageUrl.endsWith(".mp4") ? (
+                  {post.postImageUrl?.toLowerCase().endsWith(".mp4") ? (
                     <Post_video
                       url={post.postImageUrl}
                       description={post.postDescription}
@@ -414,29 +433,29 @@ const Profile = () => {
                   )}
                 </div>
               ))}
-            </div>
+            </Masonry>
             <div className="bio hidden" id="bio">
               Bio
             </div>
 
             <div className="create-post hidden" id="create-post">
-              {isUploading === true? (<h3>Uploading....</h3>):(
-                              <form className="preDiv" onSubmit={handleSubmit}>
-                              <img className="postPrev" id="postPrev" src="" />
-                              <input
-                                type="file"
-                                name="uploadPost"
-                                id="uploadPost"
-                                onChange={postPreview}
-                              />
-                              {/* <input type="text" name="PostDescription" id="PostDescription" onChange={(e)=>{setDescription(e.target.value)}}/>   */}
-                              <button type="submit" id="postSubmit" name="postSubmit">
-                                Submit
-                              </button>
-                            </form>
-
+              {isUploading === true ? (
+                <h3>Uploading....</h3>
+              ) : (
+                <form className="preDiv" onSubmit={handleSubmit}>
+                  <img className="postPrev" id="postPrev" src="" />
+                  <input
+                    type="file"
+                    name="uploadPost"
+                    id="uploadPost"
+                    onChange={postPreview}
+                  />
+                  {/* <input type="text" name="PostDescription" id="PostDescription" onChange={(e)=>{setDescription(e.target.value)}}/>   */}
+                  <button type="submit" id="postSubmit" name="postSubmit">
+                    Submit
+                  </button>
+                </form>
               )}
-
             </div>
           </div>
         </div>
