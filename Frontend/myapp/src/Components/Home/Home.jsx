@@ -6,6 +6,7 @@ import axios from 'axios';
 import Post from '../Post/Post';
 import Post_video from '../Post/Post_videos';
 import { useUser } from '../../context/UserProvider';
+import Masonry from "react-masonry-css";
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -16,6 +17,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   let isThrottled = false; // Throttle flag
   let isFetching = false;
+
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
+
 
   useEffect(() => {
     if (page > 0) {
@@ -115,29 +124,38 @@ const Home = () => {
       <div className="background">
         <div className="homeContent">
           <div className="publicPosts" id="posts">
-            {publicPosts.map((post) => (
-              <div key={post.postId} className="post-wrapper">
-                {post.postImageUrl.endsWith('.mp4') ? (
-                  <Post_video
-                    url={post.postImageUrl}
-                    description={post.postDescription}
-                    id={post.postId}
-                    Token={token}
-                    ownerId={post.ownerId}
-                    loggedUserId={user}
-                  />
-                ) : (
-                  <Post
-                    url={post.postImageUrl}
-                    description={post.postDescription}
-                    id={post.postId}
-                    Token={token}
-                    ownerId={post.ownerId}
-                    loggedUserId={user}
-                  />
-                )}
-              </div>
-            ))}
+             <Masonry
+                          breakpointCols={breakpointColumnsObj}
+                          className="my-masonry-grid"
+                          columnClassName="my-masonry-grid_column"
+                          id="my-masonry-grid"
+                        >
+                          {publicPosts.map((post) => (
+                            <div key={post.postId} className="post-wrapper">
+                              {post.postImageUrl?.toLowerCase().endsWith(".mp4") ? (
+                                <Post_video
+                                  url={post.postImageUrl}
+                                  description={post.postDescription}
+                                  id={post.postId}
+                                  Token={localStorage.getItem("token")}
+          
+                                  ownerId={post.ownerId}
+                                  loggedUserId={user}
+                                />
+                              ) : (
+                                <Post
+                                  url={post.postImageUrl}
+                                  description={post.postDescription}
+                                  id={post.postId}
+                                  Token={localStorage.getItem("token")}
+                 
+                                  ownerId={post.ownerId}
+                                  loggedUserId={user}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </Masonry>
           </div>
         </div>
         <div className="allUsers fade-content" id="frndList">

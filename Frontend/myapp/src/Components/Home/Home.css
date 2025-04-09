@@ -75,20 +75,28 @@ body::-webkit-scrollbar-thumb {
 }
 
 .publicPosts{
+position: relative;
+height: 120vh;
+overflow-y: scroll;
+}
+
+.my-masonry-grid {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(24%, 1fr));
-  grid-gap: 10px;
-  background-color: rgba(0, 98, 255, 0);
-  justify-content: space-between;
-  margin: 8px;
-  padding: 8px;
-  height: 88vh;
-  width: 125vh;
-  border-bottom-right-radius: 40px;
-  border-top-left-radius: 40px;
-  overflow-y: scroll; 
-  flex-wrap: wrap;
+  display: flex;
+  width: 100%;
+  /* border:1px solid red; */
+  margin-top: 10px;
+  margin-right: 10px;
+
+}
+.my-masonry-grid_column {
+  padding-left: 16px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style individual post-wrapper if needed */
+.post-wrapper {
+  margin-bottom: 16px;
 }
 
 .publicPosts::-webkit-scrollbar {

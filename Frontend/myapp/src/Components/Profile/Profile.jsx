@@ -59,6 +59,10 @@ const Profile = () => {
     console.log("AccStatus", accStatus);
   }, [accStatus, profileImage]);
 
+  useEffect(() => {
+    console.log("loggedUserId ", user);
+  }, [user]);
+
   const handleImageChange = async (e) => {
     try {
       const formData = new FormData();
@@ -161,8 +165,8 @@ const Profile = () => {
 
   function showDiv(id) {
     // Hide all divs
-    document.getElementById("my-masonry-grid").classList.add("hidden");
-    document.getElementById("my-masonry-grid").classList.remove("show");
+    document.getElementById("posts").classList.add("hidden");
+    document.getElementById("posts").classList.remove("show");
     document.getElementById("bio").classList.add("hidden");
     document.getElementById("bio").classList.remove("show");
     document.getElementById("create-post").classList.add("hidden");
@@ -380,7 +384,7 @@ const Profile = () => {
               type="button"
               id="posts-button"
               className="animate"
-              onClick={() => showDiv("my-masonry-grid")}
+              onClick={() => showDiv("posts")}
             >
               Posts
             </button>
@@ -402,6 +406,7 @@ const Profile = () => {
             </button>
           </div>
           <div className="contentType">
+            <div className="Posts" id='posts'>
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="my-masonry-grid"
@@ -434,6 +439,7 @@ const Profile = () => {
                 </div>
               ))}
             </Masonry>
+            </div>
             <div className="bio hidden" id="bio">
               Bio
             </div>

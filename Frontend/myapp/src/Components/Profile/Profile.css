@@ -122,6 +122,8 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     left:2.5%;
 }
 
+
+
 .contentBar{
     display: flex;
     position: relative;
@@ -185,6 +187,11 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     justify-content: center;
 }
 
+.Posts{
+  position: relative;
+  height: autoh;
+  overflow-y: scroll;
+  }
 
 .my-masonry-grid {
   position: relative;
@@ -193,7 +200,6 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   /* border:1px solid red; */
   margin-top: 10px;
   margin-right: 10px;
-  overflow-y: scroll;
 
 }
 .my-masonry-grid_column {
@@ -206,8 +212,8 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
   margin-bottom: 16px;
 }
 
-.my-masonry-grid::-webkit-scrollbar {
-    width: 0; 
+.Posts::-webkit-scrollbar {
+  width: 0em;
 }
 
 .create-post{

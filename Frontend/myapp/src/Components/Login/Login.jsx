@@ -17,6 +17,8 @@ const Login = () => {
   const [user, setUser] = useUser();
 
 
+  useEffect(()=>{console.log("logger user ",user)}, [user])
+
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, {
@@ -25,7 +27,10 @@ const Login = () => {
       });
   
       if (response.data.jwtToken) {
-        localStorage.setItem('token', response.data.jwtToken); // Store token
+         // Store token
+        localStorage.setItem('token', response.data.jwtToken);
+        localStorage.setItem('user', JSON.stringify(response.data.userId));
+        
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`; // Set default header
         setUser(response.data.userId);
         setUserId(response.data.userId);
