@@ -21,13 +21,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import org.aspectj.bridge.Message;
+
+import org.assertj.core.api.IntegerAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -45,6 +47,7 @@ import com.backend.projectbackend.Dao.CommentRepository;
 import com.backend.projectbackend.Dao.FriendRepository;
 import com.backend.projectbackend.Dao.SendedRequestRepository;
 import com.backend.projectbackend.Dao.LikesRepository;
+import com.backend.projectbackend.Dao.MessageRepository;
 import com.backend.projectbackend.Dao.PostRepository;
 import com.backend.projectbackend.Dao.ReceivedRequestRepository;
 import com.backend.projectbackend.Dao.RoomRepository;
@@ -56,6 +59,7 @@ import com.backend.projectbackend.Models.SendedRequest;
 import com.backend.projectbackend.Models.Status;
 import com.backend.projectbackend.Models.UpdatedUserDetails;
 import com.backend.projectbackend.Models.Likes;
+import com.backend.projectbackend.Models.Message;
 import com.backend.projectbackend.Models.Post;
 import com.backend.projectbackend.Models.ReceivedRequest;
 import com.backend.projectbackend.Models.Room;
@@ -63,6 +67,7 @@ import com.backend.projectbackend.Models.User;
 import com.backend.projectbackend.Models.Visitors;
 import com.backend.projectbackend.Services.FileService;
 import com.backend.projectbackend.Services.UserService;
+import com.backend.projectbackend.Services.MessageService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -108,6 +113,7 @@ public class userController {
 
     @Autowired
     private RoomRepository roomRepository;
+
 
     /**
      *
@@ -532,6 +538,5 @@ public class userController {
             return e.getMessage();
         } 
     }
-
 
 }
