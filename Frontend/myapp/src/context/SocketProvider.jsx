@@ -1,49 +1,54 @@
-
-
-import React, { createContext, useMemo, useContext, useEffect, useState } from "react";
-import io from "socket.io-client"; // Ensure correct import for Socket.IO
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import io from "socket.io-client";
+import { useUser } from "./UserProvider";
 
 const SocketContext = createContext(null);
 
-// Custom hook to use Socket context
-export const useSocket = () => {
-  return useContext(SocketContext);
-};
+export const useSocket = () => useContext(SocketContext);
 
-// Socket Provider component
-export const SocketProvider = (props) => {
+export const SocketProvider = ({ children }) => {
+  const socketRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [user] = useUser();
 
+  // Connect socket only once
   useEffect(() => {
     const socketInstance = io(`${process.env.REACT_APP_SOCKET_BASE_URL}`, {
-      reconnection: true, // Enable reconnection if needed
-      reconnectionAttempts: 5, // Optional: number of reconnection attempts
-      transports: ['websocket'], // Ensure websocket transport is used
+      transports: ["websocket"],
+      reconnection: true,
+      reconnectionAttempts: 5,
     });
 
+    socketRef.current = socketInstance;
+    setSocket(socketInstance);
 
-    // Log connection and disconnection events
-    socketInstance.on('connect', () => {
-      console.log("Connected to Socket.IO server");
+    socketInstance.on("connect", () => {
+      console.log("✅ Socket connected");
+      setIsConnected(true);
     });
 
-    socketInstance.on('disconnect', (reason) => {
-      console.log(`Disconnected: ${reason}`);
+    socketInstance.on("disconnect", (reason) => {
+      console.log(`❌ Socket disconnected: ${reason}`);
+      setIsConnected(false);
     });
 
-    setSocket(socketInstance); // Store the socket instance in state
-
-    // Cleanup function to disconnect socket on unmount
     return () => {
-      if (socketInstance) {
-        socketInstance.disconnect();
-      }
+      socketInstance.disconnect();
     };
   }, []);
 
+  // Emit after both socket connected and user is available
+  useEffect(() => {
+    if (isConnected && user != null) {
+      socketRef.current.emit("ConnectEveryone", user);
+      console.log("📡 Emitted ConnectEveryone on READY:", user);
+    }
+  }, [isConnected, user]);
+
   return (
     <SocketContext.Provider value={socket}>
-      {props.children}
+      {children}
     </SocketContext.Provider>
   );
 };

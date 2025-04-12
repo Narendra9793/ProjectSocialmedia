@@ -38,7 +38,7 @@ const Login = () => {
         console.log("Response", response);
   
         // Emit ConnectEveryone event after setting userId
-        socket.emit("ConnectEveryone", `${response.data.userId}`);
+        // socket.emit("ConnectEveryone", `${response.data.userId}`);
   
         // navigate('/home'); // Navigate to home
         toast.success("Login Successful!", {
