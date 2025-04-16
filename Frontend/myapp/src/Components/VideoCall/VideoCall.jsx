@@ -4,6 +4,7 @@ import { useSocket } from '../../context/SocketProvider';
 import "./VideoCall.css"
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+
 const VideoCall = ({loggedUser, friend}) => {
   const [room, setRoom] = useState("");
   const [isRoomJoined, setIsRoomJoined] = useState(false);
@@ -15,7 +16,8 @@ const VideoCall = ({loggedUser, friend}) => {
   const rtcPeerConnectionRef = useRef(null);
   const remoteDescriptionPromiseRef = useRef(null);
   const socket = useSocket();
-
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const  [isConnected, setIsConnected]=useState(false);
   const iceServers = {
     iceServers: [
       { urls: "stun:stun.l.google.com:19302" },
@@ -24,6 +26,14 @@ const VideoCall = ({loggedUser, friend}) => {
   };
 
   const streamConstraints = { audio: true, video: true };
+  useEffect(()=>{
+    if(isConnected)
+
+     document.getElementById("videoIcon").classList.add("video_Endcall_Icon")
+    else{
+      document.getElementById("videoIcon").classList.remove("video_Endcall_Icon")
+    }
+  }, [isConnected])
 
   useEffect(() => {
     socket.on('created', handleCreated);
@@ -66,7 +76,7 @@ const VideoCall = ({loggedUser, friend}) => {
     console.log("U got a call!", data)
     setRoom(data.roomKey)
     var ele=document.getElementById(`picker${data.callerId}`);
-    ele.style.display = 'flex';
+    ele.classList.remove("hide_pick_call_card")
   };
 
   // This event will be fired when friend will join the room and it sets the value of IsCaller
@@ -136,7 +146,7 @@ const VideoCall = ({loggedUser, friend}) => {
       receiver : `${friend.userId}`
     });
     var ele=document.getElementById(`picker${friend.userId}`)
-    ele.style.display ="none"
+    ele.classList.add("hide_pick_call_card")
   };
 
 
@@ -275,53 +285,62 @@ const VideoCall = ({loggedUser, friend}) => {
     setRemoteStream(null);
   };
 
+    const handleCall = () => {
+      if (buttonDisabled) return;
+    
+      setButtonDisabled(true);
+      setTimeout(() => setButtonDisabled(false), 1000); // prevent spamming for 1 sec
+    
+      if (isConnected) {
+        socket.emit('UserDisconnected', {
+          sender: `${loggedUser.userId}`,
+          receiver: `${friend.userId}`
+        });
+        setIsConnected(false);
+      } else {
+        socket.emit('joinRoom', {
+          sender: `${loggedUser.userId}`,
+          receiver: `${friend.userId}`
+        });
+        setIsConnected(true);
+      }
+    };
+
 
   return (
     <div>
-      <div className="pickCall" id ={`picker${friend.userId}`}>
+      <div className="pickCall hide_pick_call_card" id ={`picker${friend.userId}`}>
         <button id="pickUp" onClick={connectToRoom}>Answer</button>
       </div>    
-      <div id="roomDiv" className="d-flex flex-column align-items-center mt-3">
-        <div id="remoteVideoContainer"
-          style={{
-            width: '695px',
-            height: '390px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#363636',
-          }}
-        >
+      <div id="roomDiv" className="video_call_window">
+        <div id="remoteVideoContainer"className="remoteVideoContainer">
           <video
             id="remoteVideo"
             ref={remoteVideoRef}
             autoPlay
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          ></video>
+
+          <div className="control_panel">
+            {/* <button id="toggleVideo" className="btn-circle enabled-style" onClick={() => toggleTrack('video')}>
+              <i id="videoIcon" className="bi bi-camera-video-fill"></i>
+            </button> */}
+            {/* <button id="toggleAudio" className="btn-circle enabled-style" onClick={() => toggleTrack('audio')}>
+              <i id="audioIcon" className="bi bi-mic-fill"></i>
+            </button> */}
+            <button type="button" id='callButton'className='callButton' onClick={handleCall}>
+              <i id="videoIcon" className="bi bi-camera-video-fill video_Icon"></i>
+            </button>
+          </div>
+
+          <video
+            className="My_Video_Container"
+            muted
+            id="localVideo"
+            ref={localVideoRef}
+            autoPlay
           ></video>
         </div>
 
-        <div className="d-flex mt-3">
-          <button id="toggleVideo" className="btn-circle enabled-style" onClick={() => toggleTrack('video')}>
-            <i id="videoIcon" className="bi bi-camera-video-fill"></i>
-          </button>
-          <button id="toggleAudio" className="btn-circle enabled-style" onClick={() => toggleTrack('audio')}>
-            <i id="audioIcon" className="bi bi-mic-fill"></i>
-          </button>
-        </div>
-
-        <video
-          muted
-          id="localVideo"
-          ref={localVideoRef}
-          autoPlay
-          style={{
-            width: '200px',
-            height: '200px',
-            position: 'absolute',
-            bottom: '20px',
-            right: '20px',
-          }}
-        ></video>
       </div>
     </div>
   );

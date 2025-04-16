@@ -9,9 +9,10 @@ import axios from 'axios';
 
 
 const FriendCard = ({loggedUser, friend, token}) => {
-  const  [isConnected, setIsConnected]=useState(false);
+
   const [friendData, setFriendData]=useState(friend);
   const socket=useSocket();
+
 
   const visitorhandler= async(id)=>{
     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/visit-profile/${id}`, {
@@ -44,15 +45,21 @@ const FriendCard = ({loggedUser, friend, token}) => {
     document.getElementById(id).classList.remove('hidden');
     document.getElementById(id).classList.add('show');
   }
-  const connectToRoom = () => {
-    socket.emit('joinRoom', {
-      sender : `${loggedUser.userId}`,
-      receiver : `${friendData.userId}`
+  // const connectToRoom = () => {
+  //   socket.emit('joinRoom', {
+  //     sender : `${loggedUser.userId}`,
+  //     receiver : `${friendData.userId}`
 
-    });
-    console.log("Joined fired")
-    setIsConnected(true);
-  };
+  //   });
+  //   console.log("Joined fired")
+  //   setIsConnected(true);
+  // };
+
+
+
+
+  
+  
 
   return (
     <>
@@ -68,9 +75,9 @@ const FriendCard = ({loggedUser, friend, token}) => {
       <div className="V-call glass" id={`V-call_${friendData.userId}`}>
         <button id="close" type="button" onClick={()=>handleClosebutton(`V-call_${friendData.userId}`)}>X</button>
         <div className="video-window">
-          <VideoCall loggedUser={loggedUser} friend={friendData}/>
+        <VideoCall loggedUser={loggedUser} friend={friendData}/>
         </div>
-        <button type="button" id='callButton'className='callButton' onClick={connectToRoom}>Make/End Call</button>
+
       </div>
 
       <div className="Friend-profile glass" id={`Friend-profile_${friendData.userId}`}>

@@ -1,8 +1,8 @@
 .glass{
     position: fixed;
     display: none;
-    height: 88.75vh;
-    width: 217vh;
+    height: 40vmax;
+    width: 98vmax;
     /* border: 1px rgb(255, 0, 0) solid; */
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
@@ -29,20 +29,23 @@
 }
 .V-call{
     display: none;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
 
 }
-.V-call > .video-window{
+.video-window{
     position: relative;
-    display: block;
-    height: 60vh;
-    width: 100vh;
-    /* border: 1px rgb(255, 0, 0) solid; */
-    left: 26%;
+    display: flex;
+    height: 35vmax;
+    width: 80vmax;
+    transform: translate(10%, 0%);
     background-color: rgba(16, 16, 16, 0.126); /* Adjust opacity as needed */
     backdrop-filter: blur(10px); /* Adjust blur strength as needed */
     -webkit-backdrop-filter: blur(10px); /* For Safari */
     border-radius: 10px; /* Optional: rounded corners for better aesthetics */
     padding: 10px;
+    justify-content: center;
 
 }
 .callButton{
@@ -371,9 +374,14 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 300px) {
     .friendCard{
         width: 65vmin;
+    }
+    .glass{
+        height: 86vmax;
+        width: 90vmin;
+
     }
 }
 
@@ -381,10 +389,18 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     .friendCard{
         width: 70vmin;
     }
+    .glass{
+        height: 86vmax;
+        width: 90vmin;
+    }
 }
 
 @media (min-width: 400px) and (max-width: 1024px) {
     .friendCard{
         width: 80vmin;
+    }
+    .glass{
+        height: 62vmax;
+        width: 98vmax;
     }
 }
