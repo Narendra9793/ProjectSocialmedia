@@ -1,21 +1,18 @@
-.glass{
-    position: fixed;
-    display: none;
-    height: 40vmax;
-    width: 98vmax;
-    /* border: 1px rgb(255, 0, 0) solid; */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50.25%, -44.5%);
-    background-color: rgba(69, 68, 68, 0.126); /* Adjust opacity as needed */
-    backdrop-filter: blur(10px); /* Adjust blur strength as needed */
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
-    border-radius: 10px; /* Optional: rounded corners for better aesthetics */
-    /* padding: 20px; */
-    z-index:1000;
-    transition: opacity 0s ease-in-out, visibility 0s ease-in-out;
 
+.glass {
+    position:fixed;
+    top: 0%;
+    left: 0%;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
+
 
 
 #close{
@@ -374,33 +371,69 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     }
 }
 
-@media (max-width: 300px) {
-    .friendCard{
+@media(min-width: 0px) and (max-width: 300px) {
+    .friendCard {
         width: 65vmin;
     }
-    .glass{
-        height: 86vmax;
-        width: 90vmin;
 
+    .video-window {
+        height: 78vmax;
+        width: 80vmin;
     }
 }
 
 @media (min-width: 300px) and (max-width: 400px) {
-    .friendCard{
+    .friendCard {
         width: 70vmin;
     }
     .glass{
-        height: 86vmax;
-        width: 90vmin;
+        width:100vw;
+        height:100vh;
+    }
+    .video-window {
+        height: 78vmax;
+        width: 80vmin;
     }
 }
 
-@media (min-width: 400px) and (max-width: 1024px) {
-    .friendCard{
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .friendCard {
         width: 80vmin;
     }
     .glass{
-        height: 62vmax;
-        width: 98vmax;
+        width:100vw;
+        height:100vh;
+    }
+    .video-window {
+        height: 90vmax;
+        width: 57vmax;
+    }
+}
+@media (min-width: 550px) and (max-width: 800px) {
+    .friendCard {
+        width: 80vmin;
+    }
+    .glass{
+        width:100vw;
+        height:100vh;
+    }
+    .video-window {
+        height: 88vmin;
+        width: 80vmax;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1024px) {
+    .friendCard {
+        width: 80vmin;
+    }
+    .glass{
+        width:100vw;
+        height:100vh;
+    }
+    .video-window {
+        height: 88vmin;
+        width: 80vmax;
     }
 }

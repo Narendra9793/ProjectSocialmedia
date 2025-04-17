@@ -127,7 +127,9 @@
     .glass{
         height: 86vmax;
         width: 90vmin;
-
+    }
+    .video_call_window{
+        
     }
 }
 
@@ -141,7 +143,17 @@
     }
 }
 
-@media (min-width: 400px) and (max-width: 1024px) {
+@media (min-width: 400px) and (max-width: 800px) {
+    .friendCard{
+        width: 80vmin;
+    }
+    .glass{
+        height: 62vmax;
+        width: 98vmax;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1024px) {
     .friendCard{
         width: 80vmin;
     }

@@ -366,7 +366,6 @@ const VideoCall = ({loggedUser, friend}) => {
     
       setLocalStream(null);
       setRemoteStream(null);
-
   }
 
 
