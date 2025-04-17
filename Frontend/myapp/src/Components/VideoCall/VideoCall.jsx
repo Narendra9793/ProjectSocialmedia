@@ -51,8 +51,9 @@ const VideoCall = ({loggedUser, friend}) => {
     socket.on('candidate', handleCandidate);
     socket.on('offer', handleOffer);
     socket.on('answer', handleAnswer);
-    socket.on('userDisconnected', handleUserDisconnected);
-
+    // socket.on('userDisconnected', handleUserDisconnected);
+    socket.on('YouEndedCall', handleYouEndedCall);
+    socket.on('EndedCall', handleEndedCall);
     socket.on('full', handleFull);
 
     return () => {
@@ -63,7 +64,8 @@ const VideoCall = ({loggedUser, friend}) => {
       socket.off('ready', handleReady);
       socket.off('offer', handleOffer);
       socket.off('answer', handleAnswer);
-      socket.off('userDisconnected', handleUserDisconnected);
+      socket.off('YouEndedCall', handleYouEndedCall);
+      socket.off('EndedCall', handleEndedCall);
 
       socket.off('full', handleFull);
       cleanupConnections();
@@ -77,6 +79,7 @@ const VideoCall = ({loggedUser, friend}) => {
     setRoom(data.roomKey)
     var ele=document.getElementById(`picker${data.callerId}`);
     ele.classList.remove("hide_pick_call_card")
+    
   };
 
   // This event will be fired when friend will join the room and it sets the value of IsCaller
@@ -147,6 +150,7 @@ const VideoCall = ({loggedUser, friend}) => {
     });
     var ele=document.getElementById(`picker${friend.userId}`)
     ele.classList.add("hide_pick_call_card")
+    setIsConnected(true)
   };
 
 
@@ -211,16 +215,6 @@ const VideoCall = ({loggedUser, friend}) => {
       remoteDescriptionPromiseRef.current.catch(console.error);
     }
   };
-
-  const handleUserDisconnected = () => {
-    setRemoteStream(null);
-    setIsCaller(true);
-    if (rtcPeerConnectionRef.current) {
-      rtcPeerConnectionRef.current.close();
-      rtcPeerConnectionRef.current = null;
-    }
-  };
-
 
 
   const handleFull = () => {
@@ -306,6 +300,75 @@ const VideoCall = ({loggedUser, friend}) => {
       }
     };
 
+    const handleYouEndedCall = () => {
+      setIsConnected(false);
+      alert("You have Ended the call!");
+      console.log("You have Ended the call!");
+    
+      // Close the peer connection if it exists
+      if (rtcPeerConnectionRef.current) {
+        rtcPeerConnectionRef.current.close();
+        rtcPeerConnectionRef.current = null;
+      }
+    
+      // Stop all media tracks for local stream
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+      }
+    
+      // Stop all media tracks for remote stream
+      if (remoteStream) {
+        remoteStream.getTracks().forEach(track => track.stop());
+      }
+    
+      // Clear video elements
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = null;
+      }
+    
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = null;
+      }
+    
+      setLocalStream(null);
+      setRemoteStream(null);
+    };
+    
+
+    const handleEndedCall=()=>{
+      setIsConnected(false)
+      alert("Your Friend have Ended the call!")
+      console.log("Your Friend have Ended the call!")
+      // Close the peer connection if it exists
+      if (rtcPeerConnectionRef.current) {
+        rtcPeerConnectionRef.current.close();
+        rtcPeerConnectionRef.current = null;
+      }
+    
+      // Stop all media tracks for local stream
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+      }
+    
+      // Stop all media tracks for remote stream
+      if (remoteStream) {
+        remoteStream.getTracks().forEach(track => track.stop());
+      }
+    
+      // Clear video elements
+      if (localVideoRef.current) {
+        localVideoRef.current.srcObject = null;
+      }
+    
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = null;
+      }
+    
+      setLocalStream(null);
+      setRemoteStream(null);
+
+  }
+
 
   return (
     <div>
@@ -347,3 +410,4 @@ const VideoCall = ({loggedUser, friend}) => {
 };
 
 export default VideoCall;
+
