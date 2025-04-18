@@ -80,16 +80,11 @@ const Profile = () => {
       );
 
       setFile(null);
-      if (response.status === 200) {
-        alert("File uploaded successfully");
-        // Handle success, e.g., show a success message
-      } else {
-        alert("Failed to upload file");
-        // Handle failure, e.g., show an error message
-      }
+      toast.success("Profile Changed!", { icon: "✅" });
     } catch (error) {
-      console.error("Error uploading file", error);
+      console.error("", error);
       // Handle error, e.g., show an error message
+      toast.error('Unable to upload file.', { icon: "❌"});
     }
   };
 
@@ -107,16 +102,11 @@ const Profile = () => {
       setUserProfile(response.data);
       setProfileImage(response.data.imageUrl);
       setAccStatus(response.data.accountStatus);
-      // connectEver();
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        // Unauthorized, handle accordingly (e.g., redirect to login)
-        // localStorage.removeItem('token');
-        handleLogout();
         localStorage.clear();
         console.error("Unauthorized:", error);
       } else {
-        // Other errors (network issues, server errors, etc.)
         console.error("Error fetching user profile:", error);
       }
     }
@@ -154,7 +144,7 @@ const Profile = () => {
           },
         }
       );
-
+      console.log(response.data)
       // Assuming the API returns user profile data in the response.data
       setFriends(response.data);
     } catch (error) {
@@ -189,15 +179,13 @@ const Profile = () => {
         }
       );
 
-      // Assuming the API returns user profile data in the response.data
-      setFriends(response.data);
+      toast.success(`${response.data}`, { icon: "✅" });
+      setTimeout(()=>{navigate("/login")}, 2000);
+
     } catch (error) {
-      console.error("Error fetching user profile:", error);
-      // Handle error fetching user profile
+      toast.error('Unable to Logout!.', { icon: "❌"});
     }
 
-    alert("You logged Out!");
-    navigate("/login");
     return;
   };
   const DeleteItem = async (postId, authToken) => {
@@ -226,7 +214,7 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("in to handle submit");
+
     try {
       setIsUploading(true);
       const formData = new FormData();
@@ -245,29 +233,14 @@ const Profile = () => {
       );
 
       setFile(null);
-      if (response.status === 200) {
-        alert("File uploaded successfully");
-        // Handle success, e.g., show a success message
-      } else {
-        alert("Failed to upload file");
-        // Handle failure, e.g., show an error message
-      }
-
+      toast.success(`${response.data}`, { icon: "✅" });
       setIsUploading(false);
     } catch (error) {
       console.error("Error uploading file", error);
-      // Handle error, e.g., show an error message
+      toast.error('Failed to upload!.', { icon: "❌"});
     }
   };
 
-  // function PreviewImage() {
-  //   var oFReader = new FileReader();
-  //   oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
-
-  //   oFReader.onload = function (oFREvent) {
-  //     document.getElementById("upPrev").src = oFREvent.target.result;
-  //   };
-  // }
 
   function postPreview(e) {
     e.preventDefault();
@@ -299,13 +272,11 @@ const Profile = () => {
           },
         }
       );
-      alert(response.data);
+      toast.success(`${response.data}`, { icon: "✅" });
     } catch (error) {
       console.log("Catch block of handleACstatus!", error);
       if (error.response) {
-        console.log("Error data:", error.response.data);
-        console.log("Error status:", error.response.status);
-        console.log("Error headers:", error.response.headers);
+        toast.success(`Failed to change ac Status!`, { icon: "❌" });
       }
     }
   };
@@ -318,6 +289,14 @@ const Profile = () => {
   return (
     <>
       <div className="parent">
+                <ToastContainer
+                          position="top-right"
+                          autoClose={3000}
+                          hideProgressBar={false}
+                          closeOnClick
+                          pauseOnHover
+                          draggable
+                />
         <div className="left">
           <div className="profilePicture ">
             <div className="user-profile-image ">
