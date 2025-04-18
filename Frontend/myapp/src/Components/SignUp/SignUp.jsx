@@ -3,18 +3,24 @@ import './SignUp.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate=useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const [isloading, setIsloading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     try {
+      setIsloading(true);
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/register`, {
         firstName,
         lastName,
@@ -32,14 +38,19 @@ const SignUp = () => {
       setEmail('');
       setPassword('');
 
-
-    } catch (error) {
-      // Show error toast
+      setTimeout(() => navigate('/login'), 1000);
+    } 
+    catch (error) {
+      console.log(error)
       const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
       toast.error(errorMessage, {
         icon: '❌',
       });
-    };
+
+    }
+    finally{
+      setIsloading(false)
+    }
   }
 
 
@@ -80,6 +91,12 @@ const SignUp = () => {
             </div>
             <button type="submit" className='btn'>SignUp</button>
           </form>
+
+          {isloading && (
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
+        )}
         </div>
       </div>
     </>)
