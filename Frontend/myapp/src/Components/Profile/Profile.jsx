@@ -104,8 +104,9 @@ const Profile = () => {
       setAccStatus(response.data.accountStatus);
     } catch (error) {
       if (error.response && error.response.status === 401) {
+        navigate("/login");
         localStorage.clear();
-        console.error("Unauthorized:", error);
+        toast.info("JWT Token Expired!", { icon: "😕" });
       } else {
         console.error("Error fetching user profile:", error);
       }
@@ -169,7 +170,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem("token");
+      
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/user/logout`,
         {
@@ -178,7 +179,7 @@ const Profile = () => {
           },
         }
       );
-
+      localStorage.removeItem("token");
       toast.success(`${response.data}`, { icon: "✅" });
       setTimeout(()=>{navigate("/login")}, 2000);
 
