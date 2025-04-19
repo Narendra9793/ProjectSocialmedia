@@ -169,6 +169,7 @@ const Profile = () => {
   }
 
   const handleLogout = async () => {
+    if(localStorage.length === 0)return;
     try {
       
       const response = await axios.get(
@@ -179,7 +180,7 @@ const Profile = () => {
           },
         }
       );
-      localStorage.removeItem("token");
+      localStorage.clear();
       toast.success(`${response.data}`, { icon: "✅" });
       setTimeout(()=>{navigate("/login")}, 2000);
 
@@ -283,10 +284,7 @@ const Profile = () => {
     }
   };
 
-  if (token === null || token === "undefined") {
-    handleLogout();
-    return <Login />;
-  }
+
   if (userProfile === null) return <h1>Loading.....</h1>;
   return (
     <>
