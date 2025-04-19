@@ -68,7 +68,7 @@ const FriendCard = ({loggedUser, friend, token}) => {
         <button id="friend-profile-bttn" type="button" onClick={()=>handleClosebutton(`Friend-profile_${friendData.userId}`)}>Profile</button>
         <button id="chat-bttn" type="button" onClick={()=>handleClosebutton(`Chat_${friendData.userId}`)}>Chat</button>
         <div className="frndImg">
-          <img  className="frndImage" src={friend.imageUrl} alt="" srcSet="" />
+          <img  className="frndImage" src={friendData.imageUrl} alt="" srcSet="" />
         </div>
       </div>
 
