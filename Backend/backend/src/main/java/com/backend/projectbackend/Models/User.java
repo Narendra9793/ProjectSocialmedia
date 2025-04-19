@@ -112,6 +112,10 @@ public class User {
     List<Visitors> visitors = new ArrayList<>();
 
     @JsonManagedReference
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Visitors> visitsMade = new ArrayList<>();
+
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     List<SendedRequest> sentRequests = new ArrayList<>();
 
@@ -124,6 +128,17 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
+
+    @PreRemove
+    private void preRemove() {
+        for (Visitors v : new ArrayList<>(visitors)) {
+            v.setVisitedUser(null);
+        }
+        for (Visitors v : new ArrayList<>(visitsMade)) {
+            v.setVisitor(null);
+        }
+    }
 
     public List<Friend> getFriends(){
         return friends;

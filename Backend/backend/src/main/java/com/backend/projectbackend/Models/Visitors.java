@@ -52,7 +52,7 @@ public class Visitors {
     public boolean isExpired() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -3);
-        return visitDate.before(cal.getTime());
+        return visitDate != null && visitDate.before(cal.getTime());
     }
 
 

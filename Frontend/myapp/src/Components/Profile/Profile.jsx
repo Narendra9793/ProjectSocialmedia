@@ -183,6 +183,7 @@ const Profile = () => {
       setTimeout(()=>{navigate("/login")}, 2000);
 
     } catch (error) {
+      console.log("error", error)
       toast.error('Unable to Logout!.', { icon: "❌"});
     }
 
