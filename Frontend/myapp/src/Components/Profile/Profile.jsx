@@ -283,19 +283,19 @@ const Profile = () => {
       }
     }
   };
-
+if(token === null || token === undefined)return <Login/>;
 
   if (userProfile === null) return <h1>Loading.....</h1>;
   return (
     <>
       <div className="parent">
                 <ToastContainer
-                          position="top-right"
-                          autoClose={3000}
-                          hideProgressBar={false}
-                          closeOnClick
-                          pauseOnHover
-                          draggable
+                  position="top-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  closeOnClick
+                  pauseOnHover
+                  draggable
                 />
         <div className="left">
           <div className="profilePicture ">
