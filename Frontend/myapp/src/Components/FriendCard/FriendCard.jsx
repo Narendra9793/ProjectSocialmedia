@@ -45,30 +45,16 @@ const FriendCard = ({loggedUser, friend, token}) => {
     document.getElementById(id).classList.remove('hidden');
     document.getElementById(id).classList.add('show');
   }
-  // const connectToRoom = () => {
-  //   socket.emit('joinRoom', {
-  //     sender : `${loggedUser.userId}`,
-  //     receiver : `${friendData.userId}`
 
-  //   });
-  //   console.log("Joined fired")
-  //   setIsConnected(true);
-  // };
-
-
-
-
-  
-  
 
   return (
     <>
-      <div className="friendCard">
+      <div className={`friendCard  ${friend.status === "ONLINE" ? "online" : ""}`}>
         <button id="v-call-bttn" type="button" onClick={()=>handleClosebutton(`V-call_${friendData.userId}`)}>Video Call</button>
         <button id="friend-profile-bttn" type="button" onClick={()=>handleClosebutton(`Friend-profile_${friendData.userId}`)}>Profile</button>
         <button id="chat-bttn" type="button" onClick={()=>handleClosebutton(`Chat_${friendData.userId}`)}>Chat</button>
         <div className="frndImg">
-          <img  className="frndImage" src={friendData.imageUrl} alt="" srcSet="" />
+          <img  className="frndImage" src={friendData.imageUrl} alt="friend image" srcSet="" />
         </div>
       </div>
 

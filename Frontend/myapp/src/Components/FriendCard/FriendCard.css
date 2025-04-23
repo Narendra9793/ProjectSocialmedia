@@ -101,12 +101,14 @@ div.frndImg {
     background-color: rgba(13, 13, 13, 0.232);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
     transform: skew(-20deg);
-    /* border : 1px solid rgb(255, 0, 0); */
     cursor: pointer;
     margin: 15px;
     padding:8px;
     left: 4%;
-
+}
+.online{
+    border-left : 3px solid rgb(0, 80, 0);
+    border-bottom : 5px solid rgb(0, 80, 0);
 }
 .frndImg{
     position: relative;
