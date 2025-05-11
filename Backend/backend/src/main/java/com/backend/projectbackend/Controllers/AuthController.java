@@ -156,6 +156,7 @@ public class AuthController {
             System.out.println("Try Started=====>");
             System.out.println(authentication);
             manager.authenticate(authentication);
+            System.out.println(authentication);
         } 
         catch (BadCredentialsException e) {
             System.out.println("Catch Started=====>");

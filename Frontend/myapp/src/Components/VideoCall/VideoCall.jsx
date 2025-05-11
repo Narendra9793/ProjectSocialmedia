@@ -182,7 +182,14 @@ const VideoCall = ({loggedUser, friend}) => {
         );
   
         remoteDescriptionPromiseRef.current
-          .then(() => rtcPeerConnectionRef.current.createAnswer())
+        .then(() => {
+          if (rtcPeerConnectionRef.current.signalingState === 'have-remote-offer') {
+            return rtcPeerConnectionRef.current.createAnswer();
+          } else {
+            throw new Error('Unexpected signaling state: ' + rtcPeerConnectionRef.current.signalingState);
+          }
+        })
+        
           .then(sessionDescription => {
             return rtcPeerConnectionRef.current.setLocalDescription(sessionDescription);
           })
