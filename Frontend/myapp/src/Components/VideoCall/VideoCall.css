@@ -136,8 +136,8 @@
     .pickCall{
 
         height: 60vmax;
-        width: 50vmin;
-        transform: translate(25%, 25%);  
+        width: 30vmin;
+        transform: translate(20%, 25%);  
     }
 }
 
@@ -152,8 +152,8 @@
     .pickCall{
 
         height: 60vmax;
-        width: 50vmin;
-        transform: translate(25%, 25%);  
+        width: 30vmin;
+        transform: translate(20%, 25%);  
     }
 }
 
