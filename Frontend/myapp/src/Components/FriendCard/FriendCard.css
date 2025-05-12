@@ -112,8 +112,6 @@ div.frndImg {
 }
 .frndImg{
     position: relative;
-    left: 37%;
-    right : 0%;
     width: 12vh;
     height: 15vh;
     background-color: rgba(13, 13, 13, 0.259);
