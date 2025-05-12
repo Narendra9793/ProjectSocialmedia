@@ -132,6 +132,13 @@
     .video_call_window{
         
     }
+
+    .pickCall{
+
+        height: 60vmax;
+        width: 50vmin;
+        transform: translate(25%, 25%);  
+    }
 }
 
 @media (min-width: 300px) and (max-width: 400px) {
@@ -141,6 +148,12 @@
     .glass{
         height: 86vmax;
         width: 90vmin;
+    }
+    .pickCall{
+
+        height: 60vmax;
+        width: 50vmin;
+        transform: translate(25%, 25%);  
     }
 }
 
