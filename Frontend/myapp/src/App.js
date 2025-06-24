@@ -43,7 +43,7 @@ function App() {
               </div>
               {showSidemenu && <Sidebar/>}
               <Routes>  
-                <Route path="/" element={<Home />} />
+                <Route path="" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/user/feeds" element={<Feeds />} />

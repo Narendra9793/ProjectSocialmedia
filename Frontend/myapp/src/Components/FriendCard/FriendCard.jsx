@@ -11,8 +11,12 @@ import axios from 'axios';
 const FriendCard = ({loggedUser, friend, token}) => {
 
   const [friendData, setFriendData]=useState(friend);
+  const [isOnline, setIsonline]=useState(false);
   const socket=useSocket();
 
+  useEffect(()=>{
+    setIsonline(friendData.status)
+  }, [friendData])
 
   const visitorhandler= async(id)=>{
     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/visit-profile/${id}`, {
