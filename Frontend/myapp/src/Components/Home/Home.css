@@ -8,15 +8,21 @@ body::-webkit-scrollbar-thumb {
 }
 
 .background {
-    position: relative;
+    position: fixed;
     display: flex;
     top: 0%;
     margin: 0%;
     height: 100%;
     width: 100%;
-    background-image: url('./img/crew.jpg'); 
+    background-image: url('./img/crew.webp'); 
     background-size: cover; 
     flex-wrap: wrap;
+}
+.loadingTimer{
+  position: fixed;
+  display: flex;
+  bottom: 0%;
+  left: 0%;
 }
 .allUsers{
     position: relative;

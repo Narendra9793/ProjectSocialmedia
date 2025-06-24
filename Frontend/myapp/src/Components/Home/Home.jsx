@@ -15,6 +15,7 @@ const Home = () => {
   const [user] = useUser();
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [timeTaken, setTimeTaken] = useState(0);
   let isThrottled = false; // Throttle flag
   let isFetching = false;
 
@@ -54,6 +55,17 @@ const Home = () => {
     };
   }, []); // Attach the listener only once.
 
+  useEffect(() => {
+  if (!isLoading) return;
+
+  const interval = setInterval(() => {
+    setTimeTaken(prev => prev + 1);
+  }, 1000);
+
+  return () => clearInterval(interval); // Clean up on unmount
+}, [isLoading]);
+
+
   const handleInfinityScroll = (e) => {
     if (isThrottled) return; // Skip if already throttled.
 
@@ -71,6 +83,8 @@ const Home = () => {
       }, 500);
     }
   };
+
+
 
   const fetchData = async () => {
     if (isFetching) return;
@@ -114,6 +128,7 @@ const Home = () => {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/auth/allpublicpost`);
       setPublicPosts(response.data);
       console.log(`${response.data.length} public posts fetched`);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -121,7 +136,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="background">
+      <div className="background"><h5 className="loadingTimer">Loaded in: {timeTaken}s</h5>
         <div className="homeContent">
           <div className="publicPosts" id="posts">
              <Masonry
