@@ -42,6 +42,14 @@ const Home = () => {
   }, []); // Fetch users when `page` changes.
 
   useEffect(() => {
+    const pingHandler= setInterval(()=>{
+      const response= axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/ping`)
+      console.log("Ping Response", response)
+    }, 3000)
+    return () => clearInterval(pingHandler);
+  },[]); 
+
+  useEffect(() => {
     const scrollDiv = document.getElementById('frndList');
     const handleScroll = (e) => handleInfinityScroll(e);
 
