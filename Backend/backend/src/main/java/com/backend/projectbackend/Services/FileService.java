@@ -47,7 +47,7 @@ public class FileService {
     public String uploadMedia(String path, MultipartFile file, int userID) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto"));
-        return uploadResult.get("url").toString(); // Get the URL of uploaded file
+        return uploadResult.get("secure_url").toString(); // Get the URL of uploaded file
     }
 
 

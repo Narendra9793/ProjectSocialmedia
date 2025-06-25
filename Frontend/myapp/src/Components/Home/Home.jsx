@@ -41,13 +41,13 @@ const Home = () => {
     console.log('current Page=', page);
   }, []); // Fetch users when `page` changes.
 
-  useEffect(() => {
-    const pingHandler= setInterval(()=>{
-      const response= axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/ping`)
-      console.log("Ping Response", response)
-    }, 3000)
-    return () => clearInterval(pingHandler);
-  },[]); 
+  // useEffect(() => {
+  //   const pingHandler= setInterval(()=>{
+  //     const response= axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/ping`)
+  //     console.log("Ping Response", response)
+  //   }, 3000)
+  //   return () => clearInterval(pingHandler);
+  // },[]); 
 
   useEffect(() => {
     const scrollDiv = document.getElementById('frndList');
