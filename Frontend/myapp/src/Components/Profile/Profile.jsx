@@ -55,9 +55,6 @@ const Profile = () => {
     console.log("profileImage:", profileImage);
   }, [isUploading, profileImage]);
 
-  useEffect(() => {
-
-  }, [token]);
 
   useEffect(() => {
     console.log("AccStatus", accStatus);
@@ -85,6 +82,7 @@ const Profile = () => {
 
       setFile(null);
       toast.success("Profile Picture Changed!", { icon: "✅" });
+      await fetchUserProfile();
     } catch (error) {
       console.error("", error);
       // Handle error, e.g., show an error message
@@ -214,6 +212,7 @@ const Profile = () => {
 
       // Post deleted successfully
       console.log("Post deleted successfully");
+      await fetchPosts();
     } catch (error) {
       console.error("Error deleting post:", error.message);
     }
@@ -242,6 +241,7 @@ const Profile = () => {
       setFile(null);
       toast.success(`${response.data}`, { icon: "✅" });
       setIsUploading(false);
+      await fetchPosts();
     } catch (error) {
       console.error("Error uploading file", error);
       toast.error('Failed to upload!.', { icon: "❌"});
