@@ -56,6 +56,10 @@ const Profile = () => {
   }, [isUploading, profileImage]);
 
   useEffect(() => {
+
+  }, [token]);
+
+  useEffect(() => {
     console.log("AccStatus", accStatus);
   }, [accStatus, profileImage]);
 
@@ -80,7 +84,7 @@ const Profile = () => {
       );
 
       setFile(null);
-      toast.success("Profile Changed!", { icon: "✅" });
+      toast.success("Profile Picture Changed!", { icon: "✅" });
     } catch (error) {
       console.error("", error);
       // Handle error, e.g., show an error message
@@ -283,7 +287,6 @@ const Profile = () => {
       }
     }
   };
-if(token === null || token === undefined)return <Login/>;
 
   if (userProfile === null) return <h1>Loading.....</h1>;
   return (

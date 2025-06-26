@@ -6,6 +6,7 @@ import { UserProvider } from './context/UserProvider';
 import Sidebar from './Components/Sidebar/Sidebar';
 import { useEffect, useState } from 'react';
 import React, { Suspense, lazy } from 'react';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 const Home = lazy(() => import('./Components/Home/Home'));
 const Profile = lazy(() => import('./Components/Profile/Profile'));
@@ -45,8 +46,16 @@ function App() {
               <Routes>  
                 <Route path="" element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/user/profile" element={<Profile />} />
-                <Route path="/user/feeds" element={<Feeds />} />
+                <Route path="/user/profile" element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                } />
+                <Route path="/user/feeds" element={                  
+                  <PrivateRoute>
+                    <Feeds />
+                  </PrivateRoute>
+                  } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signUp" element={<SignUp />} />
               </Routes>

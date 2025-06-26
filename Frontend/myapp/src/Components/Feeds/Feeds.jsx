@@ -34,9 +34,7 @@ const Feeds = () => {
     }
   };
 
-  
 
-  if (!token) return <Login />;
 
   return (
     <div className="feedsDiv">
