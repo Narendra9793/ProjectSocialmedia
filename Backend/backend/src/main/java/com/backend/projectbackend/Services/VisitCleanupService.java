@@ -27,19 +27,19 @@ public class VisitCleanupService {
 
         for (User user : users) {
             // Ensure visitors are loaded into the context to be modified
-            List<Visit> visitBy = user.getVisitBy();  
+            List<Visit> visitBy = user.getVisitors();  
 
             Iterator<Visit> iterator = visitBy.iterator();
             while (iterator.hasNext()) {
                 Visit visit = iterator.next();
                 if (visit.isExpired()) {
-                    System.out.println(visit.getVisitBy().getFirstName()); // Log for debugging
+                    System.out.println("this visit got expired"+visit.getVisitBy().getFirstName()); // Log for debugging
                     iterator.remove();  // Remove expired visitor from the list
                 }
             }
 
             // Explicitly set the modified visitors list back into the user object
-            user.setVisitBy(visitBy);
+            user.setVisitors(visitBy);
 
             // Save and flush the changes
             userRepository.save(user);  

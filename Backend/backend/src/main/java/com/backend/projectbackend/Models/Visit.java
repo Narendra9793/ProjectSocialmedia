@@ -26,7 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "visitId")
 public class Visit {
 
     public Visit() {

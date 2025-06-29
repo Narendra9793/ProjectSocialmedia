@@ -238,13 +238,18 @@ public class userController {
         visit.setVisitBy(visitorUser);
         visit.setVisitTo(userTovisit);
 
-        // Ensure the visitor is added to userTovisit's visitors list only if unique
-        if (!userTovisit.getVisitBy().stream().anyMatch(v -> v.getVisitBy().equals(visitorUser))) {
-            userTovisit.getVisitBy().add(visit);
-        }
-        System.out.println(userTovisit.getVisitBy());
+        // if (!userTovisit.getVisitors().stream().anyMatch(v -> v.getVisitBy().equals(visitorUser))) {
+        //     userTovisit.getVisitors().add(visit);
+        // }
+        userTovisit.getVisitors().add(visit);
         this.userRepository.save(userTovisit);
         return userTovisit;
+    }
+    // http://localhost:7070/user/allVisits
+    @GetMapping("/allVisits")
+    public  List<Visit> getAllvisits(Principal principal) {
+        User user = this.userRepository.getUserByUserName(principal.getName());
+        return user.getVisitors();
     }
 
     // http://localhost:7070/user/delete-post/{postId}
