@@ -108,12 +108,12 @@ public class User {
     List<Post> posts = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "visitedUser", orphanRemoval = true)
-    List<Visitors> visitors = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "visitBy", orphanRemoval = true)
+    List<Visit> visitBy = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Visitors> visitsMade = new ArrayList<>();
+    @OneToMany(mappedBy = "visitTo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Visit> visitTo = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
@@ -132,11 +132,11 @@ public class User {
 
     @PreRemove
     private void preRemove() {
-        for (Visitors v : new ArrayList<>(visitors)) {
-            v.setVisitedUser(null);
+        for (Visit v : new ArrayList<>(visitTo)) {
+            v.setVisitTo(null);
         }
-        for (Visitors v : new ArrayList<>(visitsMade)) {
-            v.setVisitor(null);
+        for (Visit v : new ArrayList<>(visitBy)) {
+            v.setVisitBy(null);
         }
     }
 

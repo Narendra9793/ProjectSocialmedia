@@ -27,24 +27,25 @@ import lombok.ToString;
 @ToString
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Visitors {
-    public Visitors() {
-        
+public class Visit {
+
+    public Visit() {
+        this.visitDate=new Date();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer visitId;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "visited_user")
-    private User visitedUser;
+    @JoinColumn(name = "visitTo")
+    private User visitTo;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "visitor")
-    private User visitor;
+    @JoinColumn(name = "visitBy")
+    private User visitBy;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date visitDate;

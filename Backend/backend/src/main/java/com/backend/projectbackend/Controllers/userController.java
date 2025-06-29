@@ -36,7 +36,7 @@ import com.backend.projectbackend.Models.Post;
 import com.backend.projectbackend.Models.ReceivedRequest;
 import com.backend.projectbackend.Models.Room;
 import com.backend.projectbackend.Models.User;
-import com.backend.projectbackend.Models.Visitors;
+import com.backend.projectbackend.Models.Visit;
 import com.backend.projectbackend.Services.FileService;
 import com.backend.projectbackend.Services.UserService;
 import com.cloudinary.Cloudinary;
@@ -234,16 +234,15 @@ public class userController {
         System.out.println(userTovisit.getFirstName());
 
         // Create visitor instance with correct references
-        Visitors visitor = new Visitors();
-        visitor.setVisitedUser(userTovisit);
-        visitor.setVisitor(visitorUser);
-        visitor.setVisitDate(new Date());
+        Visit visit = new Visit();
+        visit.setVisitBy(visitorUser);
+        visit.setVisitTo(userTovisit);
 
         // Ensure the visitor is added to userTovisit's visitors list only if unique
-        if (!userTovisit.getVisitors().contains(visitor)) {
-            userTovisit.getVisitors().add(visitor);
+        if (!userTovisit.getVisitBy().stream().anyMatch(v -> v.getVisitBy().equals(visitorUser))) {
+            userTovisit.getVisitBy().add(visit);
         }
-        System.out.println(userTovisit.getVisitors());
+        System.out.println(userTovisit.getVisitBy());
         this.userRepository.save(userTovisit);
         return userTovisit;
     }
