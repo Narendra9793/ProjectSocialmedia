@@ -4,24 +4,25 @@ import './Feeds.css';
 import AddFriendCard from '../AddFriendCard/AddFrienCard';
 import Login from '../Login/Login';
 import axios from 'axios'; // Import axios directly
+import VisitCard from '../VisitCard/VisitCard';
 
 const Feeds = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [receivedRequests, setReceivedRequests] = useState([]);
-  const [visitors, setVisitors] = useState([]);
+  const [visits, setVisits] = useState([]);
 
 
   useEffect(() => {
     if (token) {
       fetchAllReceivedRequests();
-      fetchAllVisitors();
+      fetchAllVisits();
     }
-  }, [token, receivedRequests, visitors]);
+  }, [token, receivedRequests, visits]);
 
   useEffect(() => {
-    if (!visitors) return;
-    console.log("Visitros", visitors)
-  }, [visitors]);
+    if (!visits) return;
+    console.log("Visits", visits)
+  }, [visits]);
 
   const fetchAllReceivedRequests = async () => {
     try {
@@ -42,7 +43,7 @@ const Feeds = () => {
     }
   };
 
-    const fetchAllVisitors = async () => {
+    const fetchAllVisits = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/allVisits`, {
         headers: {
@@ -50,7 +51,7 @@ const Feeds = () => {
         },
       });
       // console.log("Response", response.data);
-      setVisitors(response.data);
+      setVisits(response.data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error('Unauthorized:', error);
@@ -68,6 +69,12 @@ const Feeds = () => {
       {receivedRequests.map((receivedRequest) => (
         <div key={receivedRequest.receiveRequestId} className="request-wrapper">
           <AddFriendCard  rId={receivedRequest.receiveRequestId} token={token}/>
+        </div>
+      ))}
+
+      {visits.map((visit) => (
+        <div key={visit.visitId} className="request-wrapper">
+          <VisitCard  visits={visit}/>
         </div>
       ))}
     </div>
