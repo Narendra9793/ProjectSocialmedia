@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -26,7 +27,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "visitId")
 public class Visit {
 
     public Visit() {
@@ -38,12 +38,12 @@ public class Visit {
     private Integer visitId;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "visitTo")
     private User visitTo;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "visitBy")
     private User visitBy;
 

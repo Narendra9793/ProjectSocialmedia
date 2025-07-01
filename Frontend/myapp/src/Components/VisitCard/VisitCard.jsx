@@ -2,19 +2,13 @@ import React, { useEffect } from 'react'
 import './VisitCard.css'
 import { useState } from 'react'
 
-const VisitCard = ({visit}) => {
-    const [visitor, setVisitor]= useState();
-    const [Date, setDate]= useState();
-    useEffect(()=>{
-        console.log("Visit", visit)
-        // setVisitor(visit.visitBy)
-        // setDate(visit.visitDate)
-    }, [])
+const VisitCard = ({visitor, date}) => {
+  
   return (
     <div>
       <div className="visitCard">
-        <h2>{visitor}</h2>
-        <h3>{Date}</h3>
+        <h2>{visitor.firstName}</h2>
+        <h3>{date}</h3>
       </div>
     </div>
   )

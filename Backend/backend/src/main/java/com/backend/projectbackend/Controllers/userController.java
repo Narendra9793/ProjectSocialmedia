@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.backend.projectbackend.DTOs.VisitDTO;
 import com.backend.projectbackend.Dao.CommentRepository;
 import com.backend.projectbackend.Dao.FriendRepository;
 import com.backend.projectbackend.Dao.SendedRequestRepository;
@@ -247,9 +250,10 @@ public class userController {
     }
     // http://localhost:7070/user/allVisits
     @GetMapping("/allVisits")
-    public  List<Visit> getAllvisits(Principal principal) {
+    public  List<VisitDTO> getAllvisits(Principal principal) {
         User user = this.userRepository.getUserByUserName(principal.getName());
-        return user.getVisitors();
+        return user.getVisitors().stream().map(VisitDTO::new)
+        .collect(Collectors.toList());
     }
 
     // http://localhost:7070/user/delete-post/{postId}

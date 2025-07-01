@@ -72,9 +72,9 @@ const Feeds = () => {
         </div>
       ))}
 
-      {visits.map((visit) => (
+      {visits.map((visit) => (   // <-- Line 77
         <div key={visit.visitId} className="request-wrapper">
-          <VisitCard  visits={visit}/>
+          <VisitCard visitor={visit.visitBy} date={visit.visitDate} />
         </div>
       ))}
     </div>
