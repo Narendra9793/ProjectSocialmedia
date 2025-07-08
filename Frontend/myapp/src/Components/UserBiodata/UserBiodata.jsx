@@ -3,44 +3,43 @@ import "./UserBiodata.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../../context/UserProvider";
 
-const UserBiodata = ({ user }) => {
+const UserBiodata = () => {
+  const [user, setUser]=useUser();
   const [formData, setFormData] = useState({
-
-    nickName: "",
-    gender: "",
-    dob: "",
-    maritalStatus: "",
-    phoneNumber: "",
-    address: "",
-    motherName: "",
-    fatherName: "",
-    siblings: "",
-    highestEducation: "",
-    employerName: "",
-    annualIncome: "",
-    height: "",
-    complexion: "",
-    bodyType: "",
-    religion: "",
-    smokingHabit: "",
-    drinkingHabit: "",
-    loveToEat: "",
-    hobbiesAndInterests: "",
-    activitiesTheyEnjoy: "",
-    leastAge: "",
-    mostAge: "",
-    preferredQualification: "",
-    preferredOccupation: "",
-    preferredPlace: "",
-    aboutMyself: "",
-    preferredModeOfContact: "",
-    preferredTimeForContact: "",
+    nickName: `${user.nickName}`,
+    gender:`${user.gender}`, 
+    dob: `${user.dob}`,
+    maritalStatus: `${user.maritalStatus}`,
+    phoneNumber: `${user.phoneNumber}`,
+    address: `${user.address}`,
+    motherName: `${user.motherName}`,
+    fatherName: `${user.fatherName}`,
+    siblings: `${user.siblings}`,
+    highestEducation: `${user.highestEducation}`,
+    employerName: `${user.employerName}`,
+    annualIncome: `${user.annualIncome}`,
+    height: `${user.height}`,
+    complexion: `${user.complexion}`,
+    bodyType: `${user.bodyType}`,
+    religion: `${user.religion}`,
+    smokingHabit: `${user.smokingHabit}`,
+    drinkingHabit: `${user.drinkingHabit}`,
+    loveToEat: `${user.loveToEat}`,
+    hobbiesAndInterests: `${user.hobbiesAndInterests}`,
+    activitiesTheyEnjoy: `${user.activitiesTheyEnjoy}`,
+    leastAge: `${user.leastAge}`,
+    mostAge: `${user.mostAge}`,
+    preferredQualification: `${user.preferredQualification}`,
+    preferredOccupation: `${user.preferredOccupation}`,
+    preferredPlace: `${user.preferredPlace}`,
+    aboutMyself: `${user.aboutMyself}`,
+    preferredModeOfContact: `${user.preferredModeOfContact}`,
+    preferredTimeForContact: `${user.preferredTimeForContact}`,
   });
   const [isUpdating, setIsUpdating]=useState(false)
-  useEffect(() => {
-    if (!user) return;
-  }, [user]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,25 +49,46 @@ const UserBiodata = ({ user }) => {
     }));
   };
 
+  const fetchuser = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/user/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+  
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Form Submitted: ", formData);
+    console.log("User to Update: ", user.userId);
     try {
-    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-profile/${user.userId}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-              },
-            }
-    );
-          toast.success(`${response.data}`, { icon: "✅" });
+      setIsUpdating(true);
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/update-profile/${user.userId}`,
+                formData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                }
+        );
+        await fetchuser();
+        toast.success(`${response.data}`, { icon: "✅" });
+        setIsUpdating(false);
         } catch (error) {
           console.log("Catch block of Update profile!", error);
           if (error.response) {
             toast.success(`Failed to Update profile!`, { icon: "❌" });
           }
-        }
+      }
   };
   return (
     <div className="biodata-div">

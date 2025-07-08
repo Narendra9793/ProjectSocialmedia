@@ -128,10 +128,6 @@ const Login = () => {
   const socket = useSocket();
   const [user, setUser] = useUser();
 
-  useEffect(() => {
-    console.log("logger user ", user)
-  }, [user]);
-
   const validateForm = () => {
     if (!username || !password) {
       toast.error("Email and password are required.");
@@ -160,13 +156,9 @@ const Login = () => {
 
       if (response.data.jwtToken) {
         localStorage.setItem('token', response.data.jwtToken);
-        localStorage.setItem('user', JSON.stringify(response.data.userId));
-
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.jwtToken}`;
-        setUser(response.data.userId);
         setUserId(response.data.userId);
         setToken(response.data.jwtToken);
-
         toast.success("Login Successful!", { icon: "✅" });
         setUsername("");
         setPassword("");

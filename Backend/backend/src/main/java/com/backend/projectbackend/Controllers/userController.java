@@ -509,10 +509,11 @@ public class userController {
             if(loggedUser.getUserId() == userId){
                return  this.userService.UpdateUserProfile(updatedDetails, loggedUser);
             }
-            else throw new IllegalArgumentException("You can change the details of others");
+            else throw new IllegalArgumentException("You can't change the details of others");
             
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println("this is from the catch bloack of user update profile");
             return e.getMessage();
         } 
     }

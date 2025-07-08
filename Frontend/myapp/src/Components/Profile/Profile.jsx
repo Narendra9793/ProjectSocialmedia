@@ -22,11 +22,10 @@ const Profile = () => {
   const [Posts, setPosts] = useState([]);
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
-  const [userProfile, setUserProfile] = useState(null);
   const [friends, setFriends] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
   const [accStatus, setAccStatus] = useState(null);
-  const [user] = useUser();
+  const [user, setUser] = useUser();
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
 
@@ -44,10 +43,11 @@ const Profile = () => {
         handleLogout();
       });
     }
+    
 
     const fetchData = async () => {
       if (!token) return;
-      await fetchUserProfile();
+      await fetchuser();
       await Promise.all([fetchPosts(), fetchFriends()]);
     };
     fetchData();
@@ -84,7 +84,7 @@ const Profile = () => {
 
       setFile(null);
       toast.success("Profile Picture Changed!", { icon: "✅" });
-      await fetchUserProfile();
+      await fetchuser();
     } catch (error) {
       console.error("", error);
       // Handle error, e.g., show an error message
@@ -92,7 +92,7 @@ const Profile = () => {
     }
   };
 
-  const fetchUserProfile = async () => {
+  const fetchuser = async () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/user/profile`,
@@ -102,8 +102,8 @@ const Profile = () => {
           },
         }
       );
-
-      setUserProfile(response.data);
+      // localStorage.setItem('user', JSON.stringify(response.data.user));
+      setUser(response.data);
       setProfileImage(response.data.imageUrl);
       setAccStatus(response.data.accountStatus);
     } catch (error) {
@@ -290,7 +290,7 @@ const Profile = () => {
     }
   };
 
-  if (userProfile === null) return <h1>Loading.....</h1>;
+  if (user === null) return <h1>Loading.....</h1>;
   return (
     <>
       <div className="parent">
@@ -308,7 +308,7 @@ const Profile = () => {
               <label>
                 {profileImage !== null ? (
                   <img
-                    src={userProfile.imageUrl}
+                    src={user.imageUrl}
                     alt="Profile"
                     className="profile-image"
                   />
@@ -350,9 +350,9 @@ const Profile = () => {
 
             <div className="profile-text">
               <h3>
-                {userProfile.firstName} {userProfile.lastName}
+                {user.firstName} {user.lastName}
               </h3>
-              <h4>@{userProfile.nickName}</h4>
+              <h4>@{user.nickName}</h4>
             </div>
 
             <button type="button" id="logout" onClick={handleLogout}>
@@ -407,7 +407,7 @@ const Profile = () => {
                       Token={localStorage.getItem("token")}
                       deleteItem={DeleteItem}
                       ownerId={post.ownerId}
-                      loggedUserId={user}
+                      loggedUserId={user.userId}
                     />
                   ) : (
                     <Post
@@ -417,7 +417,7 @@ const Profile = () => {
                       Token={localStorage.getItem("token")}
                       deleteItem={DeleteItem}
                       ownerId={post.ownerId}
-                      loggedUserId={user}
+                      loggedUserId={user.userId}
                     />
                   )}
                 </div>
@@ -425,8 +425,8 @@ const Profile = () => {
             </Masonry>
             </div>
             <div className="bio hidden" id="bio">
-              <UserBiodata user={userProfile}/>
-              {/* <UpdateDetails user={userProfile}/> */}
+              <UserBiodata user={user}/>
+              <UpdateDetails user={user}/>
             </div>
 
             <div className="create-post hidden" id="create-post">
@@ -460,7 +460,7 @@ const Profile = () => {
               <div key={friend.userId}>
                 <FriendCard
                   friend={friend}
-                  loggedUser={userProfile}
+                  loggedUser={user}
                   token={token}
                 />
               </div>
