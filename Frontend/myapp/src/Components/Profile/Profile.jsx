@@ -14,8 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
 import Masonry from "react-masonry-css";
-import UserBiodata from "../UserBiodata/UserBiodata";
-import UpdateDetails from "../UserBiodata/UpdateDetails";
+import UserBiodata from "../UserDetails/UpdateDetails";
+import UpdateDetails from "../UserDetails/UserBiodata";
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -425,8 +425,8 @@ const Profile = () => {
             </Masonry>
             </div>
             <div className="bio hidden" id="bio">
-              <UserBiodata user={user}/>
-              <UpdateDetails user={user}/>
+              <UserBiodata />
+              <UpdateDetails />
             </div>
 
             <div className="create-post hidden" id="create-post">
