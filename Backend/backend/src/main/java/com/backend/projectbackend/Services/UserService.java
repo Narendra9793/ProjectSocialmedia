@@ -65,7 +65,7 @@ public class UserService {
         user.setMaritalStatus(updatedDetails.getMaritalStatus());
         user.setPhoneNumber(updatedDetails.getPhoneNumber());
         user.setAddress(updatedDetails.getAddress());
-
+        user.setGender(updatedDetails.getGender());
         user.setFatherName(updatedDetails.getFatherName());
         user.setMotherName(updatedDetails.getMotherName());
         user.setSiblings(updatedDetails.getSiblings());
@@ -90,13 +90,14 @@ public class UserService {
 
         user.setLeastAge(updatedDetails.getLeastAge());
         user.setMostAge(updatedDetails.getMostAge());
+
+        
         user.setPreferredQualification(updatedDetails.getPreferredQualification());
         user.setPreferredOccupation(updatedDetails.getPreferredOccupation());
         user.setPreferredPlace(updatedDetails.getPreferredPlace());
         
 
         user.setAboutMyself(updatedDetails.getAboutMyself());
-
         user.setPreferredModeOfContact(updatedDetails.getPreferredModeOfContact());
         user.setPreferredTimeForContact(updatedDetails.getPreferredTimeForContact());
 

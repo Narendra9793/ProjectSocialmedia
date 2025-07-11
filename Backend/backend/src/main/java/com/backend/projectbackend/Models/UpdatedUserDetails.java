@@ -8,6 +8,7 @@ import lombok.*;
 public class UpdatedUserDetails {
     private String nickName;
     private String Dob;
+    private String gender;
     private String maritalStatus;
     private Long phoneNumber;
     private String address;

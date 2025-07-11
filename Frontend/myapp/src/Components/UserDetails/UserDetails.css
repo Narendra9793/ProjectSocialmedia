@@ -27,37 +27,46 @@
     
 }
 
-.form-group >input {
+.form-group > input {
   display: inline-flex;
   margin: 10px;
   border:1px solid red;
   justify-content: space-between;
 }
 
-/* label {
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-}
-
-input {
-  padding: 0.5rem;
-  font-size: 1rem;
-} */
-
-/* button {
-  padding: 0.7rem;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-} */
-
 
 .user-biodata{
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   overflow-y:scroll;
   border:1px solid red;
+}
+
+.basic-info{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  border:1px solid rgb(38, 0, 255);
+}
+.profile-pic{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border:1px solid rgb(255, 0, 140);
+}
+.quick-info{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border:1px solid rgb(255, 230, 0);
+}
+
+.personal-info{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border:1px solid rgb(0, 255, 242);
 }

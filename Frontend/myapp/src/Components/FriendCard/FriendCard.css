@@ -157,7 +157,7 @@ div.profilePicture, div.events, div.contentArea, div.friendList  {
     position: relative;
     left:10%
 }
-#nickName{
+#nickname{
     position: relative;
     right: 16%;
     top :30%

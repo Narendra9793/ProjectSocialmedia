@@ -14,8 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
 import Masonry from "react-masonry-css";
-import UserBiodata from "../UserDetails/UpdateDetails";
-import UpdateDetails from "../UserDetails/UserBiodata";
+import UserBiodata from "../UserDetails/UserBiodata";
+import UpdateDetails from "../UserDetails/UpdateDetails";
 
 const Profile = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));

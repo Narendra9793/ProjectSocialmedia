@@ -80,7 +80,7 @@ const FriendCard = ({loggedUser, friend, token}) => {
             }
             
             <h3 id="fullName">{friendData.firstName}   {friendData.lastName}</h3>
-            <h3 id="nickName">{friendData.nickName}nickName</h3>
+            <h3 id="nickname">{friendData.nickName}nickName</h3>
           </div>
           <div className="friendContentArea">
               <div className="FriendContentBar">

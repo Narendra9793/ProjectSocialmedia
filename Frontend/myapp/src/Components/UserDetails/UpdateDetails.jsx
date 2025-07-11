@@ -291,6 +291,44 @@ const UpdateDetails = () => {
             <option value="Night">Night</option>
           </select>
         </div>
+        <div className="form-group">
+          <select
+            name="preferredQualification"
+            onChange={handleChange}
+            value={formData.preferredQualification}
+          >
+            <option value="">Preferred Qualification</option>
+            <option value="Bachelor's">Bachelor's</option>
+            <option value="Phd">Phd</option>
+            <option value="Masters">Masters</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <select
+            name="preferredPlace"
+            onChange={handleChange}
+            value={formData.preferredPlace}
+          >
+            <option value="">Preferred Place</option>
+            <option value="Religious Place">Religious Place</option>
+            <option value="Home">Home</option>
+            <option value="Restraunt">Restraunt</option>
+            <option value="Club">Club</option>
+          </select>
+        </div>
+                <div className="form-group">
+          <select
+            name="preferredOccupation"
+            onChange={handleChange}
+            value={formData.preferredOccupation}
+          >
+            <option value="">Preferred Occupation</option>
+            <option value="Government Empolyee">Government Empolyee</option>
+            <option value="Banker">Banker</option>
+            <option value="Businessman">Businessman</option>
+            <option value="Charity worker">Charity worker</option>
+          </select>
+        </div>
 
         <button className="submit-btn" type="submit" onClick={handleSubmit}>
           Submit
