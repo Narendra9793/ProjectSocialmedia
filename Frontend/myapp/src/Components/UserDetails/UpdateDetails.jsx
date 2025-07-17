@@ -87,6 +87,11 @@ const UpdateDetails = () => {
     }
   };
 
+    const handleEdit = ()=>{
+     document.getElementById("user-biodata").style.display='flex';
+     document.getElementById("biodata-div").style.display='none';
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Submitted: ", formData);
@@ -105,6 +110,7 @@ const UpdateDetails = () => {
       await fetchuser();
       toast.success(`${response.data}`, { icon: "✅" });
       setIsUpdating(false);
+      handleEdit();
     } catch (error) {
       console.log("Catch block of Update profile!", error);
       if (error.response) {
@@ -113,7 +119,7 @@ const UpdateDetails = () => {
     }
   };
   return (
-    <div className="biodata-div">
+    <div className="biodata-div" id="biodata-div">
       <form className="user-form ">
         {Object.entries(formData).map(([key, value]) => {
           const label = key
