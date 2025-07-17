@@ -37,6 +37,30 @@ const UpdateDetails = () => {
     aboutMyself: `${user.aboutMyself}`,
     preferredModeOfContact: `${user.preferredModeOfContact}`,
   });
+  const selectFields = {
+    gender: ["Male", "Female", "Other"],
+    maritalStatus: ["Single", "Married", "Divorced", "Widowed"],
+    siblings: [...Array(10).keys()], // 0 to 9
+    highestEducation: ["High School", "Bachelor's", "Master's", "PhD", "Other"],
+    complexion: ["Fair", "Wheatish", "Dark"],
+    bodyType: ["Slim", "Athletic", "Average", "Heavy"],
+    religion: ["Hindu", "Muslim", "Christian", "Sikh", "Other"],
+    smokingHabit: ["No", "Occasionally", "Yes"],
+    drinkingHabit: ["No", "Occasionally", "Yes"],
+    leastAge: Array.from({ length: 18 }, (_, i) => i + 18),
+    mostAge: Array.from({ length: 22 }, (_, i) => i + 25),
+    preferredModeOfContact: ["Phone", "Email", "WhatsApp"],
+    preferredTimeForContact: ["Morning", "Afternoon", "Evening", "Night"],
+    preferredQualification: ["Bachelor's", "Phd", "Masters"],
+    preferredPlace: ["Religious Place", "Home", "Restraunt", "Club"],
+    preferredOccupation: [
+      "Government Empolyee",
+      "Banker",
+      "Businessman",
+      "Charity worker",
+    ],
+  };
+
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleChange = (e) => {
@@ -92,243 +116,51 @@ const UpdateDetails = () => {
     <div className="biodata-div">
       <form className="user-form ">
         {Object.entries(formData).map(([key, value]) => {
-          return (
-            <div key={key} className="form-group">
-              <label htmlFor={key}>
-                {key
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, (str) => str.toUpperCase())}
-                :
-              </label>
-              <input
-                type={
-                  key.toLowerCase().includes("email")
-                    ? "email"
-                    : key.toLowerCase().includes("dob")
-                    ? "date"
-                    : "text"
-                }
-                id={key}
-                name={key}
-                placeholder={key.replace(/([A-Z])/g, " $1")}
-                value={value}
-                onChange={handleChange}
-              />
-            </div>
-          );
+          const label = key
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, (str) => str.toUpperCase());
+
+          if (selectFields[key]) {
+            return (
+              <div key={key} className="form-group">
+                <label htmlFor={key}>{label}:</label>
+                <select
+                  id={key}
+                  name={key}
+                  value={value}
+                  onChange={handleChange}
+                >
+                  <option value="">{`Select ${label}`}</option>
+                  {selectFields[key].map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            );
+          } else {
+            return (
+              <div key={key} className="form-group">
+                <label htmlFor={key}>{label}:</label>
+                <input
+                  type={
+                    key.toLowerCase().includes("email")
+                      ? "email"
+                      : key.toLowerCase().includes("dob")
+                      ? "date"
+                      : "text"
+                  }
+                  id={key}
+                  name={key}
+                  placeholder={label}
+                  value={value}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          }
         })}
-
-        <div className="form-group">
-          <select name="gender" onChange={handleChange} value={formData.gender}>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="maritalStatus"
-            onChange={handleChange}
-            value={formData.maritalStatus}
-          >
-            <option value="">Marital Status</option>
-            <option value="Single">Single</option>
-            <option value="Married">Married</option>
-            <option value="Divorced">Divorced</option>
-            <option value="Widowed">Widowed</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="siblings"
-            onChange={handleChange}
-            value={formData.siblings}
-          >
-            <option value="">Number of Siblings</option>
-            {[...Array(10)].map((_, i) => (
-              <option key={i} value={i}>
-                {i}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="highestEducation"
-            onChange={handleChange}
-            value={formData.highestEducation}
-          >
-            <option value="">Highest Education</option>
-            <option value="High School">High School</option>
-            <option value="Bachelor's">Bachelor's</option>
-            <option value="Master's">Master's</option>
-            <option value="PhD">PhD</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="complexion"
-            onChange={handleChange}
-            value={formData.complexion}
-          >
-            <option value="">Complexion</option>
-            <option value="Fair">Fair</option>
-            <option value="Wheatish">Wheatish</option>
-            <option value="Dark">Dark</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="bodyType"
-            onChange={handleChange}
-            value={formData.bodyType}
-          >
-            <option value="">Body Type</option>
-            <option value="Slim">Slim</option>
-            <option value="Athletic">Athletic</option>
-            <option value="Average">Average</option>
-            <option value="Heavy">Heavy</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="religion"
-            onChange={handleChange}
-            value={formData.religion}
-          >
-            <option value="">Religion</option>
-            <option value="Hindu">Hindu</option>
-            <option value="Muslim">Muslim</option>
-            <option value="Christian">Christian</option>
-            <option value="Sikh">Sikh</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="smokingHabit"
-            onChange={handleChange}
-            value={formData.smokingHabit}
-          >
-            <option value="">Smoking Habit</option>
-            <option value="No">No</option>
-            <option value="Occasionally">Occasionally</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="drinkingHabit"
-            onChange={handleChange}
-            value={formData.drinkingHabit}
-          >
-            <option value="">Drinking Habit</option>
-            <option value="No">No</option>
-            <option value="Occasionally">Occasionally</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="leastAge"
-            onChange={handleChange}
-            value={formData.leastAge}
-          >
-            <option value="">Preferred Minimum Age</option>
-            {Array.from({ length: 18 }, (_, i) => i + 18).map((age) => (
-              <option key={age} value={age}>
-                {age}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="mostAge"
-            onChange={handleChange}
-            value={formData.mostAge}
-          >
-            <option value="">Preferred Maximum Age</option>
-            {Array.from({ length: 22 }, (_, i) => i + 25).map((age) => (
-              <option key={age} value={age}>
-                {age}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="preferredModeOfContact"
-            onChange={handleChange}
-            value={formData.preferredModeOfContact}
-          >
-            <option value="">Preferred Mode of Contact</option>
-            <option value="Phone">Phone</option>
-            <option value="Email">Email</option>
-            <option value="WhatsApp">WhatsApp</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <select
-            name="preferredTimeForContact"
-            onChange={handleChange}
-            value={formData.preferredTimeForContact}
-          >
-            <option value="">Preferred Time for Contact</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-            <option value="Night">Night</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="preferredQualification"
-            onChange={handleChange}
-            value={formData.preferredQualification}
-          >
-            <option value="">Preferred Qualification</option>
-            <option value="Bachelor's">Bachelor's</option>
-            <option value="Phd">Phd</option>
-            <option value="Masters">Masters</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <select
-            name="preferredPlace"
-            onChange={handleChange}
-            value={formData.preferredPlace}
-          >
-            <option value="">Preferred Place</option>
-            <option value="Religious Place">Religious Place</option>
-            <option value="Home">Home</option>
-            <option value="Restraunt">Restraunt</option>
-            <option value="Club">Club</option>
-          </select>
-        </div>
-                <div className="form-group">
-          <select
-            name="preferredOccupation"
-            onChange={handleChange}
-            value={formData.preferredOccupation}
-          >
-            <option value="">Preferred Occupation</option>
-            <option value="Government Empolyee">Government Empolyee</option>
-            <option value="Banker">Banker</option>
-            <option value="Businessman">Businessman</option>
-            <option value="Charity worker">Charity worker</option>
-          </select>
-        </div>
 
         <button className="submit-btn" type="submit" onClick={handleSubmit}>
           Submit
